@@ -1,0 +1,25 @@
+<!--miniprogram/pages/home.wxml-->
+<view class="page__home">
+    
+    <view class="weui-flex">
+        <view class="weui-flex__item">
+            株洲
+        </view>
+        <view class="weui-flex__item">
+            <image class="switch" src="../../images/home/switch.png" mode="widthFix"></image>
+        </view>
+        <view class="weui-flex__item">
+            长沙
+        </view>
+    </view>
+
+    <view class="date">
+        5月1日 出发
+    </view>
+
+    <view>
+        <button class="search" hover-class="search-hover">查询</button>
+    </view>
+
+</view>
+

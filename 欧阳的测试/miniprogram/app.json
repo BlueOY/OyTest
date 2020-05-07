@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/info/info",
+    "pages/order/order",
+    "pages/user/user",
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "欧阳的测试",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#8c8c8c",
+    "selectedColor": "#f4ea2a",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-hover.png"
+      },
+      {
+        "pagePath": "pages/info/info",
+        "text": "资讯",
+        "iconPath": "images/info.png",
+        "selectedIconPath": "images/info-hover.png"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "订单",
+        "iconPath": "images/order.png",
+        "selectedIconPath": "images/order-hover.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user-hover.png"
+      }
+    ],
+    "position": "bottom"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

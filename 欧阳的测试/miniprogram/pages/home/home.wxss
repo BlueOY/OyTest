@@ -1,0 +1,29 @@
+/* miniprogram/pages/home.wxss */
+page {
+  background: #f6f6f6;
+}
+.page__home{
+  background: #fff;
+  margin: 15px;
+  padding: 15px;
+  text-align: center;
+}
+.weui-flex__item{
+  font-size: 24px;
+}
+.switch{
+  width: 30px;
+  height: 30px;
+  margin-top: 5px;
+}
+.date{
+  margin: 15px;
+  font-size: 20px;
+}
+.search{
+  background: #00D400;
+  color: white;
+}
+.search-hover{
+  background: #00FF00;
+}

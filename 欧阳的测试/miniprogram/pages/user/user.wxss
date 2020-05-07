@@ -1,0 +1,24 @@
+/* miniprogram/pages/user/user.wxss */
+page {
+  background: #f6f6f6;
+}
+
+.page__hd {
+  padding: 15px 15px 0 15px;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: flex-start; */
+}
+.page__hd view{
+  display: inline-block;
+  vertical-align: middle;
+}
+.page__hd image{
+  width: 80px;
+  height: 80px;
+  margin-top: 5px;
+}
+.page__hd .page__desc{
+  margin-left: 15px;
+  font-size: 22px;
+}
