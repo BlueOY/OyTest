@@ -1,25 +1,38 @@
-<!--miniprogram/pages/home.wxml-->
-<view class="page__home">
-    
-    <view class="weui-flex">
-        <view class="weui-flex__item">
-            株洲
-        </view>
-        <view class="weui-flex__item">
-            <image class="switch" src="../../images/home/switch.png" mode="widthFix"></image>
-        </view>
-        <view class="weui-flex__item">
-            长沙
-        </view>
+<!--miniprogram/pages/info/info.wxml-->
+<view>
+    <swiper
+      indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+        <block wx:for="{{background}}" wx:key="*this">
+          <swiper-item>
+            <view class="swiper-item {{item}}"></view>
+          </swiper-item>
+        </block>
+    </swiper>
+    <view class="address">
+      <image src="../../images/home/address.png"></image>
+      <text>湖南省长沙市步行街</text>
+      <view>
+        <image src="../../images/home/phone.png"></image>
+        <image src="../../images/home/wechat.png"></image>
+      </view>
     </view>
-
-    <view class="date">
-        5月1日 出发
+    <view class="list">
+      <block wx:for="[1,2,3]">
+        <view class="list-item">
+          <image src="../../images/home/test.jpg" mode="widthFix"></image>
+          <view>
+            <text>零食</text>
+            <text>￥0.01</text>
+          </view>
+        </view>
+      </block>
     </view>
-
-    <view>
-        <button class="search" hover-class="search-hover">查询</button>
+    <view class="info">
+      <view class="title">
+        商户介绍
+      </view>
+      <view class="content">
+        这里是介绍
+      </view>
     </view>
-
 </view>
-

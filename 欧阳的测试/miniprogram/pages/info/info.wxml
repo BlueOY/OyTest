@@ -1,12 +1,32 @@
 <!--miniprogram/pages/info/info.wxml-->
 <view>
-    <swiper
-      indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-        <block wx:for="{{background}}" wx:key="*this">
-          <swiper-item>
-            <view class="swiper-item {{item}}"></view>
-          </swiper-item>
-        </block>
-    </swiper>
-    
+    <block>
+      <view class="item">
+        <view class="title">
+          <image src="../../images/home/test.jpg"></image>
+          <view class="text-box">
+            <text class="name">欧阳的测试</text>
+            <text class="time">2020-05-09 14:40</text>
+          </view>
+        </view>
+        <view class="content">
+          <text>新出的商品</text>
+          <image src="../../images/home/test.jpg" mode="widthFix"></image>
+        </view>
+        <view class="product">
+          <image src="../../images/home/test.jpg" mode="widthFix"></image>
+          <view class="text-box">
+            <text class="name">零食</text>
+            <text class="price">￥0.01</text>
+          </view>
+          <view class="buy">
+            立即购买
+          </view>
+        </view>
+        <view class="foot">
+          <image class="like" src="../../images/info/like.png" mode="widthFix"></image>
+          <image class="comment" src="../../images/info/comment.png" mode="widthFix"></image>
+        </view>
+      </view>
+    </block>
 </view>

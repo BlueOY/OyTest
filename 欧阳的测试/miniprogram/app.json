@@ -1,10 +1,11 @@
 {
   "pages": [
+    "pages/user/user",
+
     "pages/home/home",
     "pages/info/info",
-    "pages/order/order",
-    "pages/user/user",
-    "pages/index/index"
+    "pages/order/order"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -26,13 +27,13 @@
       },
       {
         "pagePath": "pages/info/info",
-        "text": "资讯",
+        "text": "动态",
         "iconPath": "images/info.png",
         "selectedIconPath": "images/info-hover.png"
       },
       {
         "pagePath": "pages/order/order",
-        "text": "订单",
+        "text": "购物车",
         "iconPath": "images/order.png",
         "selectedIconPath": "images/order-hover.png"
       },

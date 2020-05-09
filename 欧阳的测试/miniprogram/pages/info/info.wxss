@@ -1,54 +1,89 @@
 /* miniprogram/pages/info/info.wxss */
-
-.swiper-item{
+page {
+  background: #f6f6f6;
+}
+.item{
+  padding: 10px 15px;
+  background: white;
+}
+.title image{
+  display: inline-block;
+  vertical-align: middle;
+  width: 35px;
+  height: 35px;
+}
+.title .text-box{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 15px;
+}
+.title .text-box text{
   display: block;
-  height: 150px;
 }
-
-
-
-.demo-text-1{
+.title .text-box .name{
+  font-size: 14px;
+}
+.title .text-box .time{
+  font-size: 12px;
+}
+.content{
+  margin-top: 7px;
+}
+.content text{
+  font-size: 13px;
+}
+.content image{
+  width: 50%;
+  display: block;
+  margin-top: 5px;
+}
+.product{
+  background: #efefef;
+  margin-top: 10px;
+  padding: 5px;
   position: relative;
-  align-items: center;
-  justify-content: center;
-  background-color: #1AAD19;
-  color: #FFFFFF;
-  font-size: 36rpx;
 }
-.demo-text-1:before{
-  content: 'A';
+.product image{
+  width: 45px;
+  margin: 5px;
+  vertical-align: top;
+}
+.product .text-box{
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 5px;
+}
+.product .text-box text{
+  display: block;
+  font-size: 12px;
+}
+.product .text-box .name{
+  color: #3B3B3B;
+}
+.product .text-box .price{
+  color: #DE8027;
+}
+.product .buy{
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: 15px;
+  bottom: 10px;
+  background: #FB760F;
+  color: white;
+  padding: 1px 12px;
+  font-size: 12px;
+  border-radius: 20px;
 }
-.demo-text-2{
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  background-color: #2782D7;
-  color: #FFFFFF;
-  font-size: 36rpx;
+.foot{
+  margin-top: 5px;
 }
-.demo-text-2:before{
-  content: 'B';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.foot image{
+  margin: 5px;
+  vertical-align: middle;
 }
-.demo-text-3{
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  background-color: #F1F1F1;
-  color: #353535;
-  font-size: 36rpx;
+.foot .like{
+  width: 17px;
+  margin-top: 6px;
 }
-.demo-text-3:before{
-  content: 'C';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.foot .comment{
+  width: 20px;
 }

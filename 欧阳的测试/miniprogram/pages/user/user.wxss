@@ -4,7 +4,8 @@ page {
 }
 
 .page__hd {
-  padding: 15px 15px 0 15px;
+  padding: 15px 15px 10px 15px;
+  background: white;
   /* display: flex;
   flex-direction: row;
   justify-content: flex-start; */
@@ -14,11 +15,73 @@ page {
   vertical-align: middle;
 }
 .page__hd image{
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   margin-top: 5px;
 }
 .page__hd .page__desc{
   margin-left: 15px;
-  font-size: 22px;
+  font-size: 16px;
+}
+
+.order{
+  background: white;
+  margin-top: 8px;
+}
+.order .top{
+  position: relative;
+  padding: 5px;
+  border-bottom: 0.5px solid #f6f6f6;
+}
+.order .top image{
+  vertical-align: middle;
+  width: 20px;
+  margin: 3px;
+}
+.order .top text{
+  vertical-align: middle;
+  font-size: 13px;
+}
+.order .top .right{
+  position: absolute;
+  right: 5px;
+  top: 8px;
+  font-size: 10px;
+  color: #BDBDBD;
+}
+.order .top .right image{
+  width: 15px;
+  margin-top: 1px;
+  vertical-align: middle;
+}
+.order .top .right text{
+  vertical-align: middle;
+}
+.order .order-box{
+  text-align: center;
+  padding: 5px;
+  margin-top: 5px;
+}
+.order .order-box image{
+  display: block;
+  width: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.order .order-box text{
+  display: block;
+  font-size: 12px;
+}
+
+.page__bd{
+}
+.page__bd .weui-cell{
+  /* 覆盖weui */
+  padding: 10px 16px;
+}
+.page__bd .weui-cell__bd{
+  font-size: 14px;
+}
+.page__bd .weui-cell__ft{
+  font-size: 14px;
 }
