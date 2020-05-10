@@ -6,6 +6,23 @@ Page({
    */
   data: {
     avatarUrl: '../../images/user/user-unlogin.png',
+    userName: "点击登录",
+    userInfo: {},
+    logged: false,
+  },
+
+  bindGetUserInfo: function(e) {
+    if (!this.data.logged && e.detail.userInfo) {
+      this.setData({
+        logged: true,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        userName: e.detail.userInfo.nickName,
+        userInfo: e.detail.userInfo
+      })
+    }
+    // wx.showToast({
+    //   title: '请求成功',
+    // })
   },
 
   /**
@@ -15,6 +32,24 @@ Page({
     this.setData({
       icon: base64.icon20
     });
+
+    // 查看是否授权
+    wx.getSetting({
+      success: function(res){
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function(res) {
+              this.setData({
+                avatarUrl: res.userInfo.avatarUrl,
+                userName: e.detail.userInfo.nickName,
+                userInfo: res.userInfo
+              })
+            }
+          })
+        }
+      }
+    })
   },
 
   /**

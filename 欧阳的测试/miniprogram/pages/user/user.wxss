@@ -3,6 +3,14 @@ page {
   background: #f6f6f6;
 }
 
+.page .user{
+  padding: 0;
+  border: none;
+  min-height: 0;
+  width: auto;
+  text-align: left;
+}
+
 .page__hd {
   padding: 15px 15px 10px 15px;
   background: white;

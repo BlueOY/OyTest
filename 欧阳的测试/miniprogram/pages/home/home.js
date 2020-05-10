@@ -17,6 +17,15 @@ Page({
     nextMargin: 0
   },
 
+  call: function (e) {
+    wx.makePhoneCall({
+      phoneNumber: '123',
+    })
+  },
+
+  chat: function (e) {
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

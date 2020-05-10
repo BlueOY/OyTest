@@ -12,8 +12,10 @@
       <image src="../../images/home/address.png"></image>
       <text>湖南省长沙市步行街</text>
       <view>
-        <image src="../../images/home/phone.png"></image>
-        <image src="../../images/home/wechat.png"></image>
+        <image bindtap="call" src="../../images/home/phone.png"></image>
+        <button open-type="contact" plain="true">
+          <image src="../../images/home/wechat.png"></image>
+        </button>
       </view>
     </view>
     <view class="list">

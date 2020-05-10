@@ -1,11 +1,13 @@
 <!--miniprogram/pages/user/user.wxml-->
 <view class="page">
+    <button class="user" plain="true" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
     <view class="page__hd">
         <view class="page__title">
             <image src="{{avatarUrl}}"></image>
         </view>
-        <view class="page__desc">点击登录</view>
+        <view class="page__desc">{{userName}}</view>
     </view>
+    </button>
     <view class="order">
         <view class="top">
             <image src="../../images/user/order.png" mode="widthFix"></image>
