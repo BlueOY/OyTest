@@ -1,0 +1,69 @@
+/* miniprogram/pages/cart/cart.wxss */
+page{
+}
+
+.list{
+  padding-bottom: 40px;
+  -webkit-overflow-scrolling: auto;
+}
+.item{
+  padding: 15px 10px;
+  position: relative;
+  /* border-bottom: 0.5px solid #ccc; */
+  background: white;
+  margin-bottom: 7px;
+}
+.item checkbox{
+  vertical-align: middle;
+}
+.item image{
+  width: 45px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.item .right{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.item .right > text{
+  display: block;
+}
+.item .num-box{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.item .num-box text{
+  display: inline-block;
+  border: 0.5px solid #ccc;
+  color: #ccc;
+  padding: 0px 10px;
+}
+
+.foot{
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 30px);
+  display: inline-block;
+  background: white;
+  padding: 10px 15px;
+  border-top: 0.5px solid #ccc;
+}
+.foot .right{
+  float: right;
+}
+.foot .right text{
+  vertical-align: middle;
+}
+.foot .right button{
+  display: inline-block;
+  vertical-align: middle;
+  background: #FB760F;
+  color: white;
+  width: auto;
+  min-height: 0;
+  padding: 3px 10px;
+  font-size: 14px;
+  margin-left: 10px;
+}

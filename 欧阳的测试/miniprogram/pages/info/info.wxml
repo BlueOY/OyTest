@@ -1,6 +1,6 @@
 <!--miniprogram/pages/info/info.wxml-->
 <view>
-    <block>
+    <block wx:for="[1,2,3]">
       <view class="item">
         <view class="title">
           <image src="../../images/home/test.jpg"></image>
