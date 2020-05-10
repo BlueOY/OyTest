@@ -1,40 +1,22 @@
-// miniprogram/pages/info/info.js
+// miniprogram/pages/product/product.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
-
-    indicatorDots: true,
-    vertical: false,
-    autoplay: false,
-    circular: false,
-    interval: 2000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
-  },
-
-  call: function (e) {
-    wx.makePhoneCall({
-      phoneNumber: '123',
-    })
-  },
-
-  toDetail: function (e) {
-    let id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../product/product?id='+id,
-    })
+    test: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let id = options.id;
 
+    this.setData({
+      test: id
+    });
   },
 
   /**
