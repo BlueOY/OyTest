@@ -1,0 +1,69 @@
+<!--miniprogram/pages/cart/subOrder/subOrder.wxml-->
+<view class="pick">
+  <view class="weui-flex">
+    <view class="weui-flex__item">
+      <text class="text active">店铺配送</text>
+    </view>
+    <view class="weui-flex__item">
+      <text class="text">到店自取</text>
+    </view>
+  </view>
+  <view class="no-address">
+    <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
+    <view><text>添加收货地址</text></view>
+    <image class="right" src="../../../images/user/right.png" mode="widthFix"></image>
+  </view>
+  <view class="send">
+    <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
+    <view>
+      <view>
+        <text class="name">欧阳</text>
+        <text class="phone">123123</text>
+      </view>
+      <text class="address">123123</text>
+    </view>
+    <image class="right" src="../../../images/user/right.png" mode="widthFix"></image>
+  </view>
+  <view class="take">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_active">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">取货人</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入姓名"/>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_active">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">联系电话</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入电话" />
+                </view>
+            </view>
+        </view>
+  </view>
+</view>
+
+<view class="list">
+  <block wx:for="[3]">
+    <view class="item">
+      <image src="../../../images/home/test.jpg" mode="widthFix"></image>
+      <view>
+        <view>
+          <text>零食</text>
+        </view>
+        <view class="bottom">
+          <text>￥0.01</text>
+          <text>×1</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+
+<view class="foot">
+  <text class="total">合计：￥0.01</text>
+  <text class="submit">提交订单</text>
+</view>

@@ -21,7 +21,7 @@
     <checkbox>全选</checkbox>
     <view class="right">
       <text>合计：￥0.01</text>
-      <button>结算</button>
+      <button bindtap="submit">结算</button>
     </view>
   </view>
 </view>

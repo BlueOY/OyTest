@@ -1,1 +1,40 @@
 /* miniprogram/pages/product/product.wxss */
+page {
+  background: #f6f6f6;
+}
+
+.top{
+  position: relative;
+  background: white;
+  padding-bottom: 10px;
+}
+.top > image{
+  /* width: 100%; */
+}
+.top > text{
+  display: block;
+  margin-left: 10px;
+}
+.top .name{
+  font-size: 18px;
+}
+.top .price{
+  color: #FB760F;
+  font-size: 14px;
+}
+.top .add-box{
+  position: absolute;
+  right: 5px;
+  bottom: 15px;
+  background: #FB760F;
+  color: white;
+  padding: 5px 15px;
+}
+.top .add-box image{
+  width: 15px;
+  vertical-align: middle;
+  margin: 2px 5px 0 0;
+}
+.top .add-box text{
+  vertical-align: middle;
+}

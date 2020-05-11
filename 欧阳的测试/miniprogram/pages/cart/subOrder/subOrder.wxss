@@ -1,0 +1,127 @@
+/* miniprogram/pages/cart/subOrder/subOrder.wxss */
+page {
+  background: #f6f6f6;
+}
+.pick{
+  background: white;
+}
+.weui-flex{
+  border-bottom: 0.5px solid #ccc;
+  text-align: center;
+}
+.pick .weui-flex .text{
+  display: inline-block;
+  padding: 5px 0;
+  font-size: 14px;
+}
+.pick .weui-flex .text.active{
+  color: #FB760F;
+  border-bottom: 1px solid #FB760F;
+}
+.pick .no-address{
+  position: relative;
+  padding: 10px 5px;
+}
+.pick .no-address image{
+  width: 20px;
+  margin: 10px;
+  vertical-align: middle;
+}
+.pick .no-address image.right{
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translate(0 -100%);
+  -webkit-transform: translate(0, -100%);
+}
+.pick .no-address > view{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  /* width: calc(100% - 200px); */
+}
+.pick .no-address > view text{
+  font-size: 13px;
+  margin-right: 15px;
+}
+.pick .send{
+  position: relative;
+  padding: 10px 5px;
+  display: none;
+}
+.pick .send image{
+  width: 20px;
+  margin: 10px;
+  vertical-align: middle;
+}
+.pick .send image.right{
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translate(0 -100%);
+  -webkit-transform: translate(0, -100%);
+}
+.pick .send > view{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  /* width: calc(100% - 200px); */
+}
+.pick .send > view text{
+  font-size: 13px;
+  margin-right: 15px;
+}
+.pick .take{
+  display: none;
+}
+.pick .take .weui-cell {
+  padding: 10px 15px;
+}
+.pick .take .weui-cell__hd{
+  font-size: 13px;
+}
+.pick .take .weui-input{
+  font-size: 13px;
+}
+
+.list{
+  margin-top: 15px;
+}
+.list .item{
+  background: white;
+  padding: 10px;
+}
+.list .item:not(:last-child){
+  border-bottom: 0.5px solid #ccc;
+}
+.list .item > image{
+  width: 45px;
+  vertical-align: middle;
+}
+.list .item > view{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.list .item > view .bottom{
+  font-size: 12px;
+}
+
+.foot{
+  position: fixed;
+  background: white;
+  bottom: 0;
+  width: 100%;
+}
+.foot .total{
+  position: absolute;
+  left: 10px;
+  top: 5px;
+}
+.foot .submit{
+  display: inline-block;
+  background: #FB760F;
+  color: white;
+  float: right;
+  padding: 5px 10px;
+}
