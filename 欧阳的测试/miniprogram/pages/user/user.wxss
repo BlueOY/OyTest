@@ -72,9 +72,17 @@ page {
 }
 .order .order-box image{
   display: block;
-  width: 30px;
+  width: 25px;
   margin-left: auto;
   margin-right: auto;
+}
+.order .order-box .weui-flex__item:nth-of-type(3) image{
+  width: 23px;
+  margin: 1px auto;
+}
+.order .order-box .weui-flex__item:nth-of-type(4) image{
+  width: 23px;
+  margin: 1px auto;
 }
 .order .order-box text{
   display: block;

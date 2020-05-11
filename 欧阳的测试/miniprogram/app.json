@@ -1,12 +1,14 @@
 {
   "pages": [
-    
+    "pages/user/orderList/orderList",
+
     "pages/home/home",
     "pages/info/info",
     "pages/cart/cart",
     "pages/user/user",
     "pages/product/product",
     "pages/cart/subOrder/subOrder"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
