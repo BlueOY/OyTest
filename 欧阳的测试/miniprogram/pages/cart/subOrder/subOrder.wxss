@@ -5,7 +5,7 @@ page {
 .pick{
   background: white;
 }
-.weui-flex{
+.pick .weui-flex{
   border-bottom: 0.5px solid #ccc;
   text-align: center;
 }

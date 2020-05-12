@@ -1,4 +1,4 @@
-// miniprogram/pages/user/orderList/orderList.js
+// miniprogram/pages/user/address/address.js
 Page({
 
   /**
@@ -8,11 +8,8 @@ Page({
 
   },
 
-  toDetail: function (e) {
-    let id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../orderDetail/orderDetail?id='+id,
-    })
+  test: function (options) {
+    wx.chooseAddress();
   },
 
   /**

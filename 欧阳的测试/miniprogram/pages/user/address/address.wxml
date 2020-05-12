@@ -1,0 +1,3 @@
+<!--miniprogram/pages/user/address/address.wxml-->
+<text>miniprogram/pages/user/address/address.wxml</text>
+<button bindtap='test'>收货地址</button>

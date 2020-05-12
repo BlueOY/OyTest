@@ -1,2 +1,36 @@
 <!--miniprogram/pages/user/orderList/orderList.wxml-->
-<text>miniprogram/pages/user/orderList/orderList.wxml</text>
+  <view class="weui-flex">
+    <view class="weui-flex__item">
+      <text class="text active">全部</text>
+    </view>
+    <view class="weui-flex__item">
+      <text class="text">待付款</text>
+    </view>
+    <view class="weui-flex__item">
+      <text class="text">待收货</text>
+    </view>
+    <view class="weui-flex__item">
+      <text class="text">已完成</text>
+    </view>
+    <view class="weui-flex__item">
+      <text class="text">已关闭</text>
+    </view>
+  </view>
+
+<view class="list">
+  <block wx:for="[3]">
+    <view class="item" bindtap="toDetail" data-id="1">
+      <image src="../../../images/home/test.jpg" mode="widthFix"></image>
+      <view>
+        <view>
+          <text>零食……等两件商品</text>
+          <text class="right">已完成</text>
+        </view>
+        <view class="bottom">
+          <text>2020-05-10</text>
+          <text class="right">￥0.01</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

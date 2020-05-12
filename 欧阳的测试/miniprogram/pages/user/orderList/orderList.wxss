@@ -1,1 +1,44 @@
 /* miniprogram/pages/user/orderList/orderList.wxss */
+.weui-flex{
+  text-align: center;
+}
+.weui-flex .text{
+  display: inline-block;
+  padding: 3px 0;
+  font-size: 14px;
+}
+.weui-flex .text.active{
+  color: #FB760F;
+  border-bottom: 1px solid #FB760F;
+}
+
+.list{
+  margin-top: 10px;
+}
+.list .item{
+  background: white;
+  padding: 10px;
+}
+.list .item:not(:last-child){
+  margin-bottom: 5px;
+}
+.list .item > image{
+  width: 40px;
+  margin: 3px;
+  vertical-align: top;
+}
+.list .item > view{
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+  width: calc(100% - 46px - 10px);
+}
+.list .item > view > view{
+  display: block;
+}
+.list .item > view .bottom{
+  font-size: 12px;
+}
+.list .item > view .right{
+  float: right;
+}
