@@ -1,1 +1,61 @@
 /* miniprogram/pages/user/orderDetail/orderDetail.wxss */
+page {
+  /* background: #F6F6F6; */
+}
+.send{
+  position: relative;
+  padding: 10px 5px;
+  background: white;
+}
+.send image{
+  width: 20px;
+  margin: 10px;
+  vertical-align: middle;
+}
+.send > view{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  margin-left: 5px;
+  /* width: calc(100% - 200px); */
+}
+.send > view text{
+  font-size: 13px;
+  margin-right: 15px;
+}
+
+.list{
+  margin-top: 15px;
+}
+.list .item{
+  background: white;
+  padding: 10px;
+}
+.list .item:not(:last-child){
+  border-bottom: 0.5px solid #F6F6F6;
+}
+.list .item > image{
+  width: 45px;
+  vertical-align: middle;
+}
+.list .item > view{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.list .item > view .bottom{
+  font-size: 12px;
+}
+
+.weui-cells__title{
+  padding-left: 10px;
+}
+.weui-cell{
+  padding: 10px;
+}
+.weui-cell__bd{
+  font-size: 13px;
+}
+.weui-cell__ft{
+  font-size: 13px;
+}

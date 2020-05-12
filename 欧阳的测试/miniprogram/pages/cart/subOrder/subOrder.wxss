@@ -65,6 +65,7 @@ page {
   display: inline-block;
   vertical-align: middle;
   font-size: 0;
+  margin-left: 5px;
   /* width: calc(100% - 200px); */
 }
 .pick .send > view text{
@@ -92,7 +93,7 @@ page {
   padding: 10px;
 }
 .list .item:not(:last-child){
-  border-bottom: 0.5px solid #ccc;
+  border-bottom: 0.5px solid #F6F6F6;
 }
 .list .item > image{
   width: 45px;
