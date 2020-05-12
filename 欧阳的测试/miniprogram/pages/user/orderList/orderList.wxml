@@ -19,17 +19,24 @@
 
 <view class="list">
   <block wx:for="[3]">
-    <view class="item" bindtap="toDetail" data-id="1">
-      <image src="../../../images/home/test.jpg" mode="widthFix"></image>
-      <view>
-        <view>
-          <text>零食……等两件商品</text>
-          <text class="right">已完成</text>
+    <view class="item">
+      <view bindtap="toDetail" data-id="1">
+        <image src="../../../images/home/test.jpg" mode="widthFix"></image>
+        <view class="info">
+          <view>
+            <text>零食……等两件商品</text>
+            <text class="right">已完成</text>
+          </view>
+          <view class="bottom">
+            <text>2020-05-10</text>
+            <text class="right">￥0.01</text>
+          </view>
         </view>
-        <view class="bottom">
-          <text>2020-05-10</text>
-          <text class="right">￥0.01</text>
-        </view>
+      </view>
+      <view class="foot">
+        <button>确认收货</button>
+        <button>立即评价</button>
+        <button>再来一单</button>
       </view>
     </view>
   </block>

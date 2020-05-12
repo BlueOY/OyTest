@@ -22,23 +22,37 @@
 .list .item:not(:last-child){
   margin-bottom: 5px;
 }
-.list .item > image{
+.list .item image{
   width: 40px;
   margin: 3px;
   vertical-align: top;
 }
-.list .item > view{
+.list .item .info{
   display: inline-block;
   vertical-align: top;
   margin-left: 10px;
   width: calc(100% - 46px - 10px);
 }
-.list .item > view > view{
+.list .item .info > view{
   display: block;
 }
-.list .item > view .bottom{
+.list .item .info .bottom{
   font-size: 12px;
 }
-.list .item > view .right{
+.list .item .info .right{
   float: right;
+}
+.list .item .foot{
+  text-align: right;
+  font-size: 0;
+}
+.list .item .foot button{
+  padding: 3px 7px;
+  width: auto;
+  min-height: auto;
+  display: inline-block;
+  font-size: 14px;
+  background: white;
+  border: 1px solid #FB760F;
+  color: #FB760F;
 }
