@@ -91,6 +91,9 @@ page {
 
 .page__bd{
 }
+.page__bd .weui-cell__hd{
+  font-size: 0;
+}
 .page__bd .weui-cell{
   /* 覆盖weui */
   padding: 10px 16px;

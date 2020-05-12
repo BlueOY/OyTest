@@ -1,7 +1,5 @@
 {
   "pages": [
-    "pages/user/orderDetail/orderDetail",
-    
     "pages/home/home",
     "pages/info/info",
     "pages/cart/cart",
@@ -9,8 +7,8 @@
     "pages/product/product",
     "pages/cart/subOrder/subOrder",
     "pages/user/address/address",
-    "pages/user/orderList/orderList"
-
+    "pages/user/orderList/orderList",
+    "pages/user/orderDetail/orderDetail"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
