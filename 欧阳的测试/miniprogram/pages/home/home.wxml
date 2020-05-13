@@ -27,7 +27,7 @@
           <image src="../../images/user/right.png" mode="widthFix"></image>
         </view>
       </view>
-      <block wx:for="[1,2]">
+      <block wx:for="{{4}}">
         <view class="list-item" bindtap="toDetail" data-id="1">
           <image src="../../images/home/test.jpg" mode="widthFix"></image>
           <view>

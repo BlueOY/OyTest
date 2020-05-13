@@ -1,15 +1,17 @@
 {
   "pages": [
+    "pages/home/productList/productList",
+
     "pages/home/home",
     "pages/info/info",
     "pages/cart/cart",
     "pages/user/user",
     "pages/product/product",
+    
     "pages/cart/subOrder/subOrder",
     "pages/user/address/address",
     "pages/user/orderList/orderList",
-    "pages/user/orderDetail/orderDetail",
-    "pages/home/productList/productList"
+    "pages/user/orderDetail/orderDetail"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

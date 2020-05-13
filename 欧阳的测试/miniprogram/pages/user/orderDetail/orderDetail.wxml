@@ -11,7 +11,7 @@
   </view>
 
 <view class="list">
-  <block wx:for="[3]">
+  <block wx:for="{{3}}">
     <view class="item">
       <image src="../../../images/home/test.jpg" mode="widthFix"></image>
       <view>

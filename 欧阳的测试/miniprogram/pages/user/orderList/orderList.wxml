@@ -18,7 +18,7 @@
   </view>
 
 <view class="list">
-  <block wx:for="[3]">
+  <block wx:for="{{3}}">
     <view class="item">
       <view bindtap="toDetail" data-id="1">
         <image src="../../../images/home/test.jpg" mode="widthFix"></image>

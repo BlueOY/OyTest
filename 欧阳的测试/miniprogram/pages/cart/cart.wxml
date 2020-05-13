@@ -1,7 +1,7 @@
 <!--miniprogram/pages/cart/cart.wxml-->
 <view>
   <scroll-view class="list" scroll-y="true" style="height:{{scroll_height}}rpx">
-    <block wx:for="[1,2,3]">
+    <block wx:for="{{5}}">
       <view class="item">
         <checkbox></checkbox>
         <image src="../../images/home/test.jpg" mode="widthFix"></image>
