@@ -18,8 +18,16 @@
         </button>
       </view>
     </view>
+    
     <view class="list">
-      <block wx:for="[1,2,3]">
+      <view class="list-title">
+        <text>热门推荐</text>
+        <view bindtap="productList">
+          <text>更多商品</text>
+          <image src="../../images/user/right.png" mode="widthFix"></image>
+        </view>
+      </view>
+      <block wx:for="[1,2]">
         <view class="list-item" bindtap="toDetail" data-id="1">
           <image src="../../images/home/test.jpg" mode="widthFix"></image>
           <view>

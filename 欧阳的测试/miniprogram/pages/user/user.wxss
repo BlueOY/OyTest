@@ -57,12 +57,12 @@ page {
   font-size: 10px;
   color: #BDBDBD;
 }
+.order .top .right text{
+  vertical-align: middle;
+}
 .order .top .right image{
   width: 15px;
   margin-top: 1px;
-  vertical-align: middle;
-}
-.order .top .right text{
   vertical-align: middle;
 }
 .order .order-box{

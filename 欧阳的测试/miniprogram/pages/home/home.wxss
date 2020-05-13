@@ -91,6 +91,23 @@
   background: white;
   margin-top: 10px;
 }
+.list-title{
+  display: flex;
+  /* 分隔两端 */
+  justify-content: space-between;
+
+  margin-left: 5px;
+  font-size: 14px;
+}
+.list-title > view > text{
+  vertical-align: middle;
+  font-size: 12px;
+  color: #BDBDBD;
+}
+.list-title > view > image{
+  width: 15px;
+  vertical-align: middle;
+}
 .list-item{
   display: inline-block;
   width: calc(50% - 6px);

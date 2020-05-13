@@ -1,39 +1,11 @@
-// miniprogram/pages/info/info.js
+// miniprogram/pages/home/productList/productList.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
 
-    indicatorDots: true,
-    vertical: false,
-    autoplay: false,
-    circular: false,
-    interval: 2000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
-  },
-
-  call: function (e) {
-    wx.makePhoneCall({
-      phoneNumber: '123',
-    })
-  },
-
-  productList: function (e) {
-    wx.navigateTo({
-      url: './productList/productList',
-    })
-  },
-
-  toDetail: function (e) {
-    let id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../product/product?id='+id,
-    })
   },
 
   /**
