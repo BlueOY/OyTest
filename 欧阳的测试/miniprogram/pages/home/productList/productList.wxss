@@ -1,1 +1,63 @@
 /* miniprogram/pages/home/productList/productList.wxss */
+.weui-search-bar{
+  background: none;
+}
+
+.content{
+  background: white;
+}
+.content scroll-view{
+  display: inline-block;
+  width: auto;
+  vertical-align: top;
+}
+.content .left{
+  background: #f6f6f6;
+  width: 100px;
+}
+.content .left view{
+  padding: 10px 15px;
+  color: #5E5E5E;
+}
+.content .left view.active{
+  background: white;
+  color: #3D3D3D;
+}
+.content .right{
+  width: calc(100% - 100px);
+}
+.content .right .item{
+  padding: 10px;
+  position: relative;
+}
+.content .right .item image{
+  width: 50px;
+  vertical-align: top;
+}
+.content .right .item > view{
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+}
+.content .right .item > view > text{
+  display: block;
+}
+.content .right .item .num-box{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.content .right .item .num-box text{
+  display: inline-block;
+  color: #ccc;
+  font-size: 14px;
+}
+.content .right .item .num-box .symbols{
+  padding: 0px 3px;
+  border: 0.5px solid #ccc;
+}
+.content .right .item .num-box .num{
+  padding: 0px 10px;
+  border-top: 0.5px solid #ccc;
+  border-bottom: 0.5px solid #ccc;
+}

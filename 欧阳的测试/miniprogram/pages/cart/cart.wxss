@@ -4,13 +4,13 @@ page{
 
 .list{
   padding-bottom: 40px;
-  -webkit-overflow-scrolling: auto;
+  /* -webkit-overflow-scrolling: auto; */
 }
 .item{
-  padding: 15px 10px;
+  padding: 15px 15px;
   position: relative;
-  /* border-bottom: 0.5px solid #ccc; */
   background: white;
+  /* border-bottom: 0.5px solid #ccc; */
   margin-bottom: 7px;
 }
 .item checkbox{
@@ -36,9 +36,17 @@ page{
 }
 .item .num-box text{
   display: inline-block;
-  border: 0.5px solid #ccc;
   color: #ccc;
+  font-size: 14px;
+}
+.item .num-box .symbols{
+  padding: 0px 3px;
+  border: 0.5px solid #ccc;
+}
+.item .num-box .num{
   padding: 0px 10px;
+  border-top: 0.5px solid #ccc;
+  border-bottom: 0.5px solid #ccc;
 }
 
 .foot{

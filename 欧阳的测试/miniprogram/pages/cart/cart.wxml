@@ -1,7 +1,7 @@
 <!--miniprogram/pages/cart/cart.wxml-->
 <view>
-  <scroll-view class="list" scroll-y="true" style="height:{{scroll_height}}rpx">
-    <block wx:for="{{5}}">
+  <scroll-view class="list" scroll-y="true" style="height:{{scroll_height}}px">
+    <block wx:for="{{10}}">
       <view class="item">
         <checkbox></checkbox>
         <image src="../../images/home/test.jpg" mode="widthFix"></image>
@@ -10,14 +10,14 @@
           <text class="price">￥0.01</text>
         </view>
         <view class="num-box">
-          <text>-</text>
-          <text>1</text>
-          <text>+</text>
+          <text class="symbols">－</text>
+          <text class="num">1</text>
+          <text class="symbols">＋</text>
         </view>
       </view>
     </block>
   </scroll-view>
-  <view class="foot">
+  <view id="foot" class="foot">
     <checkbox>全选</checkbox>
     <view class="right">
       <text>合计：￥0.01</text>

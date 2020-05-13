@@ -14,15 +14,29 @@ Page({
     })
   },
 
+  // 获取sroll-view的高度
+  scrollViewHeight: function (e) {
+    let windowHeight = wx.getSystemInfoSync().windowHeight // 页面的高度
+    let windowWidth = wx.getSystemInfoSync().windowWidth // 页面的宽度
+
+    const query = wx.createSelectorQuery()                // 创建节点查询器 query
+    query.select('#foot').boundingClientRect()
+    query.exec((res) => {
+      let footHeight = res[0].height             // #normalServe节点的高度
+
+      this.setData({
+        scroll_height: windowHeight - footHeight
+      })
+    })
+  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let windowHeight = wx.getSystemInfoSync().windowHeight // 屏幕的高度
-    let windowWidth = wx.getSystemInfoSync().windowWidth // 屏幕的宽度
-    this.setData({
-      scroll_height: windowHeight * 750 / windowWidth - 80 - 30
-    })
+    // 获取sroll-view的高度
+    this.scrollViewHeight();
   },
 
   /**
