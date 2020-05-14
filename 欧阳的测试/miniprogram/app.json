@@ -1,16 +1,18 @@
 {
   "pages": [
+    "pages/product/productList/productList",
+    "pages/product/productSearch/productSearch",
     "pages/home/home",
     "pages/info/info",
     "pages/cart/cart",
     "pages/user/user",
     "pages/product/product",
-    "pages/home/productList/productList",
     "pages/cart/subOrder/subOrder",
     "pages/user/address/address",
     "pages/user/orderList/orderList",
     "pages/user/orderDetail/orderDetail",
     "pages/test/test"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -27,26 +29,26 @@
       {
         "pagePath": "pages/home/home",
         "text": "首页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/home-hover.png"
+        "iconPath": "images/tabBar/home.png",
+        "selectedIconPath": "images/tabBar/home-hover.png"
       },
       {
         "pagePath": "pages/info/info",
         "text": "动态",
-        "iconPath": "images/info.png",
-        "selectedIconPath": "images/info-hover.png"
+        "iconPath": "images/tabBar/info.png",
+        "selectedIconPath": "images/tabBar/info-hover.png"
       },
       {
         "pagePath": "pages/cart/cart",
         "text": "购物车",
-        "iconPath": "images/cart.png",
-        "selectedIconPath": "images/cart-hover.png"
+        "iconPath": "images/tabBar/cart.png",
+        "selectedIconPath": "images/tabBar/cart-hover.png"
       },
       {
         "pagePath": "pages/user/user",
         "text": "我的",
-        "iconPath": "images/user.png",
-        "selectedIconPath": "images/user-hover.png"
+        "iconPath": "images/tabBar/user.png",
+        "selectedIconPath": "images/tabBar/user-hover.png"
       }
     ],
     "position": "bottom"

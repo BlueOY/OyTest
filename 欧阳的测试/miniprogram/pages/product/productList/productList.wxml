@@ -40,19 +40,24 @@
 </view>
 <view class="content">
   <scroll-view class="left" scroll-y="true" style="height: {{scrollViewHeight}}px;">
-    <block wx:for="{{14}}" wx:for-index="idx">
-      <view class="{{idx==0?'active':''}}">
-        副食品
+    <block wx:for="{{classifyData}}" wx:for-index="idx" wx:for-item="item">
+      <view class="{{idx==currentClassify?'active':''}}" bindtap="clickClassify" data-id="{{item._id}}" data-idx="{{idx}}">
+        {{item.name}}
       </view>
     </block>
   </scroll-view>
   <scroll-view class="right" scroll-y="true" style="height: {{scrollViewHeight}}px;">
-    <block wx:for="{{3}}">
+		<view class="nodata" hidden="{{!noProductData}}">
+			<image src="../../../images/nodata.png" mode="widthFix"></image>
+			<text>该分类下没有商品</text>
+		</view>
+		
+    <block wx:for="{{productData}}" wx:for-item="item">
       <view class="item">
-        <image src="../../../images/home/test.jpg" mode="widthFix"></image>
+        <image src="{{item.imagePath}}" mode="widthFix"></image>
         <view>
-          <text>零食</text>
-          <text>￥0.01</text>
+          <text>{{item.name}}</text>
+          <text>￥{{item.price}}</text>
         </view>
         <view class="num-box">
           <text class="symbols">－</text>

@@ -24,7 +24,7 @@
         <text>热门推荐</text>
         <view bindtap="productList">
           <text>更多商品</text>
-          <image src="../../images/user/right.png" mode="widthFix"></image>
+          <image src="../../images/right.png" mode="widthFix"></image>
         </view>
       </view>
       <block wx:for="{{hotProduct}}" wx:for-item="item">

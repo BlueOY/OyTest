@@ -14,7 +14,7 @@
             <text>我的订单</text>
             <view class="right" bindtap="orderList">
                 <text>查看全部</text>
-                <image src="../../images/user/right.png" mode="widthFix"></image>
+                <image src="../../images/right.png" mode="widthFix"></image>
             </view>
         </view>
         <view class="order-box">

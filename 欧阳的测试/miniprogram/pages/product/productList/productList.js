@@ -10,7 +10,16 @@ Page({
     inputVal: "",
 
     // scroll-view的高度
-    scrollViewHeight: 0
+    scrollViewHeight: 0,
+
+    // 分类数据
+    classifyData: [],
+    // 当前选中的分类
+    currentClassify: 0,
+    // 商品数据
+    productData: [],
+    // 没有商品数据
+    noProductData: false,
   },
 
   // 搜索框的函数
@@ -34,6 +43,10 @@ Page({
     this.setData({
       inputVal: e.detail.value
     });
+
+    wx.navigateTo({
+      url: '../productSearch/productSearch?searchKey=' + e.detail.value,
+    })
   },
 
   // 获取sroll-view的高度
@@ -63,8 +76,86 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that = this;
     // 获取sroll-view的高度
     this.scrollViewHeight();
+    // 获取分类数据
+    this.queryClassify(function(){
+      // 获取商品数据
+      that.queryProduct(that.data.classifyData[0]._id);
+    });
+  },
+
+  // 点击分类事件
+  clickClassify: function (e) {
+    let classifyId = e.currentTarget.dataset.id;
+    this.queryProduct(classifyId);
+
+    let classifyIndex = e.currentTarget.dataset.idx;
+    this.setData({
+      currentClassify: classifyIndex
+    });
+  },
+
+  queryClassify: function(callback) {
+    wx.cloud.callFunction({
+      name: 'wxClassifyQuery',
+      data: {
+      },
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        this.setData({
+          classifyData: res.result.data,
+        })
+
+        callback();
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [test] 调用失败：', err)
+      }
+    });
+  },
+
+  // 查询商品数据
+  queryProduct: function(classifyId) {
+    wx.cloud.callFunction({
+      name: 'wxProductQuery',
+      data: {
+        classify: classifyId
+      },
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        console.log("res.result.data="+res.result.data);
+
+        if(res.result.data==""){
+          this.setData({
+            noProductData: true
+          })
+        }else{
+          this.setData({
+            noProductData: false
+          })
+        }
+        this.setData({
+          productData: res.result.data,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [test] 调用失败：', err)
+      }
+    });
   },
 
   /**

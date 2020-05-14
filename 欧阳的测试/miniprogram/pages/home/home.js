@@ -30,7 +30,7 @@ Page({
 
   productList: function (e) {
     wx.navigateTo({
-      url: './productList/productList',
+      url: '../product/productList/productList',
     })
   },
 
