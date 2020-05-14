@@ -120,6 +120,9 @@
 .list-item text{
   font-size: 12px;
 }
+.list-item text.price{
+  color: #FB760F;
+}
 
 .info{
   background: white;

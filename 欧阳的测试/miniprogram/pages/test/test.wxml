@@ -1,0 +1,8 @@
+<!--miniprogram/pages/test/test.wxml-->
+<text>miniprogram/pages/test/test.wxml</text>
+<button bindtap="home">主页</button>
+<button bindtap="test">测试</button>
+<view>
+  <text>{{result}}</text>
+  <image src="{{imagePath}}" style="width: 130px; height: 130px;"></image>
+</view>

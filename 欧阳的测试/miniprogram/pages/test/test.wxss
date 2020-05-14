@@ -1,0 +1,5 @@
+/* miniprogram/pages/test/test.wxss */
+button{
+  background: green;
+  margin: 5px;
+}

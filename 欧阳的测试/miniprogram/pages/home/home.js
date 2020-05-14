@@ -5,8 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    //图片轮播数据
     background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
 
+    //图片轮播参数
     indicatorDots: true,
     vertical: false,
     autoplay: false,
@@ -14,7 +16,10 @@ Page({
     interval: 2000,
     duration: 500,
     previousMargin: 0,
-    nextMargin: 0
+    nextMargin: 0,
+
+    //热门商品数据
+    hotProduct: [],
   },
 
   call: function (e) {
@@ -40,7 +45,33 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 查询热门商品
+    this.hotProduct();
+  },
 
+  // 查询热门商品
+  hotProduct: function (options) {
+    wx.cloud.callFunction({
+      name: 'wxProductQuery',
+      data: {
+        hot: true
+      },
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        this.setData({
+          hotProduct: res.result.data,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [test] 调用失败：', err)
+      }
+    });
   },
 
   /**
