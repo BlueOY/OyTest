@@ -11,6 +11,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
   //获取访问参数
+  let id = event.id
   let hot = event.hot
   let classify = event.classify
   let searchKey = event.searchKey
@@ -21,6 +22,9 @@ exports.main = async (event, context) => {
   let where = {
     state: _.gt(0)
   };
+  if(id){
+    where._id = id
+  }
   if(hot){
     where.hot = true
   }

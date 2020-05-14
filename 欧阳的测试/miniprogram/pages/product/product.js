@@ -5,17 +5,51 @@ Page({
    * 页面的初始数据
    */
   data: {
-    test: 0
+    // 商品数据
+    productData: {},
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 获取页面跳转参数
     let id = options.id;
+    // 查询商品数据
+    this.queryProduct(id);
+  },
 
-    this.setData({
-      test: id
+  // 查询商品数据
+  queryProduct: function(id) {
+    wx.cloud.callFunction({
+      name: 'wxProductQuery',
+      data: {
+        id: id
+      },
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+
+        if(res.result.data!="" && res.result.data.length>0){
+          this.setData({
+            productData: res.result.data[0],
+          })
+        }else{
+          wx.showToast({
+            icon: 'none',
+            title: '数据格式错误',
+          })
+          console.error('数据格式错误：', res.result.data)
+        }
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [test] 调用失败：', err)
+      }
     });
   },
 

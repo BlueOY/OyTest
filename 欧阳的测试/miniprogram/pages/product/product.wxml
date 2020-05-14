@@ -1,8 +1,8 @@
 <!--miniprogram/pages/product/product.wxml-->
 <view class="top">
-  <image src="../../images/home/test.jpg" mode="widthFix"></image>
-  <text class="name">{{test}}零食</text>
-  <text class="price">￥0.01</text>
+  <image src="{{productData.imagePath}}" mode="widthFix"></image>
+  <text class="name">{{productData.name}}</text>
+  <text class="price">￥{{productData.price}}</text>
   <view class="add-box">
     <image src="../../images/product/add.png" mode="widthFix"></image>
     <text>加入购物车</text>

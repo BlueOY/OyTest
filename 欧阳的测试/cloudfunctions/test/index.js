@@ -51,7 +51,7 @@ async function query(){
 
 async function insertProduct(){
   try {
-    for(let i=3;i<20;i++){
+    for(let i=9;i<20;i++){
       let classifyRes = await db.collection('classify').add({
         // data 字段表示需新增的 JSON 数据
         data: {
