@@ -1,18 +1,22 @@
 <!--miniprogram/pages/cart/cart.wxml-->
 <view>
   <scroll-view class="list" scroll-y="true" style="height:{{scroll_height}}px">
-    <block wx:for="{{10}}">
+    <view class="nodata" hidden="{{!noCartData}}">
+      <image src="../../images/nodata.png" mode="widthFix"></image>
+      <text>购物车内还没有商品</text>
+    </view>
+    <block wx:for="{{cartData}}" wx:for-item="item" wx:for-index="idx">
       <view class="item">
         <checkbox></checkbox>
         <image src="../../images/home/test.jpg" mode="widthFix"></image>
         <view class="right">
-          <text class="name">零食</text>
-          <text class="price">￥0.01</text>
+          <text class="name">{{item.name}}</text>
+          <text class="price">￥{{item.price}}</text>
         </view>
         <view class="num-box">
-          <text class="symbols">－</text>
-          <text class="num">1</text>
-          <text class="symbols">＋</text>
+          <text class="symbols" bindtap="reduce" data-idx="{{idx}}">－</text>
+          <text class="num">{{item.num}}</text>
+          <text class="symbols" bindtap="plus" data-idx="{{idx}}">＋</text>
         </view>
       </view>
     </block>

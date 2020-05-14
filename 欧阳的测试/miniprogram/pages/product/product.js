@@ -9,6 +9,46 @@ Page({
     productData: {},
   },
 
+  addCart: function (e) {
+    let product = this.data.productData;
+    let cart = wx.getStorageSync("cart");
+    try{
+      if(cart && cart instanceof Array){
+        let temp = cart.find(item => {
+          return item._id == product._id;
+        });
+        if(!temp){
+          product.num = 1;
+          cart.push(product);
+        }else{
+          if(temp.num){
+            temp.num++
+          }else{
+            temp.num = 1;
+          }
+        }
+      }else{
+        product.num = 1;
+        cart = [product];
+      }
+      wx.setStorage({
+        key: "cart",
+        data: cart
+      })
+      wx.showToast({
+        title: '添加成功',
+      })
+    }catch(e){
+      console.error(e);
+      wx.showToast({
+        icon: 'none',
+        title: '添加失败',
+      })
+    }
+    
+
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

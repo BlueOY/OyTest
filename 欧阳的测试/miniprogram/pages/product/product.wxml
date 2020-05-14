@@ -5,6 +5,6 @@
   <text class="price">￥{{productData.price}}</text>
   <view class="add-box">
     <image src="../../images/product/add.png" mode="widthFix"></image>
-    <text>加入购物车</text>
+    <text bindtap="addCart">加入购物车</text>
   </view>
 </view>

@@ -49,7 +49,7 @@ exports.main = async (event, context) => {
             .skip(pageIndex*pageSize).limit(pageSize).get();
     return res;
   }catch(e){
-    console.log(e);
+    console.error(e);
     return e;
   }
 }

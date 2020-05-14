@@ -5,6 +5,26 @@ page{
 .list{
   padding-bottom: 40px;
   /* -webkit-overflow-scrolling: auto; */
+
+  position: relative;
+}
+.nodata{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%); */
+  transform: translate(-50%, -100%);
+  
+  text-align: center;
+}
+.nodata image{
+  width: 60px;
+}
+.nodata text{
+  display: block;
+  font-size: 12px;
+  color: #8a8a8a;
 }
 .item{
   padding: 15px 15px;
@@ -23,11 +43,18 @@ page{
 }
 .item .right{
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
   margin-left: 10px;
 }
 .item .right > text{
   display: block;
+}
+.item .right > text.name{
+  font-size: 14px;
+}
+.item .right > text.price{
+  font-size: 12px;
+  color: var(--weui-FG-2);
 }
 .item .num-box{
   position: absolute;

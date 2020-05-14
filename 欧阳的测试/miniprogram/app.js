@@ -1,4 +1,6 @@
 //app.js
+import Array from "./script/common";
+
 App({
   onLaunch: function () {
     
