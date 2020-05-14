@@ -97,6 +97,7 @@ Page({
     });
   },
 
+  // 查询分类数据
   queryClassify: function(callback) {
     wx.cloud.callFunction({
       name: 'wxClassifyQuery',
@@ -133,7 +134,6 @@ Page({
         // wx.showToast({
         //   title: '调用成功',
         // })
-        console.log("res.result.data="+res.result.data);
 
         if(res.result.data==""){
           this.setData({

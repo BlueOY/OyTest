@@ -1,2 +1,20 @@
 <!--miniprogram/pages/product/productSearch/productSearch.wxml-->
-<text>miniprogram/pages/product/productSearch/productSearch.wxml</text>
+<view class="nodata" hidden="{{!noProductData}}">
+	<image src="../../../images/nodata.png" mode="widthFix"></image>
+	<text>该搜索下没有商品</text>
+</view>
+
+<block wx:for="{{productData}}" wx:for-item="item">
+	<view class="item">
+		<image src="{{item.imagePath}}" mode="widthFix"></image>
+		<view>
+			<text>{{item.name}}</text>
+			<text>￥{{item.price}}</text>
+		</view>
+		<view class="num-box">
+			<text class="symbols">－</text>
+			<text class="num">1</text>
+			<text class="symbols">＋</text>
+		</view>
+	</view>
+</block>

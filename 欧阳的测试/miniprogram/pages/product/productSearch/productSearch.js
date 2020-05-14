@@ -5,14 +5,53 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    // 商品数据
+    productData: [],
+    // 没有商品数据
+    noProductData: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let searchKey = options.searchKey;;
+    this.queryProduct(searchKey);
+  },
 
+  // 查询商品数据
+  queryProduct: function(searchKey) {
+    wx.cloud.callFunction({
+      name: 'wxProductQuery',
+      data: {
+        searchKey: searchKey
+      },
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+
+        if(res.result.data==""){
+          this.setData({
+            noProductData: true
+          })
+        }else{
+          this.setData({
+            noProductData: false
+          })
+        }
+        this.setData({
+          productData: res.result.data,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [test] 调用失败：', err)
+      }
+    });
   },
 
   /**

@@ -13,6 +13,7 @@ exports.main = async (event, context) => {
   //获取访问参数
   let hot = event.hot
   let classify = event.classify
+  let searchKey = event.searchKey
   let pageIndex = event.pageIndex
   let pageSize = event.pageSize
 
@@ -25,6 +26,12 @@ exports.main = async (event, context) => {
   }
   if(classify){
     where.classify = classify
+  }
+  if(searchKey){
+    where.name = db.RegExp({
+      regexp: searchKey,  //从搜索栏中获取的value作为规则进行匹配。
+      options: 'i',  //大小写不区分
+    });
   }
   if(!pageIndex){
     pageIndex = 0
