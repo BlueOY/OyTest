@@ -7,9 +7,11 @@
     </view>
     <block wx:for="{{cartData}}" wx:for-item="item" wx:for-index="idx">
       <view class="item">
-        <checkbox></checkbox>
+        <checkbox-group bindchange="checkboxChange" data-idx="{{idx}}">
+          <checkbox data-checks="{{item.checks}}" checked="{{item.checks}}"></checkbox>
+        </checkbox-group>
         <image src="../../images/home/test.jpg" mode="widthFix"></image>
-        <view class="right">
+        <view class="right" bindtap="toDetail" data-id="{{item._id}}">
           <text class="name">{{item.name}}</text>
           <text class="price">￥{{item.price}}</text>
         </view>
@@ -22,9 +24,11 @@
     </block>
   </scroll-view>
   <view id="foot" class="foot">
-    <checkbox>全选</checkbox>
+    <checkbox-group bindchange="checkboxChange">
+      <checkbox checked="{{selectAll}}">全选</checkbox>
+    </checkbox-group>
     <view class="right">
-      <text>合计：￥0.01</text>
+      <text>合计：￥{{totalPrice}}</text>
       <button bindtap="submit">结算</button>
     </view>
   </view>

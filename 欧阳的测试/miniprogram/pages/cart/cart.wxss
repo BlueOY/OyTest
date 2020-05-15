@@ -33,7 +33,8 @@ page{
   /* border-bottom: 0.5px solid #ccc; */
   margin-bottom: 7px;
 }
-.item checkbox{
+.item checkbox-group{
+  display: inline-block;
   vertical-align: middle;
 }
 .item image{
@@ -84,6 +85,9 @@ page{
   background: white;
   padding: 10px 15px;
   border-top: 0.5px solid #ccc;
+}
+.foot checkbox-group{
+  display: inline-block;
 }
 .foot .right{
   float: right;

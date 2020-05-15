@@ -31,10 +31,7 @@ Page({
         product.num = 1;
         cart = [product];
       }
-      wx.setStorage({
-        key: "cart",
-        data: cart
-      })
+      wx.setStorageSync("cart", cart);
       wx.showToast({
         title: '添加成功',
       })
