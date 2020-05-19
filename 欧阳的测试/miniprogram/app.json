@@ -1,13 +1,17 @@
 {
   "pages": [
+    "pages/cart/subOrder/subOrder",
+    "pages/cart/cart",
+    
+    
     "pages/home/home",
     "pages/info/info",
-    "pages/cart/cart",
+    
     "pages/user/user",
     "pages/product/product",
     "pages/product/productList/productList",
     "pages/product/productSearch/productSearch",
-    "pages/cart/subOrder/subOrder",
+    
     "pages/user/address/address",
     "pages/user/orderList/orderList",
     "pages/user/orderDetail/orderDetail",

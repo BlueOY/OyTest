@@ -27,7 +27,7 @@
           <image src="../../images/right.png" mode="widthFix"></image>
         </view>
       </view>
-      <block wx:for="{{hotProduct}}" wx:for-item="item">
+      <block wx:for="{{hotProduct}}" wx:key="key" wx:for-item="item">
         <view class="list-item" bindtap="toDetail" data-id="{{item._id}}">
           <image src="{{item.imagePath}}" mode="widthFix"></image>
           <view>

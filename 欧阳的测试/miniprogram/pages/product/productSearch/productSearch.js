@@ -49,7 +49,7 @@ Page({
           icon: 'none',
           title: '无法连接服务器',
         })
-        console.error('[云函数] [test] 调用失败：', err)
+        console.error('[云函数] [wxProductQuery] 调用失败：', err)
       }
     });
   },

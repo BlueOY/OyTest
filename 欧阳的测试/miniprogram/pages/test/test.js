@@ -17,8 +17,9 @@ Page({
 
   test: function (options) {
     wx.cloud.callFunction({
-      name: 'test',
+      // name: 'test',
       // name: 'wxProductQuery',
+      name: 'wxGetOpenid',
       data: {
         hot: true,
         // classify: "05f2c36f5ebccd1400c8783176aceb50"

@@ -40,7 +40,7 @@
 </view>
 <view class="content">
   <scroll-view class="left" scroll-y="true" style="height: {{scrollViewHeight}}px;">
-    <block wx:for="{{classifyData}}" wx:for-index="idx" wx:for-item="item">
+    <block wx:for="{{classifyData}}" wx:key="key" wx:for-index="idx" wx:for-item="item">
       <view class="{{idx==currentClassify?'active':''}}" bindtap="clickClassify" data-id="{{item._id}}" data-idx="{{idx}}">
         {{item.name}}
       </view>
@@ -52,7 +52,7 @@
 			<text>该分类下没有商品</text>
 		</view>
 		
-    <block wx:for="{{productData}}" wx:for-item="item">
+    <block wx:for="{{productData}}" wx:key="key" wx:for-item="item">
       <view class="item">
         <image src="{{item.imagePath}}" mode="widthFix"></image>
         <view>

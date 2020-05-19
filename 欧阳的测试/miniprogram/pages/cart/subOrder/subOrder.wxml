@@ -1,30 +1,32 @@
 <!--miniprogram/pages/cart/subOrder/subOrder.wxml-->
 <view class="pick">
   <view class="weui-flex">
-    <view class="weui-flex__item">
-      <text class="text active">店铺配送</text>
+    <view class="weui-flex__item" bindtap="send">
+      <text class="text {{pick=='send'?'active':''}}">店铺配送</text>
     </view>
-    <view class="weui-flex__item">
-      <text class="text">到店自取</text>
+    <view class="weui-flex__item" bindtap="take">
+      <text class="text {{pick=='take'?'active':''}}">到店自取</text>
     </view>
   </view>
-  <view class="no-address">
-    <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
-    <view><text>添加收货地址</text></view>
-    <image class="right" src="../../../images/user/right.png" mode="widthFix"></image>
-  </view>
-  <view class="send">
-    <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
-    <view>
+  <view hidden="{{pick=='send'?false:true}}">
+    <view class="no-address">
+      <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
+      <view><text>添加收货地址</text></view>
+      <image class="right" src="../../../images/right.png" mode="widthFix"></image>
+    </view>
+    <view class="send">
+      <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
       <view>
-        <text class="name">欧阳</text>
-        <text class="phone">123123</text>
+        <view>
+          <text class="name">欧阳</text>
+          <text class="phone">123123</text>
+        </view>
+        <text class="address">123123</text>
       </view>
-      <text class="address">123123</text>
+      <image class="right" src="../../../images/right.png" mode="widthFix"></image>
     </view>
-    <image class="right" src="../../../images/user/right.png" mode="widthFix"></image>
   </view>
-  <view class="take">
+  <view class="take" hidden="{{pick=='take'?false:true}}">
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_active">
                 <view class="weui-cell__hd">
@@ -47,23 +49,28 @@
 </view>
 
 <view class="list">
-  <block wx:for="[3]">
+  <block wx:for="{{orderProductList}}" wx:key="key" wx:for-item="item">
     <view class="item">
-      <image src="../../../images/home/test.jpg" mode="widthFix"></image>
-      <view>
+      <image src="{{item.imagePath}}" mode="widthFix"></image>
+      <view class="{{item.state<1?'invalid':''}}">
         <view>
-          <text>零食</text>
+          <text>{{item.name}}</text>
         </view>
         <view class="bottom">
-          <text>￥0.01</text>
-          <text>×1</text>
+          <text>￥{{item.price}}</text>
+          <text>×{{item.num}}</text>
         </view>
+        <block wx:if="{{item.state<1}}">
+          <view class="invalid-text">
+            <text>已失效</text>
+          </view>
+        </block>
       </view>
     </view>
   </block>
 </view>
 
 <view class="foot">
-  <text class="total">合计：￥0.01</text>
-  <text class="submit">提交订单</text>
+  <text class="total">合计：￥{{totalPrice}}</text>
+  <text class="submit" bindtap="submit">提交订单</text>
 </view>

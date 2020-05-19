@@ -16,6 +16,9 @@ Page({
     totalPrice: 0,
     // 全选
     selectAll: false,
+    // 已选的商品
+    selectId: [],
+    selectNum: {},
   },
 
   checkboxChange: function (e) {
@@ -24,6 +27,9 @@ Page({
     let cart = wx.getStorageSync("cart");
     let totalPrice = 0;
     let selectAll = true;
+    // 已选商品
+    let selectId = [];
+    let selectNum = {};
     // 修改购物车选中状态
     if (idx >= 0) {
       cart[idx].checks = checks;
@@ -36,6 +42,9 @@ Page({
         } else {
           // 计算总价
           totalPrice += cart[i].price * cart[i].num;
+          // 已选商品
+          selectId.push(cart[i]._id);
+          selectNum[cart[i]._id] = cart[i].num;
         }
       }
     } else {
@@ -43,8 +52,13 @@ Page({
       let length = cart.length;
       for (let i = 0; i < length; i++) {
         cart[i].checks = checks;
-        // 计算总价
-        totalPrice += cart[i].price * cart[i].num;
+        if (cart[i].checks == true) {
+          // 计算总价
+          totalPrice += cart[i].price * cart[i].num;
+          // 已选商品
+          selectId.push(cart[i]._id);
+          selectNum[cart[i]._id] = cart[i].num;
+        }
       }
     }
     // 存储数据
@@ -54,14 +68,9 @@ Page({
       cartData: cart,
       totalPrice: totalPrice,
       selectAll: selectAll,
+      selectId: selectId,
+      selectNum: selectNum,
     });
-  },
-
-  toDetail: function (e) {
-    let id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../product/product?id=' + id,
-    })
   },
 
   // 减
@@ -75,12 +84,19 @@ Page({
       wx.setStorageSync("cart", this.data.cartData);
       // 计算总价
       let totalPrice = 0;
+      // 已选商品
+      let selectId = [];
+      let selectNum = {};
+      // 循环计算数据
       let cart = this.data.cartData;
       let length = cart.length;
       for (let i = 0; i < length; i++) {
         if (cart[i].checks == true) {
           // 计算总价
           totalPrice += cart[i].price * cart[i].num;
+          // 已选商品
+          selectId.push(cart[i]._id);
+          selectNum[cart[i]._id] = cart[i].num;
         }
       }
       // 刷新购物车数据
@@ -89,6 +105,8 @@ Page({
       this.setData({
         cartData: this.data.cartData,
         totalPrice: totalPrice,
+        selectId: selectId,
+        selectNum: selectNum,
       });
     } else {
       wx.showModal({
@@ -100,9 +118,29 @@ Page({
             that.data.cartData.remove(idx);
             // 存储数据
             wx.setStorageSync("cart", that.data.cartData);
+            // 计算总价和是否全选
+            let totalPrice = 0;
+            // 已选商品
+            let selectId = [];
+            let selectNum = {};
+            // 循环计算数据
+            let cart = that.data.cartData;
+            let length = cart.length;
+            for (let i = 0; i < length; i++) {
+              if (cart[i].checks == true) {
+                // 计算总价
+                totalPrice += cart[i].price * cart[i].num;
+                // 已选商品
+                selectId.push(cart[i]._id);
+                selectNum[cart[i]._id] = cart[i].num;
+              }
+            }
             // 刷新数据
             that.setData({
-              cartData: that.data.cartData
+              cartData: that.data.cartData,
+              totalPrice: totalPrice,
+              selectId: selectId,
+              selectNum: selectNum,
             });
             if (that.data.cartData.length > 0) {
               that.setData({
@@ -134,12 +172,19 @@ Page({
 
     // 计算总价
     let totalPrice = 0;
+    // 已选商品
+    let selectId = [];
+    let selectNum = {};
+    // 循环计算数据
     let cart = this.data.cartData;
     let length = cart.length;
     for (let i = 0; i < length; i++) {
       if (cart[i].checks == true) {
         // 计算总价
         totalPrice += cart[i].price * cart[i].num;
+        // 已选商品
+        selectId.push(cart[i]._id);
+        selectNum[cart[i]._id] = cart[i].num;
       }
     }
     // 刷新购物车数据
@@ -148,14 +193,9 @@ Page({
     this.setData({
       cartData: this.data.cartData,
       totalPrice: totalPrice,
+      selectId: selectId,
+      selectNum: selectNum,
     });
-  },
-
-  // 提交购物车
-  submit: function (e) {
-    wx.navigateTo({
-      url: './subOrder/subOrder',
-    })
   },
 
   // 获取sroll-view的高度
@@ -180,6 +220,10 @@ Page({
       let selectAll = true;
       // 计算总价和是否全选
       let totalPrice = 0;
+      // 已选商品
+      let selectId = [];
+      let selectNum = {};
+      // 循环计算数据
       let length = cart.length;
       for (let i = 0; i < length; i++) {
         if (cart[i].checks == false) {
@@ -188,6 +232,9 @@ Page({
         } else {
           // 计算总价
           totalPrice += cart[i].price * cart[i].num;
+          // 已选商品
+          selectId.push(cart[i]._id);
+          selectNum[cart[i]._id] = cart[i].num;
         }
       }
       //设置购物车数据
@@ -195,6 +242,8 @@ Page({
         cartData: cart,
         totalPrice: totalPrice,
         selectAll: selectAll,
+        selectId: selectId,
+        selectNum: selectNum,
       });
       this.setData({
         noCartData: false
@@ -204,6 +253,54 @@ Page({
         noCartData: true
       });
     }
+  },
+
+  toDetail: function (e) {
+    let id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../product/product?id=' + id,
+    })
+  },
+
+  // 提交购物车
+  submit: function (e) {
+    let selectId = this.data.selectId;
+    let that = this;
+    if(selectId.length == 0){
+      wx.showToast({
+        icon: 'none',
+        title: '清先选择要提交的商品',
+      })
+      return;
+    }
+    wx.showLoading({
+      title: '加载中',
+    });
+    wx.cloud.callFunction({
+      name: 'wxSubmitCart',
+      data: {
+        selectId: selectId,
+      },
+      success: res => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '提交成功',
+        })
+        let result = res.result.data;
+        let productList = JSON.stringify(result);
+        let selectNum = JSON.stringify(that.data.selectNum);
+        wx.navigateTo({
+          url: './subOrder/subOrder?productList='+productList+"&selectNum="+selectNum,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '调用失败',
+        })
+        console.error('[云函数] [wxSubmitCart] 调用失败：', err)
+      }
+    });
   },
 
   /**

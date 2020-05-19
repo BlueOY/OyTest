@@ -5,6 +5,29 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 配送方式
+    pick: "send",
+    // 商品列表数据
+    orderProductList: [],
+    // 总价格
+    totalPrice: 0,
+  },
+
+  // 店铺配送
+  send: function (e) {
+    this.setData({
+      pick: "send",
+    });
+  },
+  // 到店自取
+  take: function (e) {
+    this.setData({
+      pick: "take",
+    });
+  },
+
+  // 提交
+  submit: function (e) {
 
   },
 
@@ -12,7 +35,39 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 加载商品列表
+    this.loadProductList(options);
 
+  },
+
+  // 加载商品列表
+  loadProductList: function (options) {
+    try{
+      let productList = JSON.parse(options.productList);
+      let selectNum = JSON.parse(options.selectNum);
+      // console.log("productList="+JSON.stringify(productList));
+      // console.log("selectNum="+JSON.stringify(selectNum));
+      // 计算总价
+      let totalPrice = 0;
+      // 循环列表
+      let orderProductList = [];
+      let length = productList.length;
+      for(let i=0;i<length;i++){
+        let item = productList[i];
+        item.num = selectNum[item._id];
+        orderProductList.push(item);
+        if(item.state>0){
+          // 计算总价
+          totalPrice += item.price * item.num;
+        }
+      }
+      this.setData({
+        orderProductList: orderProductList,
+        totalPrice: totalPrice,
+      });
+    }catch(e){
+      console.error("------报错：", e);
+    }
   },
 
   /**

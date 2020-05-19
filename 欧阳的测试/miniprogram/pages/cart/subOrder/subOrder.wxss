@@ -72,9 +72,6 @@ page {
   font-size: 13px;
   margin-right: 15px;
 }
-.pick .take{
-  display: none;
-}
 .pick .take .weui-cell {
   padding: 10px 15px;
 }
@@ -91,6 +88,15 @@ page {
 .list .item{
   background: white;
   padding: 10px;
+  position: relative;
+}
+.list .item .invalid{
+  color: #9C9C9C;
+}
+.list .item .invalid-text{
+  position: absolute;
+  right: 15px;
+  top: 10px;
 }
 .list .item:not(:last-child){
   border-bottom: 0.5px solid #F6F6F6;

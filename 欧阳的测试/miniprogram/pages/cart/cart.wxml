@@ -5,7 +5,7 @@
       <image src="../../images/nodata.png" mode="widthFix"></image>
       <text>购物车内还没有商品</text>
     </view>
-    <block wx:for="{{cartData}}" wx:for-item="item" wx:for-index="idx">
+    <block wx:for="{{cartData}}" wx:key="key" wx:for-item="item" wx:for-index="idx">
       <view class="item">
         <checkbox-group bindchange="checkboxChange" data-idx="{{idx}}">
           <checkbox data-checks="{{item.checks}}" checked="{{item.checks}}"></checkbox>

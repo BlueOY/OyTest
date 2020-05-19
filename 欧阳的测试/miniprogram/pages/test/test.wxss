@@ -3,3 +3,6 @@ button{
   background: green;
   margin: 5px;
 }
+text{
+  word-break:break-all;
+}

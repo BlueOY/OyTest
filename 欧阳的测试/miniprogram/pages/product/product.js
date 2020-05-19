@@ -19,6 +19,7 @@ Page({
         });
         if(!temp){
           product.num = 1;
+          product.checks = true;
           cart.push(product);
         }else{
           if(temp.num){
@@ -29,6 +30,7 @@ Page({
         }
       }else{
         product.num = 1;
+        product.checks = true;
         cart = [product];
       }
       wx.setStorageSync("cart", cart);
@@ -85,7 +87,7 @@ Page({
           icon: 'none',
           title: '无法连接服务器',
         })
-        console.error('[云函数] [test] 调用失败：', err)
+        console.error('[云函数] [wxProductQuery] 调用失败：', err)
       }
     });
   },

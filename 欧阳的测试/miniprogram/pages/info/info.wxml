@@ -1,6 +1,6 @@
 <!--miniprogram/pages/info/info.wxml-->
 <view>
-    <block wx:for="{{6}}">
+    <block wx:for="{{6}}" wx:key="key">
       <view class="item">
         <view class="title">
           <image src="../../images/home/test.jpg"></image>
