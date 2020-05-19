@@ -1,0 +1,12 @@
+var isEmpty = function (obj) {
+  if (obj == undefined) {
+    return true;
+  } else if(obj.length == 0){
+    return true;
+  }else if(JSON.stringify(obj)=="{}"){
+    return true;
+  }else{
+    return false;
+  }
+}
+module.exports.isEmpty = isEmpty;

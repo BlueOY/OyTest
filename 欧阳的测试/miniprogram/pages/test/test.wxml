@@ -6,3 +6,26 @@
   <text>{{result}}</text>
   <image src="{{imagePath}}" style="width: 130px; height: 130px;"></image>
 </view>
+<wxs module="filter">
+    var isEmpty = function (obj) {
+      if (obj == undefined) {
+        return true;
+      }else if(JSON.stringify(obj)=="{}"){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    module.exports = {
+      isEmpty: isEmpty
+    }
+  </wxs>
+  <wxs module="tools" src="../../wxs/function.wxs"/>
+  <block wx:if="{{tools.isEmpty(address)}}">
+    为空
+  </block>
+  <block wx:if="{{flag}}">
+    flag
+  </block>
+  <view>测试：{{tools.isEmpty(address)}}</view>
+  <view hidden="{{tools.isEmpty(address)}}">显示</view>

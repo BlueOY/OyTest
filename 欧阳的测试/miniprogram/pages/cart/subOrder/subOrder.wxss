@@ -47,7 +47,6 @@ page {
 .pick .send{
   position: relative;
   padding: 10px 5px;
-  display: none;
 }
 .pick .send image{
   width: 20px;

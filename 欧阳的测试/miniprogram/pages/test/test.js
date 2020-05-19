@@ -7,6 +7,9 @@ Page({
   data: {
     result: '',
     imagePath: '',
+
+    address: {},
+    flag: false,
   },
 
   home: function (options) {
@@ -17,9 +20,9 @@ Page({
 
   test: function (options) {
     wx.cloud.callFunction({
-      // name: 'test',
+      name: 'test',
       // name: 'wxProductQuery',
-      name: 'wxGetOpenid',
+      // name: 'wxGetOpenid',
       data: {
         hot: true,
         // classify: "05f2c36f5ebccd1400c8783176aceb50"
@@ -30,7 +33,10 @@ Page({
         })
         this.setData({
           result: JSON.stringify(res.result),
-          // imagePath: res.result.test.data[0].imagePath
+          // imagePath: res.result.test.data[0].imagePath,
+
+          address: res.result,
+          flag: true,
         })
       },
       fail: err => {

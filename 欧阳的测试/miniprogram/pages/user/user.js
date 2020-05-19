@@ -25,10 +25,21 @@ Page({
     // })
   },
 
+  // 订单列表
   orderList: function (e) {
     wx.navigateTo({
       url: './orderList/orderList',
     })
+  },
+
+  // 选择收货地址
+  address: function (e) {
+    let that = this;
+    wx.chooseAddress({
+      success(res) {
+        console.log("res="+JSON.stringify(res))
+      }
+    });
   },
 
   /**

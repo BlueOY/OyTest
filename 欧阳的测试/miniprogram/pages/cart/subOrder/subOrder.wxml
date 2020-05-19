@@ -9,19 +9,20 @@
     </view>
   </view>
   <view hidden="{{pick=='send'?false:true}}">
-    <view class="no-address">
+    <wxs module="tools" src="../../../wxs/function.wxs"/>
+    <view class="no-address" bindtap='address' hidden="{{tools.isEmpty(address)?false:true}}">
       <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
       <view><text>添加收货地址</text></view>
       <image class="right" src="../../../images/right.png" mode="widthFix"></image>
     </view>
-    <view class="send">
+    <view class="send" bindtap='address' hidden="{{tools.isEmpty(address)?true:false}}">
       <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
       <view>
         <view>
-          <text class="name">欧阳</text>
-          <text class="phone">123123</text>
+          <text class="name">{{address.userName}}</text>
+          <text class="phone">{{address.telNumber}}</text>
         </view>
-        <text class="address">123123</text>
+        <text class="address">{{address.provinceName}}{{address.cityName}}{{address.countyName}}{{address.detailInfo}}</text>
       </view>
       <image class="right" src="../../../images/right.png" mode="widthFix"></image>
     </view>

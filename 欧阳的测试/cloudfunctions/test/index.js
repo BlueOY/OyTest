@@ -22,18 +22,19 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
-  // return {
-  //   test: "测试"
-  // }
+  return {
+    test: "测试"
+  }
 
-  
+  // 查询数据
   // let res = await db.collection('product').where({
   //   state: _.gt(0)
   // }).limit(4).get();
-  let res = await insertProduct();
-  return {
-    test: res
-  }
+  // 插入很多测试数据
+  // let res = await insertProduct();
+  // return {
+  //   test: res
+  // }
 }
 
 async function query(){

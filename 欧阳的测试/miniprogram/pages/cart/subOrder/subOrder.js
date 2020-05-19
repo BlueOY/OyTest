@@ -7,6 +7,9 @@ Page({
   data: {
     // 配送方式
     pick: "send",
+    // 收货地址
+    address: {},
+
     // 商品列表数据
     orderProductList: [],
     // 总价格
@@ -26,9 +29,27 @@ Page({
     });
   },
 
+  // 选择收货地址
+  address: function (e) {
+    let that = this;
+    wx.chooseAddress({
+      success(res) {
+        console.log("res="+JSON.stringify(res))
+        that.setData({
+          address: res
+        });
+      }
+    });
+  },
+
   // 提交
   submit: function (e) {
-
+    let test = {};
+    if(Object.keys(test).length === 0){
+      console.log("true");
+    }else{
+      console.log("false");
+    }
   },
 
   /**
