@@ -106,8 +106,8 @@ Page({
             title: '加载中',
           });
           let pick = that.data.pick;
-          let contacts;
-          if(pick==""){
+          let contacts = {};
+          if(pick=="send"){
             contacts = that.data.address;
           }else{
             contacts.userName = that.data.userName;
@@ -123,16 +123,26 @@ Page({
               // 取货/收货信息
               contacts: contacts,
               // 支付方式
-              payment: paymentIndex,
+              payment: that.data.paymentIndex,
               // 这里补充优惠券的逻辑
             },
             success: res => {
               wx.hideLoading();
-              wx.showToast({
-                title: '提交成功',
-              })
-              let result = res.result.data;
+              let result = res.result;
               console.log("提交订单返回数据：result="+JSON.stringify(result));
+              if(result.result){
+                wx.showToast({
+                  title: '提交成功',
+                });
+                let orderId = result.orderId;
+                wx.redirectTo({
+                  url: '../../user/orderDetail/orderDetail?orderId='+orderId
+                });
+              }else{
+                wx.showToast({
+                  title: '提交失败',
+                });
+              }
             },
             fail: err => {
               wx.showToast({
