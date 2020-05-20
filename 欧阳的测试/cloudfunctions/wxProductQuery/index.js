@@ -30,6 +30,7 @@ exports.main = async (event, context) => {
   }
   if(classify){
     where.classify = classify
+    // where.classifyId = classify
   }
   if(searchKey){
     where.name = db.RegExp({

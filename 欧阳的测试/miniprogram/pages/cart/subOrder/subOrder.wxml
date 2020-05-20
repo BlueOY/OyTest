@@ -1,16 +1,16 @@
 <!--miniprogram/pages/cart/subOrder/subOrder.wxml-->
 <view class="pick">
-  <view class="weui-flex">
-    <view class="weui-flex__item" bindtap="send">
-      <text class="text {{pick=='send'?'active':''}}">店铺配送</text>
-    </view>
-    <view class="weui-flex__item" bindtap="take">
-      <text class="text {{pick=='take'?'active':''}}">到店自取</text>
-    </view>
-  </view>
-  <view hidden="{{pick=='send'?false:true}}">
-    <wxs module="tools" src="../../../wxs/function.wxs"/>
-    <view class="no-address" bindtap='address' hidden="{{tools.isEmpty(address)?false:true}}">
+	<view class="weui-flex">
+		<view class="weui-flex__item" bindtap="send">
+			<text class="text {{pick=='send'?'active':''}}">店铺配送</text>
+		</view>
+		<view class="weui-flex__item" bindtap="take">
+			<text class="text {{pick=='take'?'active':''}}">到店自取</text>
+		</view>
+	</view>
+	<view hidden="{{pick=='send'?false:true}}">
+		<wxs module="tools" src="../../../wxs/function.wxs" />
+		<view class="no-address" bindtap='address' hidden="{{tools.isEmpty(address)?false:true}}">
       <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
       <view><text>添加收货地址</text></view>
       <image class="right" src="../../../images/right.png" mode="widthFix"></image>
@@ -34,7 +34,7 @@
                     <view class="weui-label">取货人</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入姓名"/>
+                    <input class="weui-input" placeholder="请输入姓名" bindinput="userNameInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_active">
@@ -42,7 +42,7 @@
                     <view class="weui-label">联系电话</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入电话" />
+                    <input class="weui-input" placeholder="请输入电话" bindinput="telNumberInput"/>
                 </view>
             </view>
         </view>
@@ -53,7 +53,7 @@
   <block wx:for="{{orderProductList}}" wx:key="key" wx:for-item="item">
     <view class="item">
       <image src="{{item.imagePath}}" mode="widthFix"></image>
-      <view class="{{item.state<1?'invalid':''}}">
+      <view class="{{item.state<1||item.stock<item.num?'invalid':''}}">
         <view>
           <text>{{item.name}}</text>
         </view>
@@ -66,9 +66,24 @@
             <text>已失效</text>
           </view>
         </block>
+        <block wx:elif="{{item.stock<item.num}}">
+          <view class="invalid-text">
+            <text>库存不够</text>
+          </view>
+        </block>
       </view>
     </view>
   </block>
+</view>
+
+<view class="weui-cells weui-cells_after-title">
+  <view class="weui-cell weui-cell_active weui-cell_select">
+    <view class="weui-cell__bd">
+      <picker bindchange="paymentChange" value="paymentIndex" range="{{paymentList}}">
+        <view class="weui-select">{{paymentList[paymentIndex]}}</view>
+      </picker>
+    </view>
+  </view>
 </view>
 
 <view class="foot">

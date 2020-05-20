@@ -2,7 +2,11 @@
 <view class="top">
   <image src="{{productData.imagePath}}" mode="widthFix"></image>
   <text class="name">{{productData.name}}</text>
-  <text class="price">￥{{productData.price}}</text>
+  <view class="text-box">
+    <text class="price">￥{{productData.price}}</text>
+    <text class="stock">库存：{{productData.stock}}</text>
+  </view>
+  
   <view class="add-box">
     <image src="../../images/product/add.png" mode="widthFix"></image>
     <text bindtap="addCart">加入购物车</text>

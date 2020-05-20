@@ -12,14 +12,26 @@ page {
   /* width: 100%; */
 }
 .top > text{
-  display: block;
-  margin-left: 10px;
+  /* display: block; */
 }
 .top .name{
   font-size: 18px;
+  margin-left: 10px;
+}
+.top .text-box{
+  display: flex;
+  /* 分隔两端 */
+  justify-content: space-between;
+
+  width: calc(100% - 155px);
+  margin-left: 10px;
 }
 .top .price{
   color: #FB760F;
+  font-size: 14px;
+}
+.top .stock{
+  color: #949494;
   font-size: 14px;
 }
 .top .add-box{

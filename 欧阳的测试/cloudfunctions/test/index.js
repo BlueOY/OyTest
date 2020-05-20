@@ -37,6 +37,7 @@ exports.main = async (event, context) => {
   // }
 }
 
+// 测试查询
 async function query(){
   try{
     let res = await db.collection('product').where({
@@ -50,6 +51,7 @@ async function query(){
   return "fail";
 }
 
+// 插入测试数据
 async function insertProduct(){
   try {
     for(let i=9;i<20;i++){
@@ -63,7 +65,7 @@ async function insertProduct(){
         let productRes = await db.collection('product').add({
           // data 字段表示需新增的 JSON 数据
           data: {
-            classify: classifyRes._id,
+            classifyId: classifyRes._id,
             name: "商品"+i,
             createTime: new Date(),
             imagePath: "cloud://ouyang-s2hbg.6f75-ouyang-s2hbg-1255305994/product/test.jpg",
