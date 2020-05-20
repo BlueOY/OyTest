@@ -5,7 +5,22 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 要查询的状态
+    state: -1,
+    // 订单列表数据
+    orderListData: [],
+    // 没有订单数据
+    noOrderData: false,
+  },
 
+  // 点击分类事件
+  changeState: function (e) {
+    let state = e.currentTarget.dataset.state;
+    state = Number(state);
+    this.loadOrderList(state);
+    this.setData({
+      state: state
+    });
   },
 
   toDetail: function (e) {
@@ -15,11 +30,48 @@ Page({
     })
   },
 
+  // 获取订单列表数据
+  loadOrderList: function(state){
+    wx.showLoading({
+      title: '加载中',
+    });
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'wxOrderQuery',
+      data: {
+        state: state
+      },
+      success: res => {
+        wx.hideLoading();
+        console.log("res.result="+JSON.stringify(res.result));
+        let data = res.result.list;
+        if(!data || data=="" || data.length==0){
+          that.setData({
+            noOrderData: true,
+          })
+        }else{
+          that.setData({
+            orderListData: data,
+            noOrderData: false,
+          })
+        }
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [wxOrderQuery] 调用失败：', err)
+      }
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // 获取订单列表数据
+    this.loadOrderList(this.data.state);
   },
 
   /**

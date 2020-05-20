@@ -22,6 +22,13 @@ exports.main = async (event, context) => {
   }
   // 支付方式
   let payment = event.payment;
+  // 订单状态为待付款
+  let state = 0;
+  // 如果是货到付款
+  if(payment==0){
+    // 订单状态改为待收货
+    state = 1;
+  }
   // 这里补充优惠券的逻辑
 
   //拼接商品id
@@ -40,8 +47,9 @@ exports.main = async (event, context) => {
   try{
     let res = await db.collection('product').where(where).skip(pageIndex*pageSize).limit(pageSize).get();
     if(res.data){
-      // 计算有效的商品
+      // 计算有效的商品和金额
       let effectiveProduct = [];
+      let amount = 0;
       let length = res.data.length;
       for(let i=0;i<length;i++){
         let item = res.data[i];
@@ -53,7 +61,10 @@ exports.main = async (event, context) => {
           });
           if(temp && temp.num <= item.stock){
             // 如果库存足够，则添加到有效的商品列表
+            item.num = temp.num;
             effectiveProduct.push(item);
+            // 计算金额
+            amount += item.price * temp.num;
           }
         }
       }
@@ -61,6 +72,10 @@ exports.main = async (event, context) => {
       // 启动事务
       const result = await db.runTransaction(async transaction => {
         try{
+          let openid = wxContext.OPENID;
+          if(!openid){
+            openid = 0;
+          }
           // 插入订单
           let orderRes = await transaction.collection('order').add({
             data: {
@@ -72,8 +87,16 @@ exports.main = async (event, context) => {
               phone: contacts.telNumber,
               // 收货地址
               address: contacts.address,
+              // 金额
+              amount: amount,
               // 支付方式
               payment: payment,
+              // 付款状态
+              payState: false,
+              // 订单状态
+              state: state,
+              // 创建时间
+              createTime: new Date(),
               // 用户唯一识别号
               openid: wxContext.OPENID
             }
@@ -98,7 +121,7 @@ exports.main = async (event, context) => {
         }catch(e){
           console.error(e);
           // 会作为 runTransaction reject 的结果出去
-          await transaction.rollback(-100);
+          await transaction.rollback(e.message);
           // 将异常再往外抛（好像注释掉还会往外抛？）
           // throw new Error(e);
         }

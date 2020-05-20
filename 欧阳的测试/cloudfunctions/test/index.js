@@ -59,6 +59,7 @@ async function insertProduct(){
         // data 字段表示需新增的 JSON 数据
         data: {
           name: "分类"+i,
+          createTime: new Date(),
         }
       });
       for(let j=0;j<20;j++){

@@ -50,6 +50,7 @@ Page({
       icon: base64.icon20
     });
 
+    let that = this;
     // 查看是否授权
     wx.getSetting({
       success: function(res){
@@ -57,9 +58,9 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: function(res) {
-              this.setData({
+              that.setData({
                 avatarUrl: res.userInfo.avatarUrl,
-                userName: e.detail.userInfo.nickName,
+                userName: res.userInfo.nickName,
                 userInfo: res.userInfo
               })
             }

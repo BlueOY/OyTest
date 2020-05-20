@@ -9,7 +9,7 @@
 		</view>
 	</view>
 	<view hidden="{{pick=='send'?false:true}}">
-		<wxs module="tools" src="../../../wxs/function.wxs" />
+		<wxs module="tools" src="../../../wxs/function.wxs"/>
 		<view class="no-address" bindtap='address' hidden="{{tools.isEmpty(address)?false:true}}">
       <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
       <view><text>添加收货地址</text></view>

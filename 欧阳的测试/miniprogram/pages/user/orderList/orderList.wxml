@@ -1,42 +1,48 @@
 <!--miniprogram/pages/user/orderList/orderList.wxml-->
+<wxs module="tools" src="../../../wxs/function.wxs"/>
+
   <view class="weui-flex">
-    <view class="weui-flex__item">
-      <text class="text active">全部</text>
+    <view class="weui-flex__item" bindtap="changeState" data-state="-1">
+      <text class="text {{state==-1?'active':''}}">全部</text>
     </view>
-    <view class="weui-flex__item">
-      <text class="text">待付款</text>
+    <view class="weui-flex__item" bindtap="changeState" data-state="0">
+      <text class="text {{state==0?'active':''}}">待付款</text>
     </view>
-    <view class="weui-flex__item">
-      <text class="text">待收货</text>
+    <view class="weui-flex__item" bindtap="changeState" data-state="1">
+      <text class="text {{state==1?'active':''}}">待收货</text>
     </view>
-    <view class="weui-flex__item">
-      <text class="text">已完成</text>
+    <view class="weui-flex__item" bindtap="changeState" data-state="2">
+      <text class="text {{state==2?'active':''}}">已完成</text>
     </view>
-    <view class="weui-flex__item">
-      <text class="text">已关闭</text>
+    <view class="weui-flex__item" bindtap="changeState" data-state="3">
+      <text class="text {{state==3?'active':''}}">已关闭</text>
     </view>
   </view>
 
 <view class="list">
-  <block wx:for="{{3}}">
+  <view class="nodata" hidden="{{!noOrderData}}">
+    <image src="../../../images/nodata.png" mode="widthFix"></image>
+    <text>这里没有订单</text>
+  </view>
+  <block wx:for="{{orderListData}}" wx:key="key" wx:item="item">
     <view class="item">
-      <view bindtap="toDetail" data-id="1">
-        <image src="../../../images/home/test.jpg" mode="widthFix"></image>
+      <view bindtap="toDetail" data-id="{{item._id}}">
+        <image src="{{item.firstProduct.imagePath}}" mode="widthFix"></image>
         <view class="info">
           <view>
-            <text>零食……等两件商品</text>
-            <text class="right">已完成</text>
+            <text>{{item.firstProduct.name}}……等{{item.productCount}}件商品</text>
+            <text class="right">{{tools.getOrderState(item.state)}}</text>
           </view>
           <view class="bottom">
-            <text>2020-05-10</text>
-            <text class="right">￥0.01</text>
+            <text>{{tools.formatDateTime(item.createTime)}}</text>
+            <text class="right">￥{{item.amount}}</text>
           </view>
         </view>
       </view>
       <view class="foot">
-        <button>确认收货</button>
-        <button>立即评价</button>
-        <button>再来一单</button>
+        <button wx:if="{{item.state==0}}">付款</button>
+        <button wx:elif="{{item.state==1}}">确认收货</button>
+        <button wx:elif="{{item.state==2}}">再来一单</button>
       </view>
     </view>
   </block>

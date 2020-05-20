@@ -59,3 +59,9 @@ page {
 .weui-cell__ft{
   font-size: 13px;
 }
+
+button{
+  background: #FB760F;
+  color: white;
+  margin: 20px;
+}

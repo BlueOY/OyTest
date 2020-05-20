@@ -136,21 +136,19 @@ Page({
               }
             }
             // 刷新数据
+            let noCartData;
+            if (that.data.cartData.length > 0) {
+              noCartData = false;
+            } else {
+              noCartData = true;
+            }
             that.setData({
               cartData: that.data.cartData,
+              noCartData: noCartData,
               totalPrice: totalPrice,
               selectId: selectId,
               selectNum: selectNum,
             });
-            if (that.data.cartData.length > 0) {
-              that.setData({
-                noCartData: false
-              });
-            } else {
-              that.setData({
-                noCartData: true
-              });
-            }
           } else if (res.cancel) {
             // 用户点击取消
           }
@@ -240,13 +238,11 @@ Page({
       //设置购物车数据
       this.setData({
         cartData: cart,
+        noCartData: false,
         totalPrice: totalPrice,
         selectAll: selectAll,
         selectId: selectId,
         selectNum: selectNum,
-      });
-      this.setData({
-        noCartData: false
       });
     } else {
       this.setData({

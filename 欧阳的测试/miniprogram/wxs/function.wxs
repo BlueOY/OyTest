@@ -9,4 +9,85 @@ var isEmpty = function (obj) {
     return false;
   }
 }
-module.exports.isEmpty = isEmpty;
+var formatDateTime = function (obj) {
+  var date = getDate(obj);
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentDate = date.getFullYear() + "-" + month + "-" + strDate
+            + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    return currentDate;
+}
+var formatDate = function (obj) {
+  var date = getDate(obj);
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  var currentDate = date.getFullYear() + "-" + month + "-" + strDate;
+  return currentDate;
+}
+var getOrderState = function (state) {
+  switch(state){
+    case 0:
+      return "待付款";
+    case 1:
+      return "待收货";
+    case 2:
+      return "已完成";
+    case 3:
+      return "已关闭";
+    case "0":
+      return "待付款";
+    case "1":
+      return "待收货";
+    case "2":
+      return "已完成";
+    case "3":
+      return "已关闭";
+    default:
+      return state;
+  }
+}
+var getPayment = function (payment) {
+  switch(payment){
+    case 0:
+      return "货到付款";
+    case 1:
+      return "在线支付";
+    case "0":
+      return "货到付款";
+    case "1":
+      return "在线支付";
+    default:
+      return payment;
+  }
+}
+var getPick = function (pick) {
+  switch(pick){
+    case "send":
+      return "店铺配送";
+    case "take":
+      return "到店自取";
+    default:
+      return pick;
+  }
+}
+
+module.exports = {
+  isEmpty: isEmpty,
+  formatDate: formatDate,
+  formatDateTime: formatDateTime,
+  getOrderState: getOrderState,
+  getPayment: getPayment,
+  getPick: getPick,
+};

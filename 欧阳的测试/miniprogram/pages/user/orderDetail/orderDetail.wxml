@@ -1,26 +1,28 @@
 <!--miniprogram/pages/user/orderDetail/orderDetail.wxml-->
+<wxs module="tools" src="../../../wxs/function.wxs"/>
+
   <view class="send">
     <image src="../../../images/cart/subOrder/address.png" mode="widthFix"></image>
     <view>
       <view>
-        <text class="name">欧阳</text>
-        <text class="phone">123123</text>
+        <text class="name">{{orderData.userName}}</text>
+        <text class="phone">{{orderData.phone}}</text>
       </view>
-      <text class="address">123123</text>
+      <text class="address">{{orderData.pick=="take"?"到店自取":orderData.address}}</text>
     </view>
   </view>
 
 <view class="list">
-  <block wx:for="{{3}}">
+  <block wx:for="{{orderProductData}}" wx:key="key" wx:item="item">
     <view class="item">
-      <image src="../../../images/home/test.jpg" mode="widthFix"></image>
+      <image src="{{item.imagePath}}" mode="widthFix"></image>
       <view>
         <view>
-          <text>零食</text>
+          <text>{{item.name}}</text>
         </view>
         <view class="bottom">
-          <text>￥0.01</text>
-          <text>×1</text>
+          <text>￥{{item.price}}</text>
+          <text>×{{item.num}}</text>
         </view>
       </view>
     </view>
@@ -31,11 +33,11 @@
 <view class="weui-cells weui-cells_after-title">
   <view class="weui-cell">
     <view class="weui-cell__bd">配送方式</view>
-    <view class="weui-cell__ft">外送</view>
+    <view class="weui-cell__ft">{{tools.getPick(orderData.pick)}}</view>
   </view>
   <view class="weui-cell">
     <view class="weui-cell__bd">送达时间</view>
-    <view class="weui-cell__ft">2020-05-10 13:00</view>
+    <view class="weui-cell__ft">{{orderData.sendTime?orderData.pick:"暂未送达"}}</view>
   </view>
 </view>
 
@@ -43,18 +45,30 @@
 <view class="weui-cells weui-cells_after-title">
   <view class="weui-cell">
     <view class="weui-cell__bd">订单号</view>
-    <view class="weui-cell__ft">123123123</view>
+    <view class="weui-cell__ft">{{orderData._id}}</view>
   </view>
   <view class="weui-cell">
     <view class="weui-cell__bd">支付方式</view>
-    <view class="weui-cell__ft">在线支付</view>
+    <view class="weui-cell__ft">{{tools.getPayment(orderData.payment)}}</view>
+  </view>
+  <view class="weui-cell">
+    <view class="weui-cell__bd">总金额</view>
+    <view class="weui-cell__ft">￥{{orderData.amount}}</view>
   </view>
   <view class="weui-cell">
     <view class="weui-cell__bd">下单时间</view>
-    <view class="weui-cell__ft">2020-05-10 12:00</view>
+    <view class="weui-cell__ft">{{tools.formatDateTime(orderData.createTime)}}</view>
   </view>
   <view class="weui-cell">
-    <view class="weui-cell__bd">标题文字</view>
-    <view class="weui-cell__ft">说明文字</view>
+    <view class="weui-cell__bd">支付状态</view>
+    <view class="weui-cell__ft">{{orderData.payState?"已支付":"未支付"}}</view>
+  </view>
+  <view class="weui-cell">
+    <view class="weui-cell__bd">订单状态</view>
+    <view class="weui-cell__ft">{{tools.getOrderState(orderData.state)}}</view>
   </view>
 </view>
+
+<button wx:if="{{orderData.state==0}}">付款</button>
+<button wx:elif="{{orderData.state==1}}">确认收货</button>
+<button wx:elif="{{orderData.state==2}}">再来一单</button>

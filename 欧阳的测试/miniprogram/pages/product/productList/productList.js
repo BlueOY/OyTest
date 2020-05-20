@@ -135,17 +135,15 @@ Page({
         //   title: '调用成功',
         // })
 
+        let noProductData;
         if(res.result.data==""){
-          this.setData({
-            noProductData: true
-          })
+          noProductData = true;
         }else{
-          this.setData({
-            noProductData: false
-          })
+          noProductData = false;
         }
         this.setData({
           productData: res.result.data,
+          noProductData: noProductData,
         })
       },
       fail: err => {
