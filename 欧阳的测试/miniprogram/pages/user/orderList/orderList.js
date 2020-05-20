@@ -48,6 +48,7 @@ Page({
         if(!data || data=="" || data.length==0){
           that.setData({
             noOrderData: true,
+            orderListData: [],
           })
         }else{
           that.setData({
