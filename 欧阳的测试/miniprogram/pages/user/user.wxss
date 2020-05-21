@@ -107,14 +107,14 @@ page {
 .page__bd .weui-cell__hd image{
   vertical-align: middle;
   margin-right: 16px;
-  width:20px; height: 20px;
+  width:15px; height: 15px;
 }
 .page__bd .weui-cell__hd image.address{
   margin-right: 14px;
-  width:22px; height: 22px;
+  width:17px; height: 17px;
 }
 .page__bd .weui-cell__hd image.favorites{
-  margin-left: -3px;
-  margin-right: 12px;
-  width:27px; height: 27px;
+  margin-left: -2px;
+  margin-right: 13px;
+  width:20px; height: 20px;
 }
