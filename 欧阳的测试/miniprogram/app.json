@@ -1,16 +1,18 @@
 {
   "pages": [
+    "pages/user/user",
     "pages/home/home",
     "pages/info/info",
     "pages/cart/cart",
-    "pages/user/user",
     "pages/product/product",
     "pages/product/productList/productList",
     "pages/product/productSearch/productSearch",
     "pages/cart/subOrder/subOrder",
     "pages/user/orderList/orderList",
     "pages/user/orderDetail/orderDetail",
-    "pages/test/test"
+    "pages/test/test",
+    "pages/user/favorites/favorites",
+    "pages/user/coupon/coupon"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

@@ -1,5 +1,4 @@
 // miniprogram/pages/user/user.js
-var base64 = require("../../images/user/base64");
 Page({
   /**
    * 页面的初始数据
@@ -27,8 +26,9 @@ Page({
 
   // 订单列表
   orderList: function (e) {
+    let id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: './orderList/orderList',
+      url: './orderList/orderList?state='+id,
     })
   },
 
@@ -46,10 +46,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      icon: base64.icon20
-    });
-
     let that = this;
     // 查看是否授权
     wx.getSetting({

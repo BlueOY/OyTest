@@ -12,26 +12,26 @@
         <view class="top">
             <image src="../../images/user/order.png" mode="widthFix"></image>
             <text>我的订单</text>
-            <view class="right" bindtap="orderList">
+            <view class="right" bindtap="orderList" data-id="-1">
                 <text>查看全部</text>
                 <image src="../../images/right.png" mode="widthFix"></image>
             </view>
         </view>
         <view class="order-box">
             <view class="weui-flex">
-                <view class="weui-flex__item" bindtap="orderList">
+                <view class="weui-flex__item" bindtap="orderList" data-id="0">
                     <image src="../../images/user/forpay.png" mode="widthFix"></image>
                     <text>待付款</text>
                 </view>
-                <view class="weui-flex__item" bindtap="orderList">
+                <view class="weui-flex__item" bindtap="orderList" data-id="1">
                     <image src="../../images/user/forreceipt.png" mode="widthFix"></image>
                     <text>待收货</text>
                 </view>
-                <view class="weui-flex__item" bindtap="orderList">
+                <view class="weui-flex__item" bindtap="orderList" data-id="2">
                     <image src="../../images/user/fordone.png" mode="widthFix"></image>
                     <text>已完成</text>
                 </view>
-                <view class="weui-flex__item" bindtap="orderList">
+                <view class="weui-flex__item" bindtap="orderList" data-id="3">
                     <image src="../../images/user/forcancel.png" mode="widthFix"></image>
                     <text>已关闭</text>
                 </view>
@@ -42,24 +42,24 @@
         <view class="weui-cells weui-cells_after-title">
             <view bindtap='address' class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__hd">
-                    <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    <image src="../../images/user/address.png" class="address"></image>
                 </view>
                 <view class="weui-cell__bd">收货地址</view>
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>
             </view>
-            <navigator url="" class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active">
+            <navigator url="./favorites/favorites" class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__hd">
-                    <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    <image src="../../images/user/favorites.png" class="favorites"></image>
                 </view>
                 <view class="weui-cell__bd">收藏夹</view>
-                <view class="weui-cell__ft weui-cell__ft_in-access">说明文字</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
             </navigator>
-            <navigator url="" class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active">
+            <navigator url="./coupon/coupon" class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__hd">
-                    <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    <image src="../../images/user/coupon.png" class=""></image>
                 </view>
                 <view class="weui-cell__bd">优惠券</view>
-                <view class="weui-cell__ft weui-cell__ft_in-access">说明文字</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">0张</view>
             </navigator>
         </view>
     </view>

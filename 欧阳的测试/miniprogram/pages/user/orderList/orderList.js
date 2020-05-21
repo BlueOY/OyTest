@@ -129,6 +129,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let state = options.state;
+    this.setData({
+      state: state,
+    });
     // 获取订单列表数据
     this.loadOrderList(this.data.state);
   },
