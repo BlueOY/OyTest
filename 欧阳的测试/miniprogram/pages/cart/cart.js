@@ -265,7 +265,7 @@ Page({
     if(selectId.length == 0){
       wx.showToast({
         icon: 'none',
-        title: '清先选择要提交的商品',
+        title: '请先选择要提交的商品',
       })
       return;
     }

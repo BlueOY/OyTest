@@ -44,7 +44,6 @@ Page({
     let that = this;
     wx.chooseAddress({
       success(res) {
-        console.log("res="+JSON.stringify(res))
         that.setData({
           address: res
         });
@@ -129,14 +128,32 @@ Page({
             success: res => {
               wx.hideLoading();
               let result = res.result;
-              console.log("提交订单返回数据：result="+JSON.stringify(result));
               if(result.result){
                 wx.showToast({
                   title: '提交成功',
                 });
+                // 删除购物车
+                let cart = wx.getStorageSync("cart");
+                if (cart && cart instanceof Array && cart.length > 0) {
+                  // 循环计算数据
+                  let length = orderProductList.length;
+                  for (let i = 0; i < length; i++) {
+                    let item = orderProductList[i];
+                    let idx = cart.findIndex(function(tempItem, tempIndex, tempArr){
+                      //该函数的三个参数，num代表当前项，numIndex代表当前项下标，nums代表该数组。
+                      return tempItem._id == item._id;
+                    });
+                    if(idx>=0){
+                      cart.remove(idx);
+                    }
+                  }
+                  // 存储数据
+                  wx.setStorageSync("cart", cart);
+                }
+                // 打开订单详情页
                 let orderId = result.orderId;
                 wx.redirectTo({
-                  url: '../../user/orderDetail/orderDetail?orderId='+orderId
+                  url: '../../user/orderDetail/orderDetail?id='+orderId
                 });
               }else{
                 wx.showToast({
