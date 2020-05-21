@@ -1,22 +1,46 @@
 // miniprogram/pages/user/orderList/orderList.js
+let pageIndex = 0;
+let pageSize = 5;
+let nomore = false;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    // sroll-view的高度
+    scroll_height: 0,
     // 要查询的状态
     state: -1,
     // 订单列表数据
     orderListData: [],
     // 没有订单数据
     noOrderData: false,
+    // 没有更多数据了
+    loadingText: "正在加载中……",
+  },
+
+  // 获取sroll-view的高度
+  scrollViewHeight: function () {
+    let windowHeight = wx.getSystemInfoSync().windowHeight // 页面的高度
+    let windowWidth = wx.getSystemInfoSync().windowWidth // 页面的宽度
+
+    const query = wx.createSelectorQuery() // 创建节点查询器 query
+    query.select('#top').boundingClientRect()
+    query.exec((res) => {
+      let topHeight = res[0].height // #normalServe节点的高度
+      this.setData({
+        scroll_height: windowHeight - topHeight - 10
+      })
+    })
   },
 
   // 点击分类事件
   changeState: function (e) {
     let state = e.currentTarget.dataset.state;
     state = Number(state);
+    pageIndex = 0;
+    nomore = false;
     this.loadOrderList(state);
     this.setData({
       state: state
@@ -33,6 +57,8 @@ Page({
         refreshData: function(data) {
           console.log("收到通知："+data)
           // 刷新界面
+          pageIndex = 0;
+          nomore = false;
           that.loadOrderList(that.data.state);
         }
       },
@@ -68,6 +94,8 @@ Page({
                 title: '成功',
               })
               // 刷新界面
+              pageIndex = 0;
+              nomore = false;
               that.loadOrderList(that.data.state);
             },
             fail: err => {
@@ -90,7 +118,7 @@ Page({
   },
 
   // 获取订单列表数据
-  loadOrderList: function(state){
+  loadOrderList: function(state, callback){
     wx.showLoading({
       title: '加载中',
     });
@@ -98,21 +126,42 @@ Page({
     wx.cloud.callFunction({
       name: 'wxOrderQuery',
       data: {
-        state: state
+        state: state,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
       },
       success: res => {
         wx.hideLoading();
         let data = res.result.list;
         if(!data || data=="" || data.length==0){
-          that.setData({
-            noOrderData: true,
-            orderListData: [],
-          })
+          if(pageIndex==0){
+            that.setData({
+              noOrderData: true,
+              orderListData: [],
+            });
+          }else{
+            // wx.showToast({
+            //   title: '没有更多数据了',
+            // });
+            nomore = true;
+            that.setData({
+              loadingText: "没有更多数据了",
+            })
+          }
         }else{
+          let orderListData;
+          if(pageIndex==0){
+            orderListData = data;
+          }else{
+            orderListData = that.data.orderListData.concat(data);
+          }
           that.setData({
-            orderListData: data,
+            orderListData: orderListData,
             noOrderData: false,
           })
+        }
+        if(callback){
+          callback();
         }
       },
       fail: err => {
@@ -125,14 +174,42 @@ Page({
     });
   },
 
+  // 滑动加载更多
+  loadmore: function () {
+    if(!nomore){
+      // 获取订单列表数据
+      pageIndex++;
+      this.loadOrderList(this.data.state);
+    }
+  },
+
+  // 下拉刷新
+  // onPullDownRefresh: function(){
+  //   // wx.showNavigationBarLoading() //在标题栏中显示加载
+  //   console.log("下拉刷新")
+
+  //   // 获取订单列表数据
+  //   pageIndex = 0;
+  //   nomore = false;
+  //   this.loadOrderList(this.data.state, function(){
+  //     // wx.hideNavigationBarLoading() //完成停止加载
+  //     wx.stopPullDownRefresh() //停止下拉刷新
+  //   });
+  // },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 获取sroll-view的高度
+    this.scrollViewHeight();
+    // 获取上一页面传来的参数
     let state = options.state;
-    this.setData({
-      state: state,
-    });
+    if(state){
+      this.setData({
+        state: state,
+      });
+    }
     // 获取订单列表数据
     this.loadOrderList(this.data.state);
   },
@@ -168,9 +245,9 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  // onPullDownRefresh: function () {
 
-  },
+  // },
 
   /**
    * 页面上拉触底事件的处理函数

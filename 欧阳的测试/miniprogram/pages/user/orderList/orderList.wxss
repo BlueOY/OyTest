@@ -1,4 +1,7 @@
 /* miniprogram/pages/user/orderList/orderList.wxss */
+#top{
+  margin-bottom: 10px;
+}
 .weui-flex{
   text-align: center;
 }
@@ -13,7 +16,6 @@
 }
 
 .list{
-  margin-top: 10px;
 }
 .nodata{
   position: absolute;
@@ -31,6 +33,13 @@
 .nodata text{
   display: block;
   font-size: 12px;
+  color: #8a8a8a;
+}
+.loading{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  font-size: 14px;
   color: #8a8a8a;
 }
 .list .item{

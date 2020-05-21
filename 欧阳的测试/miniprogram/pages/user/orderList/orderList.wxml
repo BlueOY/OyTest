@@ -1,7 +1,7 @@
 <!--miniprogram/pages/user/orderList/orderList.wxml-->
 <wxs module="tools" src="../../../wxs/function.wxs"/>
 
-  <view class="weui-flex">
+  <view class="weui-flex" id="top">
     <view class="weui-flex__item" bindtap="changeState" data-state="-1">
       <text class="text {{state==-1?'active':''}}">全部</text>
     </view>
@@ -19,7 +19,7 @@
     </view>
   </view>
 
-<view class="list">
+<scroll-view class="list" scroll-y="true" style="height:{{scroll_height}}px" bindscrolltolower='loadmore'>
   <view class="nodata" hidden="{{!noOrderData}}">
     <image src="../../../images/nodata.png" mode="widthFix"></image>
     <text>这里没有订单</text>
@@ -46,4 +46,7 @@
       </view>
     </view>
   </block>
-</view>
+  <view class="loading">
+    <text>{{loadingText}}</text>
+  </view>
+</scroll-view>

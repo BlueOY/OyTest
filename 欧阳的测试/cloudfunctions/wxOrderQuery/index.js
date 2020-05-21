@@ -78,6 +78,7 @@ exports.main = async (event, context) => {
       .project({
         productList: false,
       })
+      .skip(pageIndex*pageSize).limit(pageSize)
       .end();
       return res;
     }catch(e){
