@@ -30,7 +30,7 @@
         <image src="{{item.firstProduct.imagePath}}" mode="widthFix"></image>
         <view class="info">
           <view>
-            <text>{{item.firstProduct.name}}……等{{item.productCount}}件商品</text>
+            <text>{{item.firstProduct.name}}…等{{item.productCount}}件商品</text>
             <text class="right">{{tools.getOrderState(item.state)}}</text>
           </view>
           <view class="bottom">
@@ -40,9 +40,9 @@
         </view>
       </view>
       <view class="foot">
-        <button wx:if="{{item.state==0}}">付款</button>
-        <button wx:elif="{{item.state==1}}">确认收货</button>
-        <button wx:elif="{{item.state==2}}">再来一单</button>
+        <button wx:if="{{item.state==0}}" bindtap="pay">付款</button>
+        <button wx:elif="{{item.state==1}}" bindtap="receipt" data-id="{{item._id}}" data-title="{{item.firstProduct.name+'…等'+item.productCount+'件商品'}}">确认收货</button>
+        <button wx:elif="{{item.state==2}}" bindtap="buy">再来一单</button>
       </view>
     </view>
   </block>

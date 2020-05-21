@@ -25,9 +25,68 @@ Page({
 
   toDetail: function (e) {
     let id = e.currentTarget.dataset.id;
+    let that = this;
     wx.navigateTo({
       url: '../orderDetail/orderDetail?id='+id,
+      events: {
+        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+        refreshData: function(data) {
+          console.log("收到通知："+data)
+          // 刷新界面
+          that.loadOrderList(that.data.state);
+        }
+      },
     })
+  },
+
+  // 点击付款
+  pay: function (e) {
+
+  },
+  // 点击收货
+  receipt: function (e) {
+    let id = e.currentTarget.dataset.id;
+    let title = e.currentTarget.dataset.title;
+    let that = this;
+    wx.showModal({
+      title: '提示',
+      content: "是否确认收货“"+title+"”？",
+      success(res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '加载中',
+          });
+          wx.cloud.callFunction({
+            name: 'wxOrderUpdate',
+            data: {
+              id: id,
+              type: "receipt",
+            },
+            success: res => {
+              wx.hideLoading();
+              wx.showToast({
+                title: '成功',
+              })
+              // 刷新界面
+              that.loadOrderList(that.data.state);
+            },
+            fail: err => {
+              wx.showToast({
+                icon: 'none',
+                title: '调用失败',
+              })
+              console.error('[云函数] [wxOrderUpdate] 调用失败：', err)
+            }
+          });
+        }
+      }
+    });
+  },
+  // 点击再来一单
+  buy: function (e) {
+    wx.redirectTo({
+      url: '../../product/productList/productList'
+    });
   },
 
   // 获取订单列表数据
@@ -43,7 +102,6 @@ Page({
       },
       success: res => {
         wx.hideLoading();
-        console.log("res.result="+JSON.stringify(res.result));
         let data = res.result.list;
         if(!data || data=="" || data.length==0){
           that.setData({

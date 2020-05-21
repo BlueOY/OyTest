@@ -16,6 +16,9 @@ Page({
     wx.reLaunch({
       url: '../home/home',
     })
+    // wx.switchTab({
+    //   url: '/index'
+    // })
   },
 
   test: function (options) {

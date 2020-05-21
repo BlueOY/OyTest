@@ -89,11 +89,16 @@ Page({
   // 点击分类事件
   clickClassify: function (e) {
     let classifyId = e.currentTarget.dataset.id;
-    this.queryProduct(classifyId);
-
-    let classifyIndex = e.currentTarget.dataset.idx;
-    this.setData({
-      currentClassify: classifyIndex
+    wx.showLoading({
+      title: '加载中',
+    });
+    let that = this;
+    this.queryProduct(classifyId, function(){
+      wx.hideLoading();
+      let classifyIndex = e.currentTarget.dataset.idx;
+      that.setData({
+        currentClassify: classifyIndex
+      });
     });
   },
 
@@ -110,8 +115,9 @@ Page({
         this.setData({
           classifyData: res.result.data,
         })
-
-        callback();
+        if(callback){
+          callback();
+        }
       },
       fail: err => {
         wx.showToast({
@@ -124,7 +130,7 @@ Page({
   },
 
   // 查询商品数据
-  queryProduct: function(classifyId) {
+  queryProduct: function(classifyId, callback) {
     wx.cloud.callFunction({
       name: 'wxProductQuery',
       data: {
@@ -145,6 +151,9 @@ Page({
           productData: res.result.data,
           noProductData: noProductData,
         })
+        if(callback){
+          callback();
+        }
       },
       fail: err => {
         wx.showToast({

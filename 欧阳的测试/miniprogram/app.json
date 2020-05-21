@@ -1,8 +1,5 @@
 {
   "pages": [
-    
-    "pages/user/orderList/orderList",
-    
     "pages/home/home",
     "pages/info/info",
     "pages/cart/cart",
@@ -11,7 +8,7 @@
     "pages/product/productList/productList",
     "pages/product/productSearch/productSearch",
     "pages/cart/subOrder/subOrder",
-    
+    "pages/user/orderList/orderList",
     "pages/user/orderDetail/orderDetail",
     "pages/test/test"
   ],
