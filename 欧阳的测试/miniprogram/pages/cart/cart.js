@@ -246,7 +246,8 @@ Page({
       });
     } else {
       this.setData({
-        noCartData: true
+        cartData: [],
+        noCartData: true,
       });
     }
   },
@@ -279,9 +280,9 @@ Page({
       },
       success: res => {
         wx.hideLoading();
-        wx.showToast({
-          title: '提交成功',
-        })
+        // wx.showToast({
+        //   title: '提交成功',
+        // })
         let result = res.result.data;
         let productList = JSON.stringify(result);
         let selectNum = JSON.stringify(that.data.selectNum);
