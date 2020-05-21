@@ -1,2 +1,5 @@
 <!--miniprogram/pages/user/coupon/coupon.wxml-->
-<text>miniprogram/pages/user/coupon/coupon.wxml</text>
+<view class="nodata" hidden="{{!noCouponData}}">
+	<image src="../../../images/nodata.png" mode="widthFix"></image>
+	<text>暂时没有优惠券</text>
+</view>

@@ -1,2 +1,5 @@
 <!--miniprogram/pages/user/favorites/favorites.wxml-->
-<text>miniprogram/pages/user/favorites/favorites.wxml</text>
+<view class="nodata" hidden="{{!noFavoritesData}}">
+	<image src="../../../images/nodata.png" mode="widthFix"></image>
+	<text>这里没有收藏商品</text>
+</view>
