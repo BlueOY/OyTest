@@ -50,3 +50,7 @@ page {
 .top .add-box text{
   vertical-align: middle;
 }
+
+.describe{
+  margin: 15px;
+}
