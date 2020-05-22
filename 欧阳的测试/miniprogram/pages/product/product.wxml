@@ -12,3 +12,7 @@
     <text bindtap="addCart">加入购物车</text>
   </view>
 </view>
+
+<view class="describe">
+  {{productData.describe}}
+</view>

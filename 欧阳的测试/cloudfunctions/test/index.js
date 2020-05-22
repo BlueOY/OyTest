@@ -22,19 +22,55 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
-  return {
-    test: "测试"
-  }
+  //获取访问参数
+  let test = event.test
 
-  // 查询数据
-  // let res = await db.collection('product').where({
-  //   state: _.gt(0)
-  // }).limit(4).get();
-  // 插入很多测试数据
-  // let res = await insertProduct();
-  // return {
-  //   test: res
-  // }
+  if(test){
+    if(test=="query"){
+      // 查询数据
+      let res = await db.collection('product').where({
+        state: _.gt(0)
+      }).limit(4).get();
+      return {
+        test: test,
+        res: res,
+        msg: "查询",
+      }
+    }else if(test=="insert"){
+      // 插入很多测试数据
+      // let res = await insertProduct();
+      return {
+        test: test,
+        // res: res,
+        msg: "插入",
+      }
+    }else if(test=="update"){
+      // 更新数据
+      let res = await updateProduct();
+      return {
+        test: test,
+        res: res,
+        msg: "更新",
+      }
+    }else if(test=="delete"){
+      // 删除数据
+      let res = await deleteProduct();
+      return {
+        test: test,
+        res: res,
+        msg: "删除",
+      }
+    }else{
+      return {
+        test: test,
+        msg: "未知参数"
+      }
+    }
+  }else{
+    return {
+      msg: "没有test参数"
+    }
+  }
 }
 
 // 测试查询
@@ -80,7 +116,36 @@ async function insertProduct(){
     }
     return "true";
   } catch(e) {
-    console.error(e)
-    return "true";
+    console.error(e);
+    return e;
+  }
+}
+
+// 更新测试数据
+async function updateProduct(){
+  try {
+    let where = {};
+    let res = await db.collection('product').where(where)
+    .update({
+      data: {
+        describe: "描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述"
+      },
+    });
+    return res;
+  } catch(e) {
+    console.error(e);
+    return e;
+  }
+}
+
+// 删除测试数据
+async function deleteProduct(){
+  try {
+    return await db.collection('syslog').where({
+      content: "定时任务"
+    }).remove();
+  } catch(e) {
+    console.error(e);
+    return e;
   }
 }
