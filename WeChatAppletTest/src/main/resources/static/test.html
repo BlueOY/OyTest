@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./script/jquery-1.11.2.js"></script>
+    <script src="./script/common.js"></script>
+    <script>
+        $(function(){
+            var url = "/invokeCloudFunction";
+            var param = {
+                functionName: "test",
+                param: {
+                    test: "asd",
+                }
+            };
+            httpGet(url, param, function (data) {
+                alert(data);
+            });
+        });
+    </script>
+</head>
+<body>
+啊啊啊啊啊额a
+</body>
+</html>
