@@ -7,20 +7,17 @@
     <script src="./script/common.js"></script>
     <script>
         $(function(){
-            var url = "/invokeCloudFunction";
+            var functionName = "test";
             var param = {
-                functionName: "test",
-                param: {
-                    test: "asd",
-                }
+                test: "asd",
             };
-            httpGet(url, param, function (data) {
+            $Common.invokeCloudFunction(functionName, param, function (data) {
                 alert(data);
             });
         });
     </script>
 </head>
 <body>
-啊啊啊啊啊额a
+啊
 </body>
 </html>
