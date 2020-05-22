@@ -47,11 +47,11 @@ page {
 .product image{
   width: 45px;
   margin: 5px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .product .text-box{
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   margin-left: 5px;
 }
 .product .text-box text{
