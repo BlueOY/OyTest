@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./script/jquery-1.11.2.js"></script>
+    <script src="./script/common.js"></script>
+    <script>
+        $(function(){
+            $Common.httpPost("http://localhost:8082/test", {
+                param: "测试"
+            }, function(data){
+                alert("data="+data);
+            });
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -45,8 +45,8 @@ Date.prototype.format = function (format) {
             type: 'POST',
             url: url,
             data: data,
-            dataType: "json",
-            contentType : "application/json",
+            // dataType: "json",
+            // contentType : "application/json",
             success: function(data){
                 if(success){
                     success(data)
