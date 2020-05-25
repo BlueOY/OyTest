@@ -104,6 +104,7 @@ async function insertProduct(){
           data: {
             classifyId: classifyRes._id,
             name: "商品"+i,
+            describe: "描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述",
             createTime: new Date(),
             imagePath: "cloud://ouyang-s2hbg.6f75-ouyang-s2hbg-1255305994/product/test.jpg",
             price: 0.01,
@@ -125,10 +126,10 @@ async function insertProduct(){
 async function updateProduct(){
   try {
     let where = {};
-    let res = await db.collection('product').where(where)
+    let res = await db.collection('classify').where(where)
     .update({
       data: {
-        describe: "描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述"
+        state: 1
       },
     });
     return res;

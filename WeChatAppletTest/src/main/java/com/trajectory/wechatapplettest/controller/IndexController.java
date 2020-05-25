@@ -30,11 +30,18 @@ public class IndexController {
             // 如果access_token为空，则获取access_token
             StaticClass.getToken();
         }else if(StaticClass.expiresTime==null || StaticClass.expiresTime.before(new Date())){
-            // 如果access_token过期，则获取access_token
+            // 如果access_token过期，则重新获取access_token
             StaticClass.getToken();
         }
         // 访问云函数
         String res = StaticClass.testFunction(functionName, param);
+        Map<String, Object> map = JSON.parseObject(res);
+        if(map.get("errcode").equals("40001")){
+            // 如果返回错误，则重新获取access_token
+            StaticClass.getToken();
+        }else if(map.get("errcode").equals("0")){
+            // 说明调用成功
+        }
         return res;
     }
 
