@@ -2,22 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
+    <!--<link rel="stylesheet" type="text/css" href="./lib/layui-v2.5.5/css/layui.css">-->
+    <link href="./lib/layui-v2.5.5/css/layui.css" rel="stylesheet">
     <script src="./script/jquery-1.11.2.js"></script>
     <script src="./script/common.js"></script>
+    <script src="./lib/layui-v2.5.5/layui.all.js"></script>
     <script>
-        $(function(){
-            var functionName = "test";
-            var param = {
-                test: "asd",
-            };
-            $Common.invokeCloudFunction(functionName, param, function (data) {
-                alert(data);
-            });
-        });
+        var layer, form, table, tableIns, laypage;
+        layui.use(['layer', 'form', 'element', "table", "laypage", "laydate"],
+            function () {
+                layer = layui.layer;
+                form = layui.form;
+                table = layui.table;
+                laypage = layui.laypage;
+                var element = layui.element;
+
+                var laydate = layui.laydate;
+                // alert();
+                // console.log("laydate="+laydate);
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#TimeFrom' //指定元素
+                });
+
+
+                // var functionName = "test";
+                // var param = {
+                //     test: encodeURI("啊"),
+                // };
+                // $Common.invokeCloudFunction(functionName, param, function (data) {
+                //     // alert(data);
+                //     $("#res").text(data);
+                // });
+            }
+        );
     </script>
 </head>
 <body>
-啊
+返回结果：<div id="res"></div>
+
+<div class="layui-col-sm3">
+    <label class="layui-form-label">开始时间</label>
+    <div class="layui-input-block">
+        <input type="text" class="layui-input" name="TimeFrom" id="TimeFrom">
+    </div>
+</div>
 </body>
 </html>

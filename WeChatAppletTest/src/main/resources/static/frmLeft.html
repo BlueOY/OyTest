@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap/bootstrap_diy.css">
+    <style type="text/css">
+        body,html{
+            background-color: #3d4549;
+            color: #e2edff;
+            height: 100%;
+        }
+        ul{
+            list-style:none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-group a{
+            background-color:#3d4549;
+            color: #e2edff;
+            border: none;
+            width: 100%;
+        }
+        a.list-group-item:hover{
+            background-color:#1d2125;
+            color: #e2edff;
+        }
+        a.list-group-item.active{
+            /*background-color: #337ab7;*/
+            /*border-color: #337ab7;*/
+            background-color: #FF770F;
+            border-color: #FF770F;
+        }
+
+        /* 设置文字不可选中 */
+        .list-group{-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;-khtml-user-select:none;-o-user-select:none;user-select:none;}
+        /* 设置光标默认 */
+        a{cursor:default;}
+    </style>
+</head>
+<body>
+<div>
+    <div class="list-group">
+        <div style="height: 75px;"></div>
+        <ul>
+            <li my_href="/home/index.html">
+                <a class="name list-group-item" >
+                    首 页 概 览
+                </a>
+            </li>
+            <li my_href="/product/productList.html">
+                <a class="name list-group-item active" >
+                    商 品 管 理
+                </a>
+            </li>
+            <li my_href="/classify/classifyList.html">
+                <a class="name list-group-item" >
+                    商 品 类 型
+                </a>
+            </li>
+            <li my_href="/order/orderList.html">
+                <a class="name list-group-item" >
+                    订 单 管 理
+                </a>
+            </li>
+            <li my_href="/user/userList.html">
+                <a class="name list-group-item" >
+                    用 户 管 理
+                </a>
+            </li>
+            <li my_href="/dynamic/dynamicList.html">
+                <a class="name list-group-item" >
+                    动 态 管 理
+                </a>
+            </li>
+            <li my_href="/comment/commentList.html">
+                <a class="name list-group-item" >
+                    评 论 管 理
+                </a>
+            </li>
+            <li my_href="/carousel/carouselList.html">
+                <a class="name list-group-item" >
+                    轮 播 管 理
+                </a>
+            </li>
+            <li my_href="/feedback/feedbackList.html">
+                <a class="name list-group-item" >
+                    意 见 反 馈
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript" src="./script/jquery-1.11.2.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //alert("jquery");
+
+        $(".list-group li").on("click", function(){
+            $(".list-group a").removeClass("active");
+            $(this).find("a").addClass("active");
+            var url = $(this).attr("my_href");
+            if(url==undefined){
+                url = "/frmRight.jsp";
+            }
+            forward(url);
+        });
+    });
+    function forward(url){
+        parent.frames["frmRight"].location.href='./page'+url;
+    }
+</script>
+</body>
+</html>

@@ -45,4 +45,11 @@ public class IndexController {
         return "true";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "testCharset")
+    public String testCharset(String param) {
+        System.out.println("param="+param);
+        return param;
+    }
+
 }

@@ -1,0 +1,140 @@
+<!--<!DOCTYPE html>-->
+<!--用上面这个在火狐浏览器会出现莫名滚动条，document底部有白边-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欧阳的测试</title>
+    <style type="text/css">
+        body{
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 注销登录的样式 */
+        #top{
+            /*background: #446CA3;*/
+            background: #FB760F;
+            position: relative;
+            height: 65px;
+        }
+        #top .logo{
+            width: 45px; height: 45px;
+            position: absolute;
+            top: 10px; left: 15px;
+        }
+        #top .title{
+            position: absolute;
+            top: 20px; left: 75px;
+            font-size: 24px;
+            font-family:"宋体";
+            color: white;
+        }
+        #top .right{
+            position: absolute;
+            right: 25px; top: 22px;
+            color: white;
+            font-size: 14px;
+        }
+        #top .right a{
+            color: white;
+            font-size: 13px;
+        }
+        #top .right img{
+            width: 15px; height: 15px;
+            vertical-align:middle;
+        }
+        #top .right .label{
+            vertical-align:middle;
+        }
+
+        /* 内容显示框的样式 */
+        #bg{
+            min-width: 600px;
+            position: relative;
+            height: 100%;
+        }
+        #frmLeftBg{
+            width:150px;
+            float: left;
+            display: inline-block;
+
+            position:relative;
+            height: 100%;
+        }
+        #frmRightBg{
+            width: calc(100% - 150px);
+            min-width: 450px;
+            float: left;
+            display: inline-block;
+
+            position:relative;
+            height: 100%;
+        }
+        #frmLeft{
+            min-height: 400px;
+        }
+        #frmRight{
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body>
+<body>
+<div id="top">
+    <div>
+        <img class="logo" src="./images/logo.jfif"/>
+        <div class="title">欧阳的测试</div>
+    </div>
+    <div class="right">
+	<span>
+		<img src="./images/user_hover.png"/> <span class="label">管理员</span>
+	</span>
+        <a style="margin-left:15px;text-decoration:none;" href="javascript:logout();">
+            <img src="./images/logout_hover.png"/> <span class="label">注销</span>
+        </a>
+    </div>
+</div>
+<div id="bg">
+    <div id="frmLeftBg">
+        <iframe id="frmLeft" name="frmLeft" src="frmLeft.html" border="0" width='100%' height='100%' frameborder="no" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="no"></iframe>
+    </div>
+    <div id="frmRightBg">
+        <!-- <iframe id="frmRight" name="frmRight" src="frmRight.jsp" width=100% height='720px'  border="0" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="no"></iframe> -->
+        <!--<iframe id="frmRight" name="frmRight" src="page/product/productList.html" width='100%' height='100%' border="0" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="no"></iframe>-->
+        <iframe id="frmRight" name="frmRight" src="page/order/orderList.html" width='100%' height='100%' border="0" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="no" ></iframe>
+    </div>
+</div>
+
+<script type="text/javascript" src="./script/jquery-1.11.2.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //alert("jquery");
+
+        $("#bg").height($(window).height()-$("#top").outerHeight(true));
+        $(window).resize(function () {
+            var changeSize = $(window).height();
+            $("#bg").height(changeSize-$("#top").outerHeight(true));
+        });
+    });
+    function resetHeight(height) {
+        $("#frmLeft").height(height);
+        $("#frmRight").height(height);
+    }
+
+    function logout(){
+        $.ajax({
+            url: "/index/logout",
+            type: "POST",
+            success: function(data){
+                if(data=="true"){
+                    window.location.reload();
+                }else{
+                    alert(data);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

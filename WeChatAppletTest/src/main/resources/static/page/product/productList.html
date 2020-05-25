@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/layui-v2.5.5/css/layui.css">
+    <style>
+        .site-content{
+            padding: 20px 0 10px 20px;
+            width: calc(100% - 40px);
+        }
+        .btn-width {
+            width: 89px;
+        }
+    </style>
+</head>
+<body>
+<div class="site-content site-content-child">
+    <div class="layui-form" id="layui-form">
+        <div class="layui-row layui-col-space10 ">
+            <div class="layui-col-sm3">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="searchKey" placeholder="商品名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-col-sm3">
+                <label class="layui-form-label">商品分类</label>
+                <div class="layui-input-block">
+                    <select name="classify" id="classify">
+                        <option value="-1">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-sm3">
+                <label class="layui-form-label">商品状态</label>
+                <div class="layui-input-block">
+                    <select name="state">
+                        <option value="-1">全部</option>
+                        <option value="0">已下架</option>
+                        <option value="1">销售中</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-sm3">
+                <button type="button" class="layui-btn btn-width" id="btnadd">
+                    <i class="layui-icon">&#xe608;</i> 添加
+                </button>
+                <button type="button" class="layui-btn btn-width layui-btn-normal" id="btnImport">
+                    <i class="layui-icon">&#xe681;</i>导入
+                </button>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10 ">
+            <div class="layui-col-sm3">
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="timeFrom" id="TimeFrom">
+                </div>
+            </div>
+            <div class="layui-col-sm3">
+                <label class="layui-form-label">结束时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="timeTo" id="TimeTo">
+                </div>
+            </div>
+            <div class="layui-col-sm3"></div>
+            <div class="layui-col-sm3" >
+                <button type="button" class="layui-btn btn-width" id="btnsearch" lay-submit lay-filter="search">
+                    <i class="layui-icon">&#xe615;</i>搜索
+                </button>
+                <button type="button" class="layui-btn btn-width layui-btn-normal" id="btnExport">
+                    <i class="layui-icon">&#xe601;</i>导出
+                </button>
+            </div>
+        </div>
+    </div>
+    <table class="layui-table" id="datalist" lay-filter="datalist"></table>
+    <div id="laypage"></div>
+</div>
+
+<script src="../../script/jquery-1.11.2.js"></script>
+<script src="../../script/common.js"></script>
+<script src="../../lib/layui-v2.5.5/layui.all.js"></script>
+<script>
+    var queryParams = {
+        pageIndex: 0,
+        pageSize: 20,
+    };
+    var layer, form, table, tableIns, laypage;
+    layui.use(['layer', 'form', 'element', "table", "laypage", "laydate"],
+        function () {
+            layer = layui.layer;
+            form = layui.form;
+            table = layui.table;
+            laypage = layui.laypage;
+            var element = layui.element;
+
+            var laydate = layui.laydate;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#TimeFrom' //指定元素
+            });
+            laydate.render({
+                elem: '#TimeTo' //指定元素
+            });
+
+            var loadIndex = layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+
+            //获取类型列表
+            $Common.invokeCloudFunction("wxClassifyQuery", {
+                // pageIndex: pageIndex,
+                // pageSize: pageSize,
+            }, function (data) {
+                // console.log("data="+data)
+                var resp_data = JSON.parse(data).resp_data;
+                var list = JSON.parse(resp_data).data;
+                for (var item of list) {
+                    $("#classify").append(new Option(item.name, item._id));
+                    // $("#classify").append(new Option(item.name, item.name));
+                }
+                form.render();
+            });
+
+            $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
+                // console.log("data="+data)
+                var resp_data = JSON.parse(data).resp_data;
+                var total = JSON.parse(resp_data).total;
+                loadPage(total);
+                var list = JSON.parse(resp_data).list;
+                loadTable(list);
+
+                layer.close(loadIndex);
+            });
+
+            // 监听查询按钮
+            form.on('submit(search)',
+                function (data) {
+                    //console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                    //console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                    //alert(JSON.stringify(data.field)); //当前容器的全部表单字段，名值对形式：{name: value}
+                    // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+
+                    var loadIndex = layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                    var where = data.field;
+                    where.searchKey = encodeURI(where.searchKey);
+                    where.pageIndex = 0;
+                    where.pageSize = 20;
+                    $Common.invokeCloudFunction("sysProductQuery", where, function (data) {
+                        // console.log("data="+data)
+                        layer.close(loadIndex);
+                        var resp_data = JSON.parse(data).resp_data;
+                        var total = JSON.parse(resp_data).total;
+                        loadPage(total);
+                        var list = JSON.parse(resp_data).list;
+                        loadTable(list, where.pageIndex, where.pageSize);
+                        //如果查询成功，把查询条件赋值给全局变量
+                        queryParams = where;
+                    });
+                }
+            );
+        });
+    
+    function loadPage(total) {
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'laypage', //注意，这里的 test1 是 ID，不用加 # 号
+            count: total, //数据总数，从服务端得到
+            limit: 20,
+            limits: [10, 20, 30, 40, 50, 100],
+            layout: ['prev', 'page', 'next', 'skip', 'count', 'limit', 'refresh'],
+            jump: function(obj, first){
+                //首次不执行
+                if(!first){
+                    var loadIndex = layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                    queryParams.pageIndex = obj.curr-1;
+                    queryParams.pageSize = obj.limit;
+                    $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
+                        // console.log("data="+data)
+                        layer.close(loadIndex);
+                        var resp_data = JSON.parse(data).resp_data;
+                        var list = JSON.parse(resp_data).list;
+                        loadTable(list, queryParams.pageIndex, queryParams.pageSize);
+                    });
+                }
+            }
+        });
+    }
+
+    function loadTable(data, pageIndex, pageSize) {
+        if(!pageIndex){
+            pageIndex = 0;
+        }
+        if(!pageSize){
+            pageSize = 20;
+        }
+        tableIns = table.render({
+            elem: "#datalist",
+            // url: "/product/productList",
+            // page: true, //启用分页，
+            limit: 100,
+            limits: [10, 20, 30, 40, 50, 100],
+            data: data,
+            text: {
+                none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+            },
+            headers: { token: "token", uid: "uid" },
+            cols: [
+                [//表头
+                    //{ field: 'Id', title: 'ID', width: 80, sort: true, fixed: 'left' },
+                    //{
+                    //    field: 'Id', title: '序号', width: 80, sort: true, templet: function (d) {
+                    //        return d.LAY_TABLE_INDEX + 1;
+                    //    }
+                    //},
+                    // { type: 'numbers', title: '序号', width: 80, sort: true },
+                    { title: '序号', width: 80, sort: true, templet: function (d) {
+                            return d.LAY_INDEX+pageIndex*pageSize;
+                        }
+                    },
+                    { field: 'classify', title: '分类', width: 80, sort: true, templet: function (d) {
+                            return d.classify.name;
+                        }
+                    },
+                    { field: 'name', title: '名称', width: 80, sort: true },
+                    { field: 'describe', title: '描述' },
+                    {
+                       field: 'hot', title: '热门', width: 80, sort: true, templet: function (d) {
+                           if (d.hot) {
+                               return "是";
+                           }else{
+                               return "否";
+                           }
+                       }
+                    },
+                    { field: 'price', title: '价格', width: 80, sort: true },
+                    { field: 'stock', title: '库存', width: 80, sort: true },
+                    { field: 'createTime', title: '创建时间', width: 200, sort: true, templet: function (d) {
+                            return new Date(d.createTime).format("yyyy-MM-dd hh:mm:ss");
+                        }
+                    },
+                    {
+                        field: 'state', title: '状态', width: 90, templet: function (d) {
+                            switch (d.state) {
+                                case 0:
+                                    return "已下架";
+                                case 1:
+                                    return "销售中";
+                                default:
+                                    return d.state;
+                            }
+                        }
+                    },
+                    { field: '', title: '操作', width: 180, toolbar: '#toolBar', fixed: 'right' }
+                ]
+            ],
+            done: function (res, curr, count) {
+                resize();
+            }
+        });
+    }
+
+    function resize() {
+        var height = $('body').height();
+        //console.log("height:" + height);
+        parent.resetHeight(height);
+    }
+</script>
+<script type="text/html" id="toolBar">
+    {{# if(d.state == 0){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="lock">上架</a>
+    {{# } else { }}
+    <a class="layui-btn layui-btn-xs" lay-event="unlock">下架</a>
+    {{# } }}
+
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+</script>
+</body>
+</html>
