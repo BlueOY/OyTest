@@ -105,7 +105,7 @@
                 elem: '#TimeTo' //指定元素
             });
 
-            var loadIndex = layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+            var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
 
             //获取类型列表
             $Common.invokeCloudFunction("wxClassifyQuery", {
@@ -121,7 +121,7 @@
                 }
                 form.render();
             });
-
+            //搜索商品数据
             $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
                 // console.log("data="+data)
                 var resp_data = JSON.parse(data).resp_data;
@@ -130,7 +130,84 @@
                 var list = JSON.parse(resp_data).list;
                 loadTable(list);
 
-                layer.close(loadIndex);
+                top.layer.close(loadIndex);
+            });
+
+            //监听工具条
+            table.on('tool(datalist)', function (obj) { //注：tool 是工具条事件名，datalist是table原始容器的属性lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+                if (layEvent === 'edit') { //详情
+                    top.layer.open({
+                        type: 2, //1.html,2.iframe
+                        offset: 'auto',
+                        area: ['1000px', '800px'],
+                        title: ["修改商品信息"],
+                        content: '/page/product/productAdd.html?id=' + data._id,
+                        //end: function (a) {
+                        //    //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        //    //parent.layer.close(index); //再执行关闭
+                        //}
+                    });
+                } else if (layEvent === 'del') { //删除
+                    top.layer.confirm('确定要删除“' + data.name + '”吗？', function (index) {
+                        //向服务端发送删除指令
+                        $Common.invokeCloudFunction("sysProductDelete", { id: data._id }, function (data) {
+                            // console.log("data="+data)
+                            var resp_data = JSON.parse(data).resp_data;
+                            var res = JSON.parse(resp_data);
+                            var result = res.result;
+                            if (result == true) {
+                                top.layer.msg(res.message);
+                                //删除对应行（tr）的DOM结构，并更新缓存
+                                //obj.del();
+                                //刷新表格
+                                refreshTable();
+                            } else {
+                                top.layer.msg(res.message);
+                            }
+                        });
+                        top.layer.close(index);
+                    });
+                } else if (layEvent === 'on') {   //上架
+                    top.layer.confirm('确定要上架“' + data.name + '”吗？', function (index) {
+                        //向服务端发送上架指令
+                        $Common.invokeCloudFunction("sysProductUpdate", { _id: data._id, type: "shelf", state: 1 }, function (data) {
+                            // console.log("data="+data)
+                            var resp_data = JSON.parse(data).resp_data;
+                            var res = JSON.parse(resp_data);
+                            var result = res.result;
+                            if (result == true) {
+                                top.layer.msg(res.message);
+                                //刷新表格
+                                refreshTable();
+                            } else {
+                                top.layer.msg(res.message);
+                            }
+                        });
+                        top.layer.close(index);
+                    });
+                } else if (layEvent === 'off') {   //下架
+                    top.layer.confirm('确定要下架“' + data.name + '”吗？', function (index) {
+                        //向服务端发送下架指令
+                        $Common.invokeCloudFunction("sysProductUpdate", { _id: data._id, type: "shelf", state: 0 }, function (data) {
+                            // console.log("data="+data)
+                            var resp_data = JSON.parse(data).resp_data;
+                            var res = JSON.parse(resp_data);
+                            var result = res.result;
+                            if (result == true) {
+                                top.layer.msg(res.message);
+                                //刷新表格
+                                refreshTable();
+                            } else {
+                                top.layer.msg(res.message);
+                            }
+                        });
+                        top.layer.close(index);
+                    });
+                }
             });
 
             // 监听查询按钮
@@ -141,14 +218,14 @@
                     //alert(JSON.stringify(data.field)); //当前容器的全部表单字段，名值对形式：{name: value}
                     // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
 
-                    var loadIndex = layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                    var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
                     var where = data.field;
                     where.searchKey = encodeURI(where.searchKey);
                     where.pageIndex = 0;
                     where.pageSize = 20;
                     $Common.invokeCloudFunction("sysProductQuery", where, function (data) {
                         // console.log("data="+data)
-                        layer.close(loadIndex);
+                        top.layer.close(loadIndex);
                         var resp_data = JSON.parse(data).resp_data;
                         var total = JSON.parse(resp_data).total;
                         loadPage(total);
@@ -159,6 +236,32 @@
                     });
                 }
             );
+
+            //点击添加
+            $("#btnadd").click(function () {
+                parent.parent.layer.open({
+                    type: 2, //1.html,2.iframe
+                    offset: 'auto',
+                    area: ['1000px', '800px'],
+                    title: ["添加商品信息"],
+                    content: '/page/product/productAdd.html',
+                    end: function () {
+                        //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        //parent.layer.close(index); //再执行关闭
+                    },
+                    //btn: ['确定', '取消'],
+                    //yes: function (index, layero) {
+                    //    return false;
+                    //    //按钮【按钮一】的回调
+                    //},
+                    //btn2: function (index, layero) {
+                    //    //按钮【按钮二】的回调
+
+                    //    //return false 开启该代码可禁止点击该按钮关闭
+                    //}
+                });
+            });
+
         });
     
     function loadPage(total) {
@@ -172,18 +275,29 @@
             jump: function(obj, first){
                 //首次不执行
                 if(!first){
-                    var loadIndex = layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                    var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
                     queryParams.pageIndex = obj.curr-1;
                     queryParams.pageSize = obj.limit;
                     $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
                         // console.log("data="+data)
-                        layer.close(loadIndex);
+                        top.layer.close(loadIndex);
                         var resp_data = JSON.parse(data).resp_data;
                         var list = JSON.parse(resp_data).list;
                         loadTable(list, queryParams.pageIndex, queryParams.pageSize);
                     });
                 }
             }
+        });
+    }
+
+    function refreshTable(){
+        var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+        $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
+            // console.log("data="+data)
+            top.layer.close(loadIndex);
+            var resp_data = JSON.parse(data).resp_data;
+            var list = JSON.parse(resp_data).list;
+            loadTable(list, queryParams.pageIndex, queryParams.pageSize);
         });
     }
 
@@ -239,6 +353,14 @@
                             return new Date(d.createTime).format("yyyy-MM-dd hh:mm:ss");
                         }
                     },
+                    { field: 'updateTime', title: '修改时间', width: 200, sort: true, templet: function (d) {
+                            if(d.updateTime){
+                                return new Date(d.updateTime).format("yyyy-MM-dd hh:mm:ss");
+                            }else{
+                                return "";
+                            }
+                        }
+                    },
                     {
                         field: 'state', title: '状态', width: 90, templet: function (d) {
                             switch (d.state) {
@@ -268,9 +390,9 @@
 </script>
 <script type="text/html" id="toolBar">
     {{# if(d.state == 0){ }}
-    <a class="layui-btn layui-btn-xs" lay-event="lock">上架</a>
+    <a class="layui-btn layui-btn-xs" lay-event="on">上架</a>
     {{# } else { }}
-    <a class="layui-btn layui-btn-xs" lay-event="unlock">下架</a>
+    <a class="layui-btn layui-btn-xs" lay-event="off">下架</a>
     {{# } }}
 
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>

@@ -72,7 +72,8 @@
             height: 100%;
         }
         #frmLeft{
-            min-height: 400px;
+            /*min-height: 800px;*/
+            min-height: 100%;
         }
         #frmRight{
             min-height: 400px;
@@ -107,7 +108,18 @@
 </div>
 
 <script type="text/javascript" src="./script/jquery-1.11.2.js"></script>
+<script src="../../lib/layui-v2.5.5/layui.all.js"></script>
 <script type="text/javascript">
+    var layer, form, table, tableIns, laypage;
+    layui.use(['layer', 'form', 'element', "table", "laypage", "laydate"],
+        function () {
+            layer = layui.layer;
+            form = layui.form;
+            table = layui.table;
+            laypage = layui.laypage;
+        }
+    );
+
     $(function(){
         //alert("jquery");
 

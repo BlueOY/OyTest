@@ -93,6 +93,64 @@ Date.prototype.format = function (format) {
             if (pair[0] == variable) { return pair[1]; }
         }
         return (undefined);
-    },
+    };
+    //自动填写表单数据
+    u.setFormData = function (jsonObj) {
+        //var obj = eval("(" + jsonStr + ")");
+        var obj = jsonObj;
+        var key, value, tagName, type, arr;
+        for (x in obj) {
+            key = x;
+            value = obj[x];
+
+            $("[name='" + key + "'],[name='" + key + "[]']").each(function () {
+                tagName = $(this)[0].tagName;
+                type = $(this).attr('type');
+                if (tagName == 'INPUT') {
+                    if (type == 'radio') {
+                        //$(this).attr('checked', $(this).val() == value);
+                        if ($(this).val() == value) {
+                            $(this).attr('checked', true);
+                        }
+                    } else if (type == 'checkbox') {
+                        if (typeof (value) == 'string' && value.indexOf(",") != -1) {
+                            arr = value.split(',');
+                            for (var i = 0; i < arr.length; i++) {
+                                if ($(this).val() == arr[i]) {
+                                    $(this).attr('checked', true);
+                                    break;
+                                }
+                            }
+                        } else if (value instanceof Array) {
+                            arr = value;
+                            for (var i = 0; i < arr.length; i++) {
+                                if ($(this).val() == arr[i]) {
+                                    $(this).attr('checked', true);
+                                    break;
+                                }
+                            }
+                        } else {
+                            if ($(this).val() == value) {
+                                $(this).attr('checked', true);
+                            }
+                        }
+                    } else {
+                        if (value != "-1") {
+                            $(this).val(value);
+                        }
+                    }
+                } else if (tagName == 'TEXTAREA') {
+                    $(this).val(value);
+                } else if (tagName == 'DIV' || tagName == 'SPAN' || tagName == 'TH' || tagName == 'TD') {
+                    if (value != null) {
+                        $(this).text(value);
+                    }
+                } else if (tagName == 'SELECT') {
+                    $(this).find("option[value='" + value + "']").attr("selected", true);
+                }
+
+            });
+        }
+    };
     window.$Common = u;
 })(window);
