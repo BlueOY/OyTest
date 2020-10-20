@@ -29,7 +29,7 @@ exports.main = async (event, context) => {
     where.hot = true
   }
   if(classify){
-    where.classify = classify
+    where.classifyId = classify
     // where.classifyId = classify
   }
   if(searchKey){

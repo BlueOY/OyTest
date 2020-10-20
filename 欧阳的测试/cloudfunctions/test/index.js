@@ -95,6 +95,7 @@ async function insertProduct(){
         // data 字段表示需新增的 JSON 数据
         data: {
           name: "分类"+i,
+          state: 1,
           createTime: new Date(),
         }
       });
@@ -143,7 +144,8 @@ async function updateProduct(){
 async function deleteProduct(){
   try {
     return await db.collection('syslog').where({
-      content: "定时任务"
+      // content: "定时任务"
+      state: _.gt(0)
     }).remove();
   } catch(e) {
     console.error(e);

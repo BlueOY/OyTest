@@ -22,9 +22,10 @@ exports.main = async (event, context) => {
     // state: _.gt(0)
   };
   if(id){
-    where.id = id
+    where._id = id
   }
   if(name){
+    name = decodeURI(name);
     where.name = db.RegExp({
       regexp: name,  //从搜索栏中获取的value作为规则进行匹配。
       options: 'i',  //大小写不区分
