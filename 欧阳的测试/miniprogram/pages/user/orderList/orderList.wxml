@@ -3,19 +3,22 @@
 
   <view class="weui-flex" id="top">
     <view class="weui-flex__item" bindtap="changeState" data-state="-1">
-      <text class="text {{state==-1?'active':''}}">全部</text>
+      <text class="text {{state==-2?'active':''}}">全部</text>
     </view>
     <view class="weui-flex__item" bindtap="changeState" data-state="0">
       <text class="text {{state==0?'active':''}}">待付款</text>
     </view>
     <view class="weui-flex__item" bindtap="changeState" data-state="1">
-      <text class="text {{state==1?'active':''}}">待收货</text>
+      <text class="text {{state==1?'active':''}}">待发货</text>
+    </view>
+    <view class="weui-flex__item" bindtap="changeState" data-state="1">
+      <text class="text {{state==2?'active':''}}">待收货</text>
     </view>
     <view class="weui-flex__item" bindtap="changeState" data-state="2">
-      <text class="text {{state==2?'active':''}}">已完成</text>
+      <text class="text {{state==3?'active':''}}">已完成</text>
     </view>
     <view class="weui-flex__item" bindtap="changeState" data-state="3">
-      <text class="text {{state==3?'active':''}}">已关闭</text>
+      <text class="text {{state==-1?'active':''}}">已关闭</text>
     </view>
   </view>
 

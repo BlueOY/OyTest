@@ -49,7 +49,7 @@ exports.main = async (event, context) => {
     let price = event.price
     let state = event.state
     if(state){
-      state =   parseInt(state);
+      state = parseInt(state);
     }
     let stock = event.stock
     let hot = event.hot

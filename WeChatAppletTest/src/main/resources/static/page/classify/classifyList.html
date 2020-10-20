@@ -88,6 +88,9 @@
             laypage = layui.laypage;
             var element = layui.element;
 
+            // 左侧菜单选中事件
+            top.$("#frmLeft")[0].contentWindow.selected("classifyList");
+
             var laydate = layui.laydate;
             //执行一个laydate实例
             laydate.render({

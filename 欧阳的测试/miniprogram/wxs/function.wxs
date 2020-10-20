@@ -41,18 +41,22 @@ var getOrderState = function (state) {
     case 0:
       return "待付款";
     case 1:
-      return "待收货";
+      return "待发货";
     case 2:
-      return "已完成";
+      return "待收货";
     case 3:
+      return "已完成";
+    case -1:
       return "已关闭";
     case "0":
       return "待付款";
     case "1":
-      return "待收货";
+      return "待发货";
     case "2":
-      return "已完成";
+      return "已收货";
     case "3":
+      return "已完成";
+    case "-1":
       return "已关闭";
     default:
       return state;

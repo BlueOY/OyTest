@@ -110,6 +110,43 @@
     function forward(url){
         parent.frames["frmRight"].location.href='./page'+url;
     }
+    
+    function selected(name) {
+        var idx;
+        switch (name){
+            case "":
+                idx = 0;
+                break;
+            case "productList":
+                idx = 1;
+                break;
+            case "classifyList":
+                idx = 2;
+                break;
+            case "orderList":
+                idx = 3;
+                break;
+            case "":
+                idx = 4;
+                break;
+            case "":
+                idx = 5;
+                break;
+            case "":
+                idx = 6;
+                break;
+            case "":
+                idx = 7;
+                break;
+            case "":
+                idx = 7;
+                break;
+            default:
+                idx = 0;
+        }
+        $(".list-group a").removeClass("active");
+        $(".list-group a").eq(idx).addClass("active");
+    }
 </script>
 </body>
 </html>

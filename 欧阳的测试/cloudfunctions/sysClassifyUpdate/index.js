@@ -43,7 +43,7 @@ exports.main = async (event, context) => {
     }
     let state = event.state
     if(state){
-      state =   parseInt(state);
+      state = parseInt(state);
     }
     
     try {

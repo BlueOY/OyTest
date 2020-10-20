@@ -110,51 +110,56 @@
     <div class="pro-add">
         <table class="data-tab layui-table">
             <tr>
-                <td>名称</td>
+                <td>订单号</td>
                 <td colspan="3">
-                    <input type="text" name="name" id="name" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input">
+                    <input type="text" name="_id" id="_id" lay-verify="required" autocomplete="off" placeholder="订单号" class="layui-input" disabled="disabled">
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px">分类</td>
+                <td style="width: 100px">总金额</td>
                 <td colspan="3">
-                    <select name="classify" id="classify" lay-verify="required">
+                    <input type="text" name="amount" id="amount" lay-verify="required" autocomplete="off" placeholder="总金额" class="layui-input">
+                </td>
+            </tr>
+            <tr>
+                <td>支付状态</td>
+                <td colspan="3">
+                    <select name="payState" lay-verify="required">
                         <option value="">请选择</option>
+                        <option value="false">未付款</option>
+                        <option value="true">已付款</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>价格</td>
-                <td colspan="3">
-                    <input type="text" name="price" id="price" lay-verify="required" autocomplete="off" placeholder="节目类型" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <td>描述</td>
-                <td colspan="3">
-                    <input type="text" name="describe" id="describe" lay-verify="required" autocomplete="off" placeholder="描述" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 100px">热门</td>
-                <td colspan="3">
-                    <input type="checkbox" name="hot" id="hot" title="热门">
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 100px">状态</td>
+                <td>状态</td>
                 <td colspan="3">
                     <select name="state" lay-verify="required">
                         <option value="">请选择</option>
-                        <option value="0">已下架</option>
-                        <option value="1">销售中</option>
+                        <option value="0">待付款</option>
+                        <option value="1">待发货</option>
+                        <option value="2">待收货</option>
+                        <option value="3">已完成</option>
+                        <option value="-1">已关闭</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>库存</td>
+                <td style="width: 100px">收货地址</td>
                 <td colspan="3">
-                    <input type="text" name="stock" id="stock" lay-verify="required" autocomplete="off" placeholder="库存" class="layui-input">
+                    <input type="text" name="address" id="address" lay-verify="required" autocomplete="off" placeholder="收货地址" class="layui-input">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px">收货人</td>
+                <td colspan="3">
+                    <input type="text" name="userName" id="userName" lay-verify="required" autocomplete="off" placeholder="收货人" class="layui-input">
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td colspan="3">
+                    <input type="text" name="phone" id="phone" lay-verify="required" autocomplete="off" placeholder="联系电话" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -206,10 +211,10 @@
             var id = $Common.getQueryVariable("id");
             if (id != undefined) {
                 var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-                $Common.invokeCloudFunction("sysProductQuery", { id: id }, function (data) {
+                $Common.invokeCloudFunction("sysOrderQuery", { _id: id }, function (data) {
                     console.log("data="+data)
                     var resp_data = JSON.parse(data).resp_data;
-                    var list = JSON.parse(resp_data).data;
+                    var list = JSON.parse(resp_data).list;
                     formerData = list[0];
                     //时间格式化
                     list[0].createTime = new Date(list[0].createTime).format("yyyy-MM-dd hh:mm:ss");
@@ -268,27 +273,23 @@
             });
         });
     function submitData(id, params) {
-        var method = "sysProductInsert";
+        var method = "sysOrderInsert";
         if (id != undefined) {
             //data.field.id = id;
             params = $.extend(true, formerData, params);
             params.type = "update";
             //访问更新
-            method = "sysProductUpdate";
+            method = "sysOrderUpdate";
         }
         // encode解决乱码
-        params.name = encodeURI(params.name);
-        params.describe = encodeURI(params.describe);
+        params.address = encodeURI(params.address);
+        params.userName = encodeURI(params.userName);
         // 数据格式微调
-        if($("#hot").is(':checked')){
-            params.hot = true;
-        }else{
-            params.hot = false;
-        }
         delete params.createTime;
         delete params.updateTime;
+        console.log("params="+JSON.stringify(params))
         $Common.invokeCloudFunction(method, params, function (data) {
-            // console.log("data="+data)
+            console.log("data="+data)
             var resp_data = JSON.parse(data).resp_data;
             var res = JSON.parse(resp_data);
             if (res.result == true) {

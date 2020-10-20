@@ -28,11 +28,12 @@
                 <label class="layui-form-label">订单状态</label>
                 <div class="layui-input-block">
                     <select name="state">
-                        <option value="-1">全部</option>
+                        <option value="-2">全部</option>
                         <option value="0">待付款</option>
-                        <option value="1">待收货</option>
-                        <option value="2">已完成</option>
-                        <option value="3">已关闭</option>
+                        <option value="1">待发货</option>
+                        <option value="2">待收货</option>
+                        <option value="3">已完成</option>
+                        <option value="-1">已关闭</option>
                     </select>
                 </div>
             </div>
@@ -100,6 +101,9 @@
             laypage = layui.laypage;
             var element = layui.element;
 
+            // 左侧菜单选中事件
+            top.$("#frmLeft")[0].contentWindow.selected("orderList");
+
             var laydate = layui.laydate;
             // alert(laydate);
             console.log("laydate.render="+laydate.render);
@@ -132,16 +136,16 @@
                     top.layer.open({
                         type: 2, //1.html,2.iframe
                         offset: 'auto',
-                        area: ['1000px', '300px'],
-                        title: ["修改分类信息"],
-                        content: '/page/classify/orderEdit.html?id=' + data._id,
+                        area: ['1000px', '800px'],
+                        title: ["修改订单信息"],
+                        content: '/page/order/orderEdit.html?id=' + data._id,
                         //end: function (a) {
                         //    //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         //    //parent.layer.close(index); //再执行关闭
                         //}
                     });
                 } else if (layEvent === 'del') { //删除
-                    top.layer.confirm('确定要删除订单“' + data.name + '”吗？', function (index) {
+                    top.layer.confirm('确定要删除订单“' + data.firstProduct.name+"…等"+data.productCount+"件商品" + '”吗？', function (index) {
                         //向服务端发送删除指令
                         $Common.invokeCloudFunction("sysOrderDelete", { id: data._id }, function (data) {
                             // console.log("data="+data)
@@ -160,10 +164,10 @@
                         });
                         top.layer.close(index);
                     });
-                } else if (layEvent === 'on') {   //上架
-                    top.layer.confirm('确定要启用“' + data.name + '”吗？', function (index) {
+                } else if (layEvent === 'sendOut') {   //上架
+                    top.layer.confirm('确定已发货订单“' + data.firstProduct.name+"…等"+data.productCount+"件商品" + '”吗？', function (index) {
                         //向服务端发送上架指令
-                        $Common.invokeCloudFunction("sysClassifyUpdate", { _id: data._id, type: "shelf", state: 1 }, function (data) {
+                        $Common.invokeCloudFunction("sysOrderUpdate", { _id: data._id, type: "sendOut" }, function (data) {
                             // console.log("data="+data)
                             var resp_data = JSON.parse(data).resp_data;
                             var res = JSON.parse(resp_data);
@@ -174,25 +178,6 @@
                                 refreshTable();
                             } else {
                                 top.layer.msg(res.message);
-                            }
-                        });
-                        top.layer.close(index);
-                    });
-                } else if (layEvent === 'off') {   //下架
-                    top.layer.confirm('确定要禁用“' + data.name + '”吗？', function (index) {
-                        //向服务端发送下架指令
-                        $Common.invokeCloudFunction("sysClassifyUpdate", { _id: data._id, type: "shelf", state: 0 }, function (data) {
-                            // console.log("data="+data)
-                            var resp_data = JSON.parse(data).resp_data;
-                            var res = JSON.parse(resp_data);
-                            var result = res.result;
-                            if (result == true) {
-                                top.layer.msg(res.message);
-                                //刷新表格
-                                refreshTable();
-                            } else {
-                                // top.layer.msg(res.message);
-                                top.layer.msg(JSON.stringify(res.error));
                             }
                         });
                         top.layer.close(index);
@@ -253,6 +238,17 @@
             }
         });
     }
+
+    function refreshTable(){
+        var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+        $Common.invokeCloudFunction("sysOrderQuery", queryParams, function (data) {
+            // console.log("data="+data)
+            top.layer.close(loadIndex);
+            var resp_data = JSON.parse(data).resp_data;
+            var list = JSON.parse(resp_data).list;
+            loadTable(list, queryParams.pageIndex, queryParams.pageSize);
+        });
+    }
     
     function loadTable(data, pageIndex, pageSize) {
         if(!pageIndex){
@@ -279,7 +275,7 @@
                         }
                     },
                     { field: '_id', title: '订单号' },
-                    { title: '商品', width: 150, templet: function (d) {
+                    { field: 'title', title: '商品', width: 150, templet: function (d) {
                             return d.firstProduct.name+"…等"+d.productCount+"件商品";
                         }
                     },
@@ -330,15 +326,17 @@
                                 case 1:
                                     return "待发货";
                                 case 2:
-                                    return "已完成";
+                                    return "待收货";
                                 case 3:
+                                    return "已完成";
+                                case -1:
                                     return "已关闭";
                                 default:
                                     return d.state;
                             }
                         }
                     },
-                    { field: '', title: '操作', width: 180, toolbar: '#toolBar', fixed: 'right' }
+                    { field: '', title: '操作', width: 200, toolbar: '#toolBar', fixed: 'right' }
                 ]
             ],
             done: function (res, curr, count) {
@@ -353,10 +351,9 @@
     }
 </script>
 <script type="text/html" id="toolBar">
-    {{# if(d.State != 1){ }}
-    <a class="layui-btn layui-btn-xs" lay-event="lock">锁定</a>
+    {{# if(d.state == 1){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="sendOut">确认发货</a>
     {{# } else { }}
-    <a class="layui-btn layui-btn-xs" lay-event="unlock">解锁</a>
     {{# } }}
 
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>

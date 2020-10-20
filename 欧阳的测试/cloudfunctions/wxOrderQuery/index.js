@@ -48,7 +48,7 @@ exports.main = async (event, context) => {
       return e;
     }
   }else{
-    if(state!=undefined && state>=0){
+    if(state!=undefined && state>-2){
       where.state = state
     }
     if(!pageIndex){

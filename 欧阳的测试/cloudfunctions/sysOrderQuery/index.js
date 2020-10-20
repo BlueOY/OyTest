@@ -12,20 +12,14 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
   //获取访问参数
-  let id = event.id
-  let searchKey = event.searchKey
-  let state = event.state
-  let payState = event.payState
-  let timeFrom = event.timeFrom
-  let timeTo = event.timeTo
-  let pageIndex = event.pageIndex
-  let pageSize = event.pageSize
-
+  let _id = event._id
+  
   //拼接查询条件
   let where = {
   };
-  if(id){
-    where._id = id
+  if(_id){
+    // 查单个
+    where._id = _id
     try{
       let res = db.collection('order').aggregate()
       .match(where)
@@ -42,6 +36,14 @@ exports.main = async (event, context) => {
       return e;
     }
   }else{
+    // 查列表
+    let searchKey = event.searchKey
+    let state = event.state
+    let payState = event.payState
+    let timeFrom = event.timeFrom
+    let timeTo = event.timeTo
+    let pageIndex = event.pageIndex
+    let pageSize = event.pageSize
     if(searchKey){
       searchKey = decodeURI(searchKey);
       where._id = db.RegExp({
@@ -49,7 +51,7 @@ exports.main = async (event, context) => {
         options: 'i',  //大小写不区分
       });
     }
-    if(state!=undefined && state!=-1){
+    if(state!=undefined && state!=-2){
       where.state = Number(state)
     }
     if(payState!=undefined && payState!=-1){
