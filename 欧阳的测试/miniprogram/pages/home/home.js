@@ -44,6 +44,20 @@ Page({
     })
   },
 
+  toCarousel: function (e) {
+    let type = e.currentTarget.dataset.type;
+    let link = e.currentTarget.dataset.link;
+    if(type=="product"){
+      wx.navigateTo({
+        url: '../product/product?id='+link,
+      })
+    }else if(type=="url"){
+      wx.navigateTo({
+        url: '../static/webView/webView?url='+link,
+      })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

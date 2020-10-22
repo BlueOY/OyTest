@@ -4,7 +4,7 @@
       indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
         <block wx:for="{{carouselList}}" wx:key="*this">
           <swiper-item>
-            <view class="swiper-item">
+            <view class="swiper-item" bindtap="toCarousel" data-type="{{item.type}}" data-link="{{item.link}}">
               <image src="{{item.imagePath}}" mode="aspectFill"></image>
             </view>
           </swiper-item>

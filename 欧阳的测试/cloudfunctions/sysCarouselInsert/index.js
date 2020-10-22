@@ -25,7 +25,7 @@ exports.main = async (event, context) => {
   if(imagePath){
     imagePath = decodeURI(imagePath);
   }
-  let link = event.imagePath
+  let link = event.link
   if(link){
     link = decodeURI(link);
   }
