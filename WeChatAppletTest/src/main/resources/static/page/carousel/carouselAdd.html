@@ -120,35 +120,25 @@
                 </td>
             </tr>
             <tr>
-                <td>名称</td>
+                <td>备注</td>
                 <td colspan="3">
-                    <input type="text" name="name" id="name" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input">
+                    <input type="text" name="remarks" id="remarks" lay-verify="required" autocomplete="off" placeholder="备注" class="layui-input">
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px">分类</td>
+                <td style="width: 100px">类型</td>
                 <td colspan="3">
-                    <select name="classifyId" id="classify" lay-verify="required">
+                    <select name="type" id="type" lay-verify="required">
                         <option value="">请选择</option>
+                        <option value="product">商品</option>
+                        <option value="url">链接</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>价格</td>
+                <td>排序</td>
                 <td colspan="3">
-                    <input type="text" name="price" id="price" lay-verify="required|number" autocomplete="off" placeholder="价格" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <td>描述</td>
-                <td colspan="3">
-                    <input type="text" name="describe" id="describe" lay-verify="required" autocomplete="off" placeholder="描述" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 100px">热门</td>
-                <td colspan="3">
-                    <input type="checkbox" name="hot" id="hot" title="热门">
+                    <input type="text" name="index" id="index" lay-verify="required|number" autocomplete="off" placeholder="排序" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -156,15 +146,9 @@
                 <td colspan="3">
                     <select name="state" lay-verify="required">
                         <option value="">请选择</option>
-                        <option value="0">已下架</option>
-                        <option value="1">销售中</option>
+                        <option value="0">禁用</option>
+                        <option value="1">启用</option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <td>库存</td>
-                <td colspan="3">
-                    <input type="text" name="stock" id="stock" lay-verify="required|number" autocomplete="off" placeholder="库存" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -223,7 +207,7 @@
             var id = $Common.getQueryVariable("id");
             if (id != undefined) {
                 var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-                $Common.invokeCloudFunction("sysProductQuery", { id: id }, function (data) {
+                $Common.invokeCloudFunction("sysCarouselQuery", { id: id }, function (data) {
                     console.log("data="+data);
                     var resp_data = JSON.parse(data).resp_data;
                     var list = JSON.parse(resp_data).data;
@@ -339,38 +323,32 @@
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 if (!$(".layui-form-select dl").is(":hidden")) {
                     var height = $(document).outerHeight(true);
-                    if (height + 20 > 800) {
+                    if (height + 20 > 600) {
                         parent.layer.style(index, {
                             height: height + 20
                         });
                     }
                 } else {
                     parent.layer.style(index, {
-                        height: 800
+                        height: 600
                     });
                 }
             });
         });
     function submitData(id, params, final) {
         // 上传数据
-        var method = "sysProductInsert";
+        var method = "sysCarouselInsert";
         if (id != undefined) {
             //data.field.id = id;
             params = $.extend(true, formerData, params);
-            params.type = "update";
+            params.operation = "update";
             //访问更新
-            method = "sysProductUpdate";
+            method = "sysCarouselUpdate";
         }
         // encode解决乱码
-        params.name = encodeURI(params.name);
-        params.describe = encodeURI(params.describe);
+        params.remarks = encodeURI(params.remarks);
         params.imagePath = encodeURI(params.imagePath);
         // 数据格式微调
-        if($("#hot").is(':checked')){
-            params.hot = true;
-        }else{
-            params.hot = false;
-        }
         delete params.createTime;
         delete params.updateTime;
         $Common.invokeCloudFunction(method, params, function (data) {
@@ -388,7 +366,7 @@
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 parent.layer.close(index); //再执行关闭
             } else {
-                $Common.showLog(res.error);
+                $Common.showLog("上传数据：res="+JSON.stringify(res));
                 layer.alert(res.message);
                 // layer.alert(JSON.stringify(res.error));
             }

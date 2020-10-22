@@ -12,45 +12,49 @@ exports.main = async (event, context) => {
 
   //获取访问参数
   let id = event.id
-  let hot = event.hot
-  let classify = event.classify
-  let searchKey = event.searchKey
+  let remarks = event.remarks
+  let state = event.state
+  let type = event.type
   let pageIndex = event.pageIndex
   let pageSize = event.pageSize
 
   //拼接查询条件
   let where = {
-    state: _.gt(0)
+    // state: _.gt(0)
   };
   if(id){
     where._id = id
   }
-  if(hot){
-    where.hot = true
-  }
-  if(classify){
-    where.classifyId = classify
-    // where.classifyId = classify
-  }
-  if(searchKey){
-    where.name = db.RegExp({
-      regexp: searchKey,  //从搜索栏中获取的value作为规则进行匹配。
+  if(remarks){
+    remarks = decodeURI(remarks);
+    where.remarks = db.RegExp({
+      regexp: remarks,  //从搜索栏中获取的value作为规则进行匹配。
       options: 'i',  //大小写不区分
     });
+  }
+  if(state!=undefined && state!=-1){
+    where.state = Number(state)
+  }
+  if(type){
+    where.type = type
   }
   if(!pageIndex){
     pageIndex = 0
   }
   if(!pageSize){
-    pageSize = 10
+    pageSize = 100
   }
 
   try{
-    let res = await db.collection('product').where(where)
+    let res = await db.collection('carousel').where(where)
             .skip(pageIndex*pageSize).limit(pageSize).get();
+    // 查总条数
+    const countResult = await db.collection('carousel').where(where).count();
+    const total = countResult.total;
+    res.total = total;
     return res;
   }catch(e){
-    console.error(e);
+    console.log(e);
     return e.message;
   }
 }

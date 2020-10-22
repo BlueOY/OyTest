@@ -31,7 +31,7 @@ exports.main = async (event, context) => {
       return {
         result: false,
         message: "失败",
-        error: e,
+        error: e.message,
       }
     }
   }else{

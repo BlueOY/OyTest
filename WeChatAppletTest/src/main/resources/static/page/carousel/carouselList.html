@@ -12,65 +12,57 @@
         .btn-width {
             width: 89px;
         }
+
+        /*.layui-col-sm{position: relative; display: block; box-sizing: border-box;}*/
+        .layui-col-sm {
+            float: left;
+        }
+
+        .float-left {
+            float: left !important;
+        }
+
+        .float-right {
+            float: right !important;
+        }
+
+        .labcenter {
+            float: left;
+            display: block;
+            padding: 9px 0px;
+            width: auto;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <div class="site-content site-content-child">
-    <div class="layui-form" id="layui-form">
-        <div class="layui-row layui-col-space10 ">
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">商品名称</label>
+    <div class="layui-form">
+        <div class="layui-row layui-col-space11 ">
+            <div class="layui-col-sm4">
+                <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                    <input type="text" name="searchKey" placeholder="商品名称" autocomplete="off" class="layui-input">
+                    <input type="text" name="remarks" placeholder="备注" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">商品分类</label>
-                <div class="layui-input-block">
-                    <select name="classifyId" id="classify">
-                        <option value="-1">全部</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">商品状态</label>
+            <div class="layui-col-sm4">
+                <label class="layui-form-label">状态</label>
                 <div class="layui-input-block">
                     <select name="state">
                         <option value="-1">全部</option>
-                        <option value="0">已下架</option>
-                        <option value="1">销售中</option>
+                        <option value="1">可用</option>
+                        <option value="0">禁用</option>
                     </select>
                 </div>
             </div>
-            <div class="layui-col-sm3">
+            <div class="layui-col-sm3" style="padding-left: 10px;">
                 <button type="button" class="layui-btn btn-width" id="btnadd">
                     <i class="layui-icon">&#xe608;</i> 添加
                 </button>
-                <button type="button" class="layui-btn btn-width layui-btn-normal" id="btnImport">
-                    <i class="layui-icon">&#xe681;</i>导入
-                </button>
-            </div>
-        </div>
-        <div class="layui-row layui-col-space10 ">
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">开始时间</label>
-                <div class="layui-input-block">
-                    <input type="text" class="layui-input" name="timeFrom" id="TimeFrom">
-                </div>
-            </div>
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">结束时间</label>
-                <div class="layui-input-block">
-                    <input type="text" class="layui-input" name="timeTo" id="TimeTo">
-                </div>
-            </div>
-            <div class="layui-col-sm3"></div>
-            <div class="layui-col-sm3" >
                 <button type="button" class="layui-btn btn-width" id="btnsearch" lay-submit lay-filter="search">
                     <i class="layui-icon">&#xe615;</i>搜索
-                </button>
-                <button type="button" class="layui-btn btn-width layui-btn-normal" id="btnExport">
-                    <i class="layui-icon">&#xe601;</i>导出
                 </button>
             </div>
         </div>
@@ -97,7 +89,7 @@
             var element = layui.element;
 
             // 左侧菜单选中事件
-            top.$("#frmLeft")[0].contentWindow.selected("productList");
+            top.$("#frmLeft")[0].contentWindow.selected("carouselList");
 
             var laydate = layui.laydate;
             //执行一个laydate实例
@@ -109,30 +101,13 @@
             });
 
             var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-
-            //获取类型列表
-            $Common.invokeCloudFunction("wxClassifyQuery", {
-                // pageIndex: pageIndex,
-                // pageSize: pageSize,
-            }, function (data) {
-                // console.log("data="+data)
-                var resp_data = JSON.parse(data).resp_data;
-                var list = JSON.parse(resp_data).data;
-                for (var item of list) {
-                    $("#classify").append(new Option(item.name, item._id));
-                    // $("#classify").append(new Option(item.name, item.name));
-                }
-                form.render();
-            });
-            //搜索商品数据
-            $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
+            $Common.invokeCloudFunction("sysCarouselQuery", queryParams, function (data) {
                 // console.log("data="+data)
                 var resp_data = JSON.parse(data).resp_data;
                 var total = JSON.parse(resp_data).total;
                 loadPage(total);
-                var list = JSON.parse(resp_data).list;
+                var list = JSON.parse(resp_data).data;
                 loadTable(list);
-
                 top.layer.close(loadIndex);
             });
 
@@ -146,20 +121,19 @@
                     top.layer.open({
                         type: 2, //1.html,2.iframe
                         offset: 'auto',
-                        area: ['1000px', '800px'],
-                        title: ["修改商品信息"],
-                        content: '/page/product/productAdd.html?id=' + data._id,
+                        area: ['1000px', '600px'],
+                        title: ["修改轮播信息"],
+                        content: '/page/carousel/carouselAdd.html?id=' + data._id,
                         //end: function (a) {
                         //    //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         //    //parent.layer.close(index); //再执行关闭
                         //}
                     });
                 } else if (layEvent === 'del') { //删除
-                    var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-                    top.layer.confirm('确定要删除“' + data.name + '”吗？', function (index) {
+                    top.layer.confirm('确定要删除“' + data.remarkds + '”吗？', function (index) {
                         //向服务端发送删除指令
-                        $Common.invokeCloudFunction("sysProductDelete", { id: data._id }, function (data) {
-                            console.log("data="+data)
+                        $Common.invokeCloudFunction("sysCarouselDelete", { id: data._id }, function (data) {
+                            // console.log("data="+data)
                             var resp_data = JSON.parse(data).resp_data;
                             var res = JSON.parse(resp_data);
                             var result = res.result;
@@ -172,14 +146,13 @@
                             } else {
                                 top.layer.msg(res.message);
                             }
-                            top.layer.close(loadIndex);
                         });
                         top.layer.close(index);
                     });
                 } else if (layEvent === 'on') {   //上架
-                    top.layer.confirm('确定要上架“' + data.name + '”吗？', function (index) {
+                    top.layer.confirm('确定要启用“' + data.remarkds + '”吗？', function (index) {
                         //向服务端发送上架指令
-                        $Common.invokeCloudFunction("sysProductUpdate", { _id: data._id, type: "shelf", state: 1 }, function (data) {
+                        $Common.invokeCloudFunction("sysCarouselUpdate", { _id: data._id, operation: "show", state: 1 }, function (data) {
                             // console.log("data="+data)
                             var resp_data = JSON.parse(data).resp_data;
                             var res = JSON.parse(resp_data);
@@ -195,9 +168,9 @@
                         top.layer.close(index);
                     });
                 } else if (layEvent === 'off') {   //下架
-                    top.layer.confirm('确定要下架“' + data.name + '”吗？', function (index) {
+                    top.layer.confirm('确定要禁用“' + data.remarkds + '”吗？', function (index) {
                         //向服务端发送下架指令
-                        $Common.invokeCloudFunction("sysProductUpdate", { _id: data._id, type: "shelf", state: 0 }, function (data) {
+                        $Common.invokeCloudFunction("sysCarouselUpdate", { _id: data._id, operation: "show", state: 0 }, function (data) {
                             // console.log("data="+data)
                             var resp_data = JSON.parse(data).resp_data;
                             var res = JSON.parse(resp_data);
@@ -207,7 +180,8 @@
                                 //刷新表格
                                 refreshTable();
                             } else {
-                                top.layer.msg(res.message);
+                                // top.layer.msg(res.message);
+                                top.layer.msg(JSON.stringify(res.error));
                             }
                         });
                         top.layer.close(index);
@@ -226,15 +200,16 @@
                     var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
                     var where = data.field;
                     where.searchKey = encodeURI(where.searchKey);
+                    where.remarks = encodeURI(where.remarks);
                     where.pageIndex = 0;
                     where.pageSize = 20;
-                    $Common.invokeCloudFunction("sysProductQuery", where, function (data) {
+                    $Common.invokeCloudFunction("sysCarouselQuery", where, function (data) {
                         // console.log("data="+data)
                         top.layer.close(loadIndex);
                         var resp_data = JSON.parse(data).resp_data;
                         var total = JSON.parse(resp_data).total;
                         loadPage(total);
-                        var list = JSON.parse(resp_data).list;
+                        var list = JSON.parse(resp_data).data;
                         loadTable(list, where.pageIndex, where.pageSize);
                         //如果查询成功，把查询条件赋值给全局变量
                         queryParams = where;
@@ -247,9 +222,9 @@
                 parent.parent.layer.open({
                     type: 2, //1.html,2.iframe
                     offset: 'auto',
-                    area: ['1000px', '800px'],
-                    title: ["添加商品信息"],
-                    content: '/page/product/productAdd.html',
+                    area: ['1000px', '600px'],
+                    title: ["添加轮播信息"],
+                    content: '/page/carousel/carouselAdd.html',
                     end: function () {
                         //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         //parent.layer.close(index); //再执行关闭
@@ -268,7 +243,7 @@
             });
 
         });
-    
+
     function loadPage(total) {
         //执行一个laypage实例
         laypage.render({
@@ -283,11 +258,11 @@
                     var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
                     queryParams.pageIndex = obj.curr-1;
                     queryParams.pageSize = obj.limit;
-                    $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
+                    $Common.invokeCloudFunction("sysCarouselQuery", queryParams, function (data) {
                         // console.log("data="+data)
                         top.layer.close(loadIndex);
                         var resp_data = JSON.parse(data).resp_data;
-                        var list = JSON.parse(resp_data).list;
+                        var list = JSON.parse(resp_data).data;
                         loadTable(list, queryParams.pageIndex, queryParams.pageSize);
                     });
                 }
@@ -297,11 +272,11 @@
 
     function refreshTable(){
         var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-        $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
+        $Common.invokeCloudFunction("sysCarouselQuery", queryParams, function (data) {
             // console.log("data="+data)
             top.layer.close(loadIndex);
             var resp_data = JSON.parse(data).resp_data;
-            var list = JSON.parse(resp_data).list;
+            var list = JSON.parse(resp_data).data;
             loadTable(list, queryParams.pageIndex, queryParams.pageSize);
         });
     }
@@ -325,35 +300,27 @@
             },
             headers: { token: "token", uid: "uid" },
             cols: [
-                [//表头
-                    //{ field: 'Id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-                    //{
-                    //    field: 'Id', title: '序号', width: 80, sort: true, templet: function (d) {
-                    //        return d.LAY_TABLE_INDEX + 1;
-                    //    }
-                    //},
-                    // { type: 'numbers', title: '序号', width: 80, sort: true },
+                [
                     { title: '序号', width: 80, sort: true, templet: function (d) {
                             return d.LAY_INDEX+pageIndex*pageSize;
                         }
                     },
-                    { field: 'classify', title: '分类', width: 80, sort: true, templet: function (d) {
-                            return d.classify.name;
+                    { field: 'remarks', title: '备注' },
+                    {
+                        field: 'type', title: '类型', width: 120, sort: true, templet: function (d) {
+                            switch (d.type) {
+                                case undefined:
+                                    return "无";
+                                case "product":
+                                    return "商品";
+                                case "url":
+                                    return "链接";
+                                default:
+                                    return d.type;
+                            }
                         }
                     },
-                    { field: 'name', title: '名称', width: 80, sort: true },
-                    { field: 'describe', title: '描述' },
-                    {
-                       field: 'hot', title: '热门', width: 80, sort: true, templet: function (d) {
-                           if (d.hot) {
-                               return "是";
-                           }else{
-                               return "否";
-                           }
-                       }
-                    },
-                    { field: 'price', title: '价格', width: 80, sort: true },
-                    { field: 'stock', title: '库存', width: 80, sort: true },
+                    { field: 'index', title: '排序', width: 120, sort: true },
                     { field: 'createTime', title: '创建时间', width: 200, sort: true, templet: function (d) {
                             return new Date(d.createTime).format("yyyy-MM-dd hh:mm:ss");
                         }
@@ -367,12 +334,14 @@
                         }
                     },
                     {
-                        field: 'state', title: '状态', width: 90, templet: function (d) {
+                        field: 'state', title: '状态', width: 120, sort: true, templet: function (d) {
                             switch (d.state) {
+                                case undefined:
+                                    return "可用";
                                 case 0:
-                                    return "已下架";
+                                    return "禁用";
                                 case 1:
-                                    return "销售中";
+                                    return "可用";
                                 default:
                                     return d.state;
                             }
@@ -395,9 +364,9 @@
 </script>
 <script type="text/html" id="toolBar">
     {{# if(d.state == 0){ }}
-    <a class="layui-btn layui-btn-xs" lay-event="on">上架</a>
+    <a class="layui-btn layui-btn-xs" lay-event="on">启用</a>
     {{# } else { }}
-    <a class="layui-btn layui-btn-xs" lay-event="off">下架</a>
+    <a class="layui-btn layui-btn-xs" lay-event="off">禁用</a>
     {{# } }}
 
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>

@@ -85,7 +85,7 @@ public class IndexController {
 
     @ResponseBody
     @RequestMapping(value = "uploadCloudFile")
-    public Map<String, Object> uploadCloudFile(MultipartFile file) {
+    public Map<String, Object> uploadCloudFile(MultipartFile file, String type) {
         //获取原文件名称
         String originalFilename = file.getOriginalFilename();
         System.out.println("上传文件的Controller：originalFilename="+originalFilename);
@@ -123,7 +123,7 @@ public class IndexController {
         }
 
         // 提交云文件
-        String path = "product/"+newName;
+        String path = type+"/"+newName;
         Map<String, Object> res = StaticClass.putCloudFile(path, newFile);
         System.out.println("Concroller：uploadCloudFile：res="+JSON.toJSONString(res));
 

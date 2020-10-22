@@ -25,6 +25,6 @@ exports.main = async (event, context) => {
     return res;
   }catch(e){
     console.error(e);
-    return e;
+    return e.message;
   }
 }

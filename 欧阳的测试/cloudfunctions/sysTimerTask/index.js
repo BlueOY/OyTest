@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
   }catch(e){
     return {
       result: false,
-      error: e,
+      error: e.message,
       message: "定时任务失败",
     }
   }

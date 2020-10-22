@@ -11,44 +11,29 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
   //获取访问参数
-  let name = event.name
-  if(name){
-    name = decodeURI(name);
-  }
-  let classifyId = event.classifyId
-  let describe = event.describe
-  if(describe){
-    describe = decodeURI(describe);
-  }
-  let price = event.price
-  if(price){
-    price =   parseFloat(price);
+  let remarks = event.remarks
+  if(remarks){
+    remarks = decodeURI(remarks);
   }
   let state = event.state
   if(state){
-    state =   parseInt(state);
+    state = parseInt(state);
   }
-  let stock = event.stock
-  if(stock){
-    stock = parseInt(stock);
-  }
-  let hot = event.hot
+  let type = event.type
+  let index = event.index
   let imagePath = event.imagePath
   if(imagePath){
     imagePath = decodeURI(imagePath);
   }
 
   try {
-    let res = await db.collection('product').add({
+    let res = await db.collection('carousel').add({
       // data 字段表示需新增的 JSON 数据
       data: {
-        name: name,
-        classifyId: classifyId,
-        describe: describe,
-        price: price,
+        remarks: remarks,
         state: state,
-        stock: stock,
-        hot: hot,
+        type: type,
+        index: index,
         imagePath: imagePath,
         createTime: new Date()
       },

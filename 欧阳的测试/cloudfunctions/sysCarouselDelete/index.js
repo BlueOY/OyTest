@@ -18,13 +18,13 @@ exports.main = async (event, context) => {
     let where = {
       _id: id
     };
-    let queryRes = await db.collection('product').where(where).get();
+    let queryRes = await db.collection('carousel').where(where).get();
     let fileid = queryRes.data[0].imagePath;
-    //删除商品
-    let res = await db.collection('product').where({
+    //删除轮播
+    let res = await db.collection('carousel').where({
       _id: id
     }).remove();
-    //如果删除了商品，删除图片
+    //如果删除了轮播，删除图片
     if(res.stats.removed>0){
       cloud.deleteFile({
         fileList: [fileid]

@@ -33,7 +33,7 @@ exports.main = async (event, context) => {
       return res;
     }catch(e){
       console.error(e);
-      return e;
+      return e.message;
     }
   }else{
     // 查列表
@@ -94,7 +94,7 @@ exports.main = async (event, context) => {
       return res;
     }catch(e){
       console.error(e);
-      return e;
+      return e.message;
     }
   }
 }

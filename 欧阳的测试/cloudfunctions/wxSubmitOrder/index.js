@@ -138,7 +138,7 @@ exports.main = async (event, context) => {
     console.error(e);
     return {
       result: false,
-      error: e,
+      error: e.message,
     };
   }
 }

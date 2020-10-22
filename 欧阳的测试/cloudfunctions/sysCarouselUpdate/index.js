@@ -12,14 +12,15 @@ exports.main = async (event, context) => {
 
   //获取访问参数
   let id = event._id
-  let type = event.type
+  let operation = event.operation
 
-  if(type && type=="sendOut"){
-    // 如果是发货
+  if(operation && operation=="show"){
+    // 如果是启用禁用
+    let state = event.state
     try {
-      let res = await db.collection('order').doc(id).update({
+      let res = await db.collection('carousel').doc(id).update({
         data: {
-          state: 2,
+          state: state,
         },
       })
       return {
@@ -34,39 +35,45 @@ exports.main = async (event, context) => {
         error: e.message,
       }
     }
-  }else if(type && type=="update"){
+  }else if(operation && operation=="update"){
     //如果是更新
-    let amount = event.amount
-    let payState = event.payState
-    if(payState == "false"){
-      payState = false;
+    let remarks = event.remarks
+    if(remarks){
+      remarks = decodeURI(remarks);
     }
     let state = event.state
     if(state){
       state = parseInt(state);
     }
-    let address = event.address
-    if(address){
-      address = decodeURI(address);
+    let type = event.type
+    let index = event.index
+    let imagePath = event.imagePath
+    if(imagePath){
+      imagePath = decodeURI(imagePath);
     }
-    let userName = event.userName
-    if(userName){
-      userName = decodeURI(userName);
-    }
-    let phone = event.phone
     
     try {
-      let res = await db.collection('order').doc(id).update({
+      let res = await db.collection('carousel').doc(id).update({
         data: {
-          amount: amount,
-          payState: payState,
+          remarks: remarks,
           state: state,
-          address: address,
-          userName: userName,
-          phone: phone,
+          type: type,
+          index: index,
+          imagePath: imagePath,
           updateTime: new Date(),
         },
       })
+      //如果更新了图片，删除旧图片
+      if(imagePath){
+        cloud.deleteFile({
+          fileList: [imagePath]
+        }).then(res => {
+          // handle success
+          console.log(res.fileList)
+        }).catch(error => {
+          // handle error
+        })
+      }
       return {
         result: true,
         message: "更新成功",
