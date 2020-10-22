@@ -25,13 +25,13 @@ exports.main = async (event, context) => {
       })
       return {
         result: true,
-        message: "成功",
+        message: "更新成功",
       }
     } catch(e) {
       console.error(e)
       return {
         result: false,
-        message: "失败",
+        message: "更新失败",
         error: e.message,
       }
     }
@@ -56,13 +56,13 @@ exports.main = async (event, context) => {
       })
       return {
         result: true,
-        message: "成功",
+        message: "更新成功",
       }
     } catch(e) {
       console.error(e)
       return {
         result: false,
-        message: "失败",
+        message: "更新失败",
         error: e,
       }
     }

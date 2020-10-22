@@ -15,7 +15,7 @@ exports.main = async (event, context) => {
   let id = event.id
   let searchKey = event.searchKey
   let hot = event.hot
-  let classify = event.classify
+  let classifyId = event.classifyId
   let state = event.state
   let timeFrom = event.timeFrom
   let timeTo = event.timeTo
@@ -46,8 +46,8 @@ exports.main = async (event, context) => {
     if(hot && hot!=-1){
       where.hot = true
     }
-    if(classify && classify!=-1){
-      where.classifyId = classify
+    if(classifyId && classifyId!=-1){
+      where.classifyId = classifyId
     }
     if(state && state!=-1){
       where.state = Number(state)

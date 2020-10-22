@@ -90,6 +90,18 @@ public class HttpUtil {
 
 		}
 	}
+	public static String post(String url, Map<String,String> param) throws IOException {
+		String paramStr = "";
+		int i=0;
+		for(Map.Entry<String, String> entry:param.entrySet()){
+			paramStr=paramStr+entry.getKey()+"="+URLEncoder.encode(entry.getValue(),"utf-8");
+			i++;
+			if(i<param.size()){
+				paramStr=paramStr+"&";
+			}
+		}
+		return post(url, paramStr);
+	}
 	public static String post(String url, String param) throws IOException {
 		URL tempurl=new URL(url);
 		HttpURLConnection urlConn=(HttpURLConnection) tempurl.openConnection();

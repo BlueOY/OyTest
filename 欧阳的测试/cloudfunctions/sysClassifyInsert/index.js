@@ -31,13 +31,13 @@ exports.main = async (event, context) => {
     });
     return {
       result: true,
-      message: "成功",
+      message: "新增成功",
     }
   } catch(e) {
     console.error(e)
     return {
       result: false,
-      message: "失败",
+      message: "新增失败",
       error: e.message,
     }
   }

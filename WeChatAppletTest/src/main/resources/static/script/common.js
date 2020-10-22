@@ -24,6 +24,18 @@ Date.prototype.format = function (format) {
 };
 (function(window){
     var u = {};
+    u.showLog = function(msg){
+        //输出Log，Log将显示在APICloud Studio控制台
+        console.log(msg);
+    };
+    //字符串转json
+    u.strToJson = function(str){
+        // 去掉转义字符
+        str = str.replace(/\\/g, "");
+        str = str.replace(/^\"|\"$/g,'');
+        var json = JSON.parse(str);
+        return json;
+    };
     u.httpGet = function(url, data, success){
         $.ajax({
             type: 'GET',
@@ -65,6 +77,32 @@ Date.prototype.format = function (format) {
         var data = {
             functionName: name,
             param: JSON.stringify(param),
+        };
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            async: async,
+            // dataType: "json",
+            // contentType : "application/json",
+            success: function(data){
+                // data = decodeURI(data);
+                if(success){
+                    success(data)
+                }
+            },
+            error: function(){
+                alert("error");
+            }
+        });
+    };
+    u.getCloudFile = function(fileid, success, async){
+        if (async == undefined) {
+            async = true;
+        }
+        var url = "/getCloudFile";
+        var data = {
+            fileid: fileid,
         };
         $.ajax({
             type: 'POST',

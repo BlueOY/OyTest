@@ -15,25 +15,35 @@ exports.main = async (event, context) => {
   if(name){
     name = decodeURI(name);
   }
-  let classify = event.classify
+  let classifyId = event.classifyId
   let describe = event.describe
   if(describe){
     describe = decodeURI(describe);
   }
   let price = event.price
+  if(price){
+    price =   parseFloat(price);
+  }
   let state = event.state
   if(state){
     state =   parseInt(state);
   }
   let stock = event.stock
+  if(stock){
+    stock = parseInt(stock);
+  }
   let hot = event.hot
+  let imagePath = event.imagePath
+    if(imagePath){
+      imagePath = decodeURI(imagePath);
+    }
 
   try {
     let res = await db.collection('product').add({
       // data 字段表示需新增的 JSON 数据
       data: {
         name: name,
-        classifyId: classify,
+        classifyId: classifyId,
         describe: describe,
         price: price,
         state: state,
@@ -44,13 +54,13 @@ exports.main = async (event, context) => {
     });
     return {
       result: true,
-      message: "成功",
+      message: "新增成功",
     }
   } catch(e) {
     console.error(e)
     return {
       result: false,
-      message: "失败",
+      message: "新增失败",
       error: e.message,
     }
   }

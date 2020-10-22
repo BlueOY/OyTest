@@ -103,12 +103,22 @@
             width: calc(100% - 20px) !important;
             /*width: 870px;*/
         }
+
+        #image{
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <div class="layui-form" lay-filter="formpro">
     <div class="pro-add">
         <table class="data-tab layui-table">
+            <tr>
+                <td>图片</td>
+                <td colspan="3">
+                    <img id="image" src="../../images/no_picture.jpg" onerror="this.src='../../images/no_picture.jpg'" width="100%" height="100%">
+                </td>
+            </tr>
             <tr>
                 <td>名称</td>
                 <td colspan="3">
@@ -118,7 +128,7 @@
             <tr>
                 <td style="width: 100px">分类</td>
                 <td colspan="3">
-                    <select name="classify" id="classify" lay-verify="required">
+                    <select name="classifyId" id="classify" lay-verify="required">
                         <option value="">请选择</option>
                     </select>
                 </td>
@@ -177,12 +187,19 @@
         <button type="button" class="layui-btn  layui-btn-primary" id="btncancel">取消</button>
     </div>
 </div>
+<div class="init-hide">
+    <form id="uploadFormImg">
+        <input type="file" name="file" id="uploadImg" accept="image/*"/>
+    </form>
+</div>
 
 <script src="../../script/jquery-1.11.2.js"></script>
+<script src="../../script/jquery.form.js"></script><!--这个有时候读不出-->
+<script src="https://cdn.bootcss.com/jquery.form/4.2.1/jquery.form.min.js"></script>
 <script src="../../script/common.js"></script>
 <script src="../../lib/layui-v2.5.5/layui.all.js"></script>
 <script>
-    var formerData;
+    var formerData, imageFlag = false;
     layui.use(['layer', 'form'],
         function () {
             var form = layui.form;
@@ -207,7 +224,7 @@
             if (id != undefined) {
                 var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
                 $Common.invokeCloudFunction("sysProductQuery", { id: id }, function (data) {
-                    console.log("data="+data)
+                    console.log("data="+data);
                     var resp_data = JSON.parse(data).resp_data;
                     var list = JSON.parse(resp_data).data;
                     formerData = list[0];
@@ -226,10 +243,44 @@
                     }
                     //重新渲染表单
                     form.render();
+                    //加载图片
+                    var fileid = list[0].imagePath;
+                    $Common.getCloudFile(fileid, function (data) {
+                        console.log("加载图片：data="+data);
+                        var res = JSON.parse(data);
+                        if(res.errcode==0){
+                            var imageUrl = res.file_list[0].download_url;
+                            $("#image").attr("src", imageUrl);
+                        }
+                    });
 
                     top.layer.close(loadIndex);
                 });
             }
+
+            // 点击图片打开文件选择器
+            $("#image").on("click", function () {
+                $("#uploadImg").click();
+            });
+            // 监听文件选择器，图片预览
+            $("#uploadImg").on("change", function(event){
+                var size = event.target.files.length;
+                if(size==0){
+                }else if(size>1){
+                    alert("请选择不多于一张图片");
+                }else{
+                    for(var i=0;i<size;i++){
+                        var filesize = event.target.files[i].size;
+                        if(filesize>1024*1024*5){
+                            alert("图片大小不能大于5M");
+                        }else{
+                            var tmppath = URL.createObjectURL(event.target.files[i]);
+                            $("#image").attr("src", tmppath);
+                            imageFlag = true;
+                        }
+                    }
+                }
+            });
 
             //$("#btnsave").click(function () {
             //    var data1 = form.val("formpro");
@@ -241,7 +292,41 @@
                 //console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
                 console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
 
-                submitData(id, data.field);
+                var params = data.field;
+                //显示加载框
+                var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                if(imageFlag){
+                    // 上传图片
+                    uploadPicture(function (data) {
+                        $Common.showLog("data="+JSON.stringify(data));
+                        if(data.errcode==0){
+                            // 上传成功
+                            params.imagePath = data.file_id;
+                            // 提交数据
+                            submitData(id, params, function () {
+                                //关闭加载框
+                                top.layer.close(loadIndex);
+                            });
+                        }else {
+                            // var res = JSON.parse(data);
+                            // if(res.errcode!=0){
+                            //     layer.alert(res.errmsg);
+                            // }
+                            if(data.errcode!=0){
+                                layer.alert(data.errmsg);
+                            }
+                            //关闭加载框
+                            top.layer.close(loadIndex);
+                        }
+                    });
+                }else{
+                    return;
+                    // 提交数据
+                    submitData(id, params, function () {
+                        //关闭加载框
+                        top.layer.close(loadIndex);
+                    });
+                }
 
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             });
@@ -267,7 +352,8 @@
                 }
             });
         });
-    function submitData(id, params) {
+    function submitData(id, params, final) {
+        // 上传数据
         var method = "sysProductInsert";
         if (id != undefined) {
             //data.field.id = id;
@@ -279,6 +365,7 @@
         // encode解决乱码
         params.name = encodeURI(params.name);
         params.describe = encodeURI(params.describe);
+        params.imagePath = encodeURI(params.imagePath);
         // 数据格式微调
         if($("#hot").is(':checked')){
             params.hot = true;
@@ -302,8 +389,32 @@
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 parent.layer.close(index); //再执行关闭
             } else {
+                $Common.showLog(res.error);
                 layer.alert(res.message);
                 // layer.alert(JSON.stringify(res.error));
+            }
+            if(final){
+                final();
+            }
+        });
+    }
+    // 上传图片
+    function uploadPicture(success){
+        //上传图片
+        $("#uploadFormImg").ajaxSubmit({
+            url: "/uploadCloudFile",
+            type: "post",
+            headers: {"token": "token"},
+            success: function(data){
+                if(success){
+                    success(data);
+                }
+            },
+            error: function(xhr, status, error){
+                $Common.showLog("上传图片失败");
+                $Common.showLog("提交失败：xhr="+JSON.stringify(xhr));
+                $Common.showLog("提交失败：status="+JSON.stringify(status));
+                $Common.showLog("提交失败：error="+JSON.stringify(error));
             }
         });
     }
