@@ -110,33 +110,35 @@
     <div class="pro-add">
         <table class="data-tab layui-table">
             <tr>
-                <td>名称</td>
+                <td>商户地址</td>
                 <td colspan="3">
-                    <input type="text" name="name" id="name" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input">
+                    <input type="text" name="address" id="address" lay-verify="required" autocomplete="off" placeholder="商户地址" class="layui-input">
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px">状态</td>
+                <td style="width: 100px">联系电话</td>
                 <td colspan="3">
-                    <select name="state" lay-verify="required">
-                        <option value="">请选择</option>
-                        <option value="0">禁用</option>
-                        <option value="1">启用</option>
-                    </select>
+                    <input type="text" name="phone" id="phone" lay-verify="required|phone" autocomplete="off" placeholder="联系电话" class="layui-input">
                 </td>
             </tr>
             <tr>
-                <td>创建时间</td>
+                <td style="width: 100px">商户介绍</td>
                 <td colspan="3">
-                    <input type="text" name="createTime" id="ceateTime" autocomplete="off" placeholder="创建时间" class="layui-input" disabled="disabled">
+                    <input type="text" name="introduce" id="introduce" lay-verify="required" autocomplete="off" placeholder="商户介绍" class="layui-input">
                 </td>
             </tr>
-            <tr>
-                <td>修改时间</td>
-                <td colspan="3">
-                    <input type="text" name="updateTime" id="updateTime" autocomplete="off" placeholder="修改时间" class="layui-input" disabled="disabled">
-                </td>
-            </tr>
+            <!--<tr>-->
+                <!--<td>创建时间</td>-->
+                <!--<td colspan="3">-->
+                    <!--<input type="text" name="createTime" id="ceateTime" autocomplete="off" placeholder="创建时间" class="layui-input" disabled="disabled">-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>修改时间</td>-->
+                <!--<td colspan="3">-->
+                    <!--<input type="text" name="updateTime" id="updateTime" autocomplete="off" placeholder="修改时间" class="layui-input" disabled="disabled">-->
+                <!--</td>-->
+            <!--</tr>-->
         </table>
     </div>
     <div style="height: 50px;"></div>
@@ -156,33 +158,23 @@
             var form = layui.form;
 
             //获取id，如果为空则是新增，否则是详情
-            var id = $Common.getQueryVariable("id");
-            if (id != undefined) {
+            // var id = $Common.getQueryVariable("id");
+            // if (id != undefined) {
                 var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-                $Common.invokeCloudFunction("sysClassifyQuery", { id: id }, function (data) {
+                $Common.invokeCloudFunction("sysStaticQuery", {}, function (data) {
                     console.log("data="+data)
                     var resp_data = JSON.parse(data).resp_data;
                     var list = JSON.parse(resp_data).data;
                     formerData = list[0];
-                    //时间格式化
-                    list[0].createTime = new Date(list[0].createTime).format("yyyy-MM-dd hh:mm:ss");
-                    if(list[0].updateTime){
-                        list[0].updateTime = new Date(list[0].updateTime).format("yyyy-MM-dd hh:mm:ss");
-                    }
+
                     //自动填写表单
                     $Common.setFormData(list[0]);
-                    //表单数据微调
-                    if(list[0].hot == true){
-                        $("#hot").attr('checked', true);
-                    }else{
-                        $("#hot").attr('checked', false);
-                    }
                     //重新渲染表单
                     form.render();
 
                     top.layer.close(loadIndex);
                 });
-            }
+            // }
 
             //$("#btnsave").click(function () {
             //    var data1 = form.val("formpro");
@@ -192,9 +184,9 @@
             form.on('submit(formpro)', function (data) {
                 //console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
                 //console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-                console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+                console.log("data.field="+JSON.stringify(data.field)); //当前容器的全部表单字段，名值对形式：{name: value}
 
-                submitData(id, data.field);
+                submitData(data.field);
 
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             });
@@ -208,34 +200,31 @@
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 if (!$(".layui-form-select dl").is(":hidden")) {
                     var height = $(document).outerHeight(true);
-                    if (height + 20 > 350) {
+                    if (height + 20 > 300) {
                         parent.layer.style(index, {
                             height: height + 20
                         });
                     }
                 } else {
                     parent.layer.style(index, {
-                        height: 350
+                        height: 300
                     });
                 }
             });
         });
-    function submitData(id, params) {
-        var method = "sysClassifyInsert";
-        if (id != undefined) {
-            //data.field.id = id;
-            params = $.extend(true, formerData, params);
-            params.type = "update";
-            //访问更新
-            method = "sysClassifyUpdate";
-        }
+    function submitData(params) {
+        console.log("formerData="+JSON.stringify(formerData));
+
+        var method = "sysStaticUpdate";
+        params = $.extend(true, formerData, params);
         // encode解决乱码
-        params.name = encodeURI(params.name);
+        params.address = encodeURI(params.address);
+        params.introduce = encodeURI(params.introduce);
         // 数据格式微调
         delete params.createTime;
         delete params.updateTime;
         $Common.invokeCloudFunction(method, params, function (data) {
-            // console.log("data="+data)
+            console.log("data="+data)
             var resp_data = JSON.parse(data).resp_data;
             var res = JSON.parse(resp_data);
             if (res.result == true) {
@@ -244,7 +233,7 @@
                 var relParent = parent.$("#frmRight")[0].contentWindow;
                 //刷新表格数据
                 // relParent.tableIns.reload();
-                relParent.refreshTable();
+                relParent.refreshData();
                 //关闭当前弹窗
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 parent.layer.close(index); //再执行关闭

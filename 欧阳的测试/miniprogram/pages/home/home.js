@@ -1,4 +1,5 @@
 // miniprogram/pages/info/info.js
+let phoneNumber = "0000";
 Page({
 
   /**
@@ -15,6 +16,9 @@ Page({
     previousMargin: 0,
     nextMargin: 0,
 
+    //商户信息
+    address: "商户地址",
+    introduce: "商户介绍",
     //轮播图列表
     carouselList: [],
     //热门商品数据
@@ -23,7 +27,7 @@ Page({
 
   call: function (e) {
     wx.makePhoneCall({
-      phoneNumber: '123',
+      phoneNumber: phoneNumber,
     })
   },
 
@@ -44,10 +48,38 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 查询商户信息
+    this.getInfo();
     // 查询轮播图
     this.getCarousel();
     // 查询热门商品
     this.hotProduct();
+  },
+
+  // 查询商户信息
+  getInfo: function (options) {
+    wx.cloud.callFunction({
+      name: 'sysStaticQuery',
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        console.log('查询商户信息：', JSON.stringify(res));
+        let info = res.result.data[0];
+        phoneNumber = info.phone;
+        this.setData({
+          address: info.address,
+          introduce: info.introduce,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [wxProductQuery] 调用失败：', err)
+      }
+    });
   },
 
   // 查询轮播图

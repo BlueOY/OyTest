@@ -12,7 +12,7 @@
     </swiper>
     <view class="address">
       <image src="../../images/home/address.png"></image>
-      <text>湖南省长沙市步行街</text>
+      <text>{{address}}</text>
       <view>
         <image bindtap="call" src="../../images/home/phone.png"></image>
         <button open-type="contact" plain="true">
@@ -44,7 +44,7 @@
         商户介绍
       </view>
       <view class="content">
-        这里是介绍
+        {{introduce}}
       </view>
     </view>
 </view>
