@@ -48,7 +48,7 @@ Date.prototype.format = function (format) {
                 }
             },
             error: function(){
-                alert("error");
+                alert("error：url="+url);
             }
         });
     };
@@ -65,7 +65,7 @@ Date.prototype.format = function (format) {
                 }
             },
             error: function(){
-                alert("error");
+                alert("error：url="+url);
             }
         });
     };
@@ -92,7 +92,7 @@ Date.prototype.format = function (format) {
                 }
             },
             error: function(){
-                alert("error");
+                alert("error：name="+name);
             }
         });
     };
@@ -118,7 +118,7 @@ Date.prototype.format = function (format) {
                 }
             },
             error: function(){
-                alert("error");
+                alert("error：fileid="+fileid);
             }
         });
     };

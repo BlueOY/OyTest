@@ -25,6 +25,10 @@ exports.main = async (event, context) => {
   if(imagePath){
     imagePath = decodeURI(imagePath);
   }
+  let link = event.imagePath
+  if(link){
+    link = decodeURI(link);
+  }
 
   try {
     let res = await db.collection('carousel').add({
@@ -35,6 +39,7 @@ exports.main = async (event, context) => {
         type: type,
         index: index,
         imagePath: imagePath,
+        link: link,
         createTime: new Date()
       },
     });

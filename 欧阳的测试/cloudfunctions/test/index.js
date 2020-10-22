@@ -145,7 +145,7 @@ async function deleteProduct(){
   try {
     return await db.collection('syslog').where({
       // content: "定时任务"
-      state: _.gt(0)
+      _id: _.neq(0)
     }).remove();
   } catch(e) {
     console.error(e);

@@ -44,12 +44,14 @@ public class IndexController {
         }
         // 访问云函数
         String res = StaticClass.cloudFunction(functionName, param);
+        System.out.println("访问云函数：res="+res);
         Map<String, Object> map = JSON.parseObject(res);
-        if(map.get("errcode").equals("40001")){
+        if(map.get("errcode").toString().equals("40001")){
             // 如果返回错误，则重新获取access_token
             StaticClass.getToken();
             // 访问云函数
             res = StaticClass.cloudFunction(functionName, param);
+            System.out.println("第二次访问云函数：res="+res);
         }else if(map.get("errcode").equals("0")){
             // 说明调用成功
             return res;
@@ -102,7 +104,13 @@ public class IndexController {
             e.printStackTrace();
         }
         //读取文件数据
-        File newFile = new File(file.getOriginalFilename());
+        File dir =new File("uploadImageTemp/");
+        //如果文件夹不存在则创建
+        if  (!dir.exists() && !dir.isDirectory()) {
+            System.out.println("文件夹不存在");
+            dir .mkdir();
+        }
+        File newFile = new File("uploadImageTemp/"+file.getOriginalFilename());
         try {
             FileOutputStream output = new FileOutputStream(newFile);
             output.write(file.getBytes());

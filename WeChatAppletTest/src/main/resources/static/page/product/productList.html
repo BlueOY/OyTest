@@ -115,7 +115,7 @@
                 // pageIndex: pageIndex,
                 // pageSize: pageSize,
             }, function (data) {
-                // console.log("data="+data)
+                console.log("获取类型列表：data="+data)
                 var resp_data = JSON.parse(data).resp_data;
                 var list = JSON.parse(resp_data).data;
                 for (var item of list) {
@@ -126,7 +126,7 @@
             });
             //搜索商品数据
             $Common.invokeCloudFunction("sysProductQuery", queryParams, function (data) {
-                // console.log("data="+data)
+                console.log("搜索商品数据：data="+data)
                 var resp_data = JSON.parse(data).resp_data;
                 var total = JSON.parse(resp_data).total;
                 loadPage(total);

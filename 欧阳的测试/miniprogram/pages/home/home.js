@@ -141,7 +141,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    // 查询商户信息
+    this.getInfo();
+    // 查询轮播图
+    this.getCarousel();
+    // 查询热门商品
+    this.hotProduct();
   },
 
   /**

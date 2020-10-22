@@ -114,6 +114,12 @@
     <div class="pro-add">
         <table class="data-tab layui-table">
             <tr>
+                <td>编号</td>
+                <td colspan="3">
+                    <input type="text" name="_id" id="_id" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" disabled="disabled">
+                </td>
+            </tr>
+            <tr>
                 <td>图片</td>
                 <td colspan="3">
                     <img id="image" src="../../images/no_picture.jpg" onerror="this.src='../../images/no_picture.jpg'" width="100%" height="100%">
@@ -156,8 +162,8 @@
                 <td colspan="3">
                     <select name="state" lay-verify="required">
                         <option value="">请选择</option>
-                        <option value="0">已下架</option>
                         <option value="1">销售中</option>
+                        <option value="0">已下架</option>
                     </select>
                 </td>
             </tr>

@@ -51,6 +51,10 @@ exports.main = async (event, context) => {
     if(imagePath){
       imagePath = decodeURI(imagePath);
     }
+    let link = event.imagePath
+    if(link){
+      link = decodeURI(link);
+    }
     
     try {
       //如果要更新图片，查询旧图片
@@ -69,6 +73,7 @@ exports.main = async (event, context) => {
           type: type,
           index: index,
           imagePath: imagePath,
+          link: link,
           updateTime: new Date(),
         },
       })

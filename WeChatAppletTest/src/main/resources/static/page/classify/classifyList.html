@@ -102,7 +102,7 @@
 
             var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
             $Common.invokeCloudFunction("sysClassifyQuery", queryParams, function (data) {
-                // console.log("data="+data)
+                console.log("读取分类数据：data="+data)
                 var resp_data = JSON.parse(data).resp_data;
                 var total = JSON.parse(resp_data).total;
                 loadPage(total);
