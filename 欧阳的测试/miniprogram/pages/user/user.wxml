@@ -12,7 +12,7 @@
         <view class="top">
             <image src="../../images/user/order.png" mode="widthFix"></image>
             <text>我的订单</text>
-            <view class="right" bindtap="orderList" data-id="-1">
+            <view class="right" bindtap="orderList" data-id="-2">
                 <text>查看全部</text>
                 <image src="../../images/right.png" mode="widthFix"></image>
             </view>
@@ -24,14 +24,18 @@
                     <text>待付款</text>
                 </view>
                 <view class="weui-flex__item" bindtap="orderList" data-id="1">
+                    <image src="../../images/user/delivery.png" mode="widthFix"></image>
+                    <text>发收货</text>
+                </view>
+                <view class="weui-flex__item" bindtap="orderList" data-id="2">
                     <image src="../../images/user/forreceipt.png" mode="widthFix"></image>
                     <text>待收货</text>
                 </view>
-                <view class="weui-flex__item" bindtap="orderList" data-id="2">
+                <view class="weui-flex__item" bindtap="orderList" data-id="3">
                     <image src="../../images/user/fordone.png" mode="widthFix"></image>
                     <text>已完成</text>
                 </view>
-                <view class="weui-flex__item" bindtap="orderList" data-id="3">
+                <view class="weui-flex__item" bindtap="orderList" data-id="-1">
                     <image src="../../images/user/forcancel.png" mode="widthFix"></image>
                     <text>已关闭</text>
                 </view>

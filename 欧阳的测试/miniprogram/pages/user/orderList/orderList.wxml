@@ -2,7 +2,7 @@
 <wxs module="tools" src="../../../wxs/function.wxs"/>
 
   <view class="weui-flex" id="top">
-    <view class="weui-flex__item" bindtap="changeState" data-state="-1">
+    <view class="weui-flex__item" bindtap="changeState" data-state="-2">
       <text class="text {{state==-2?'active':''}}">全部</text>
     </view>
     <view class="weui-flex__item" bindtap="changeState" data-state="0">
@@ -11,13 +11,13 @@
     <view class="weui-flex__item" bindtap="changeState" data-state="1">
       <text class="text {{state==1?'active':''}}">待发货</text>
     </view>
-    <view class="weui-flex__item" bindtap="changeState" data-state="1">
+    <view class="weui-flex__item" bindtap="changeState" data-state="2">
       <text class="text {{state==2?'active':''}}">待收货</text>
     </view>
-    <view class="weui-flex__item" bindtap="changeState" data-state="2">
+    <view class="weui-flex__item" bindtap="changeState" data-state="3">
       <text class="text {{state==3?'active':''}}">已完成</text>
     </view>
-    <view class="weui-flex__item" bindtap="changeState" data-state="3">
+    <view class="weui-flex__item" bindtap="changeState" data-state="-1">
       <text class="text {{state==-1?'active':''}}">已关闭</text>
     </view>
   </view>
@@ -49,7 +49,7 @@
       </view>
     </view>
   </block>
-  <view class="loading">
+  <view class="loading" hidden="{{noOrderData}}">
     <text>{{loadingText}}</text>
   </view>
 </scroll-view>
