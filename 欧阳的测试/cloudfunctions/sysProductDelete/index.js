@@ -25,19 +25,17 @@ exports.main = async (event, context) => {
       _id: id
     }).remove();
     //如果删除了商品，删除图片
+    let deleteFileRes = "";
     if(res.stats.removed>0){
-      cloud.deleteFile({
-        fileList: [fileid]
-      }).then(res => {
-        // handle success
-        console.log(res.fileList)
-      }).catch(error => {
-        // handle error
+      const result = await cloud.deleteFile({
+        fileList: [fileid],
       })
+      deleteFileRes = result.fileList;
     }
     return {
       result: true,
       message: "删除成功",
+      deleteFileRes: deleteFileRes,
     }
   } catch(e) {
     console.error(e);

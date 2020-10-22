@@ -352,7 +352,7 @@
         delete params.createTime;
         delete params.updateTime;
         $Common.invokeCloudFunction(method, params, function (data) {
-            // console.log("data="+data)
+            console.log("提交更新数据：data="+data)
             var resp_data = JSON.parse(data).resp_data;
             var res = JSON.parse(resp_data);
             if (res.result == true) {

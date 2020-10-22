@@ -65,6 +65,15 @@ exports.main = async (event, context) => {
     }
     
     try {
+      //如果要更新图片，查询旧图片
+      let fileid;
+      if(imagePath){
+        let where = {
+          _id: id
+        };
+        let queryRes = await db.collection('product').where(where).get();
+        fileid = queryRes.data[0].imagePath;
+      }
       // 更新商品数据
       let res = await db.collection('product').doc(id).update({
         data: {
@@ -80,19 +89,17 @@ exports.main = async (event, context) => {
         },
       })
       //如果更新了图片，删除旧图片
-      if(imagePath){
-        cloud.deleteFile({
-          fileList: [imagePath]
-        }).then(res => {
-          // handle success
-          console.log(res.fileList)
-        }).catch(error => {
-          // handle error
+      let deleteFileRes = "";
+      if(fileid){
+        const result = await cloud.deleteFile({
+          fileList: [fileid],
         })
+        deleteFileRes = result.fileList;
       }
       return {
         result: true,
         message: "更新成功",
+        deleteFileRes: deleteFileRes,
       }
     } catch(e) {
       console.error(e)
