@@ -130,7 +130,7 @@
                         //}
                     });
                 } else if (layEvent === 'del') { //删除
-                    top.layer.confirm('确定要删除“' + data.remarkds + '”吗？', function (index) {
+                    top.layer.confirm('确定要删除“' + data.remarks + '”吗？', function (index) {
                         //向服务端发送删除指令
                         $Common.invokeCloudFunction("sysCarouselDelete", { id: data._id }, function (data) {
                             // console.log("data="+data)
@@ -150,7 +150,7 @@
                         top.layer.close(index);
                     });
                 } else if (layEvent === 'on') {   //上架
-                    top.layer.confirm('确定要启用“' + data.remarkds + '”吗？', function (index) {
+                    top.layer.confirm('确定要启用“' + data.remarks + '”吗？', function (index) {
                         //向服务端发送上架指令
                         $Common.invokeCloudFunction("sysCarouselUpdate", { _id: data._id, operation: "show", state: 1 }, function (data) {
                             // console.log("data="+data)
@@ -168,7 +168,7 @@
                         top.layer.close(index);
                     });
                 } else if (layEvent === 'off') {   //下架
-                    top.layer.confirm('确定要禁用“' + data.remarkds + '”吗？', function (index) {
+                    top.layer.confirm('确定要禁用“' + data.remarks + '”吗？', function (index) {
                         //向服务端发送下架指令
                         $Common.invokeCloudFunction("sysCarouselUpdate", { _id: data._id, operation: "show", state: 0 }, function (data) {
                             // console.log("data="+data)
