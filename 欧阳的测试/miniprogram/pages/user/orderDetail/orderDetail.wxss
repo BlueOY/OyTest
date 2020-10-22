@@ -35,7 +35,7 @@ page {
   border-bottom: 0.5px solid #F6F6F6;
 }
 .list .item > image{
-  width: 45px;
+  width: 45px; height: 35px;
   vertical-align: middle;
 }
 .list .item > view{

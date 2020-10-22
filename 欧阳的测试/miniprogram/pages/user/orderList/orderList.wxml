@@ -31,6 +31,7 @@
     <view class="item">
       <view bindtap="toDetail" data-id="{{item._id}}">
         <image src="{{item.firstProduct.imagePath}}" mode="widthFix"></image>
+        <!-- <image src="{{item.firstProduct.imagePath}}" mode="aspectFill"></image> -->
         <view class="info">
           <view>
             <text>{{item.firstProduct.name}}…等{{item.productCount}}件商品</text>
