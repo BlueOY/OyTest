@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/user/about/feedback/feedback",
+    
     "pages/home/home",
     "pages/dynamic/dynamic",
     "pages/cart/cart",
@@ -12,8 +14,12 @@
     "pages/user/orderDetail/orderDetail",
     "pages/user/favorites/favorites",
     "pages/user/coupon/coupon",
-    "pages/test/test",
-    "pages/static/webView/webView"
+    "pages/user/about/about",
+    
+    "pages/user/about/feedbackList/feedbackList",
+    "pages/user/about/feedbackDetail/feedbackDetail",
+    "pages/static/webView/webView",
+    "pages/test/test"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

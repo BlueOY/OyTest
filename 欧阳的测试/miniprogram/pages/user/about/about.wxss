@@ -1,0 +1,32 @@
+/* miniprogram/pages/user/about/about.wxss */
+.page__bd .weui-cell{
+  /* 覆盖weui */
+  padding: 10px 16px;
+}
+.page__bd .weui-cell__bd{
+  font-size: 14px;
+}
+.page__bd .weui-cell__ft{
+  font-size: 14px;
+}
+
+.top{
+  height: 150px;
+  position: relative;
+}
+.top .box{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+}
+.top image{
+  width: 50%;
+  display: block;
+  margin: auto;
+}
+.top text{
+  display: block;
+  text-align: center;
+}

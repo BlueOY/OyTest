@@ -1,0 +1,24 @@
+/* miniprogram/pages/user/feedback/feedback.wxss */
+
+.weui-cell {
+  padding: 10px 15px;
+  align-items: initial;
+}
+.weui-cell__hd{
+  font-size: 13px;
+}
+
+.weui-input{
+  font-size: 13px;
+}
+.weui-textarea{
+  font-size: 13px;
+}
+
+.weui-btn{
+  font-size: 13px;
+  min-height: initial !important;
+}
+button{
+  margin-top: 15px;
+}

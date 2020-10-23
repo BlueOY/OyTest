@@ -1,0 +1,26 @@
+<!--miniprogram/pages/user/about/feedbackList/feedbackList.wxml-->
+<wxs module="tools" src="../../../../wxs/function.wxs"/>
+<scroll-view class="list" scroll-y="true" style="height:{{scroll_height}}px" bindscrolltolower='loadmore'>
+  <view class="nodata" hidden="{{!noFeedbackData}}">
+    <image src="../../../../images/nodata.png" mode="widthFix"></image>
+    <text>这里没有反馈数据</text>
+  </view>
+  <block wx:for="{{feedbackListData}}" wx:key="key" wx:item="item">
+    <view class="item">
+      <view bindtap="toDetail" data-id="{{item._id}}">
+        <view class="info">
+          <view>
+            <text>{{item.title}}</text>
+            <text class="right">{{tools.getFeedbackState(item.state)}}</text>
+          </view>
+          <view class="bottom">
+            <text>{{tools.formatDateTime(item.createTime)}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <view class="loading" hidden="{{noOrderData}}">
+    <text>{{loadingText}}</text>
+  </view>
+</scroll-view>

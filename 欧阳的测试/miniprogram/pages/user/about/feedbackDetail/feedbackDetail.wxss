@@ -1,0 +1,21 @@
+/* miniprogram/pages/user/about/feedbackDetail/feedbackDetail.wxss */
+.weui-cells__title{
+  padding-left: 10px;
+}
+.weui-cell{
+  padding: 10px;
+}
+.weui-cell__bd{
+  font-size: 13px;
+}
+.weui-cell__ft{
+  font-size: 13px;
+}
+
+.weui-btn{
+  font-size: 13px;
+  min-height: initial !important;
+}
+button{
+  margin-top: 15px;
+}
