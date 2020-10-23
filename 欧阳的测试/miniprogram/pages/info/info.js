@@ -5,13 +5,41 @@ Page({
    * 页面的初始数据
    */
   data: {
+    headImg: "../../images/info/user_img.jpg",
+    name: "商户名称",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 查询商户信息
+    this.getInfo();
+  },
 
+  // 查询商户信息
+  getInfo: function (options) {
+    wx.cloud.callFunction({
+      name: 'sysBusinessQuery',
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        console.log('查询商户信息：', JSON.stringify(res));
+        let info = res.result.data[0];
+        this.setData({
+          headImg: info.headImg,
+          name: info.name,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [wxProductQuery] 调用失败：', err)
+      }
+    });
   },
 
   /**

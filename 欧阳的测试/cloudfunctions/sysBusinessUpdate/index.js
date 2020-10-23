@@ -10,26 +10,39 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
+  let data = {
+    updateTime: new Date(),
+  };
   //获取访问参数
   let id = event._id
+  let name = event.name
+  if(name){
+    name = decodeURI(name);
+    data.name = name;
+  }
   let address = event.address
   if(address){
     address = decodeURI(address);
+    data.address = address;
   }
   let phone = event.phone
+  if(phone){
+    data.phone = phone;
+  }
   let introduce = event.introduce
   if(introduce){
     introduce = decodeURI(introduce);
+    data.introduce = introduce;
+  }
+  let headImg = event.headImg
+  if(headImg){
+    headImg = decodeURI(headImg);
+    data.headImg = headImg;
   }
 
   try {
-    let res = await db.collection('static').doc(id).update({
-      data: {
-        address: address,
-        phone: phone,
-        introduce: introduce,
-        updateTime: new Date(),
-      },
+    let res = await db.collection('business').doc(id).update({
+      data: data,
     })
     return {
       result: true,

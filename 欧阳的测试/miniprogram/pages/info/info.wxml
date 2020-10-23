@@ -3,9 +3,9 @@
     <block wx:for="{{6}}" wx:key="key">
       <view class="item">
         <view class="title">
-          <image src="../../images/home/test.jpg"></image>
+          <image src="{{headImg}}"></image>
           <view class="text-box">
-            <text class="name">欧阳的测试</text>
+            <text class="name">{{name}}</text>
             <text class="time">2020-05-09 14:40</text>
           </view>
         </view>

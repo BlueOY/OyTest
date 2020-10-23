@@ -73,7 +73,7 @@ Page({
   // 查询商户信息
   getInfo: function (options) {
     wx.cloud.callFunction({
-      name: 'sysStaticQuery',
+      name: 'sysBusinessQuery',
       success: res => {
         // wx.showToast({
         //   title: '调用成功',

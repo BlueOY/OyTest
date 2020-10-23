@@ -110,6 +110,12 @@
     <div class="pro-add">
         <table class="data-tab layui-table">
             <tr>
+                <td>商户名称</td>
+                <td colspan="3">
+                    <input type="text" name="name" id="name" lay-verify="required" autocomplete="off" placeholder="商户名称" class="layui-input">
+                </td>
+            </tr>
+            <tr>
                 <td>商户地址</td>
                 <td colspan="3">
                     <input type="text" name="address" id="address" lay-verify="required" autocomplete="off" placeholder="商户地址" class="layui-input">
@@ -161,7 +167,7 @@
             // var id = $Common.getQueryVariable("id");
             // if (id != undefined) {
                 var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-                $Common.invokeCloudFunction("sysStaticQuery", {}, function (data) {
+                $Common.invokeCloudFunction("sysBusinessQuery", {}, function (data) {
                     console.log("data="+data)
                     var resp_data = JSON.parse(data).resp_data;
                     var list = JSON.parse(resp_data).data;
@@ -215,9 +221,10 @@
     function submitData(params) {
         console.log("formerData="+JSON.stringify(formerData));
 
-        var method = "sysStaticUpdate";
+        var method = "sysBusinessUpdate";
         params = $.extend(true, formerData, params);
         // encode解决乱码
+        params.name = encodeURI(params.name);
         params.address = encodeURI(params.address);
         params.introduce = encodeURI(params.introduce);
         // 数据格式微调

@@ -12,7 +12,7 @@ exports.main = async (event, context) => {
 
   let where = {
   };
-  let res = await db.collection('static').where(where).limit(1).get();
+  let res = await db.collection('business').where(where).limit(1).get();
 
   return res;
 }

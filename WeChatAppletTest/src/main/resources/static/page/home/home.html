@@ -5,6 +5,10 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../../lib/layui-v2.5.5/css/layui.css">
     <style>
+        .init-hide{
+            display: none;
+        }
+
         .main-box {
             padding: 20px 200px;
         }
@@ -40,8 +44,8 @@
         }
         #top-box .user-info table thead tr th .edit{
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 15px; right: 15px;
+            width: 20px; height: 20px;
             cursor: pointer;
         }
 
@@ -53,8 +57,6 @@
             color: #666;
             text-align: center;
             position: relative;
-            background: url("../../images/home/user_img.jpg") no-repeat 10% 80px;
-            background-size: 168px 168px;
         }
 
         #top-box .login-info .title {
@@ -62,6 +64,13 @@
             background-color: #f2f2f2;
             height: 20px;
             border-bottom: 1px solid #e6e6e6;
+        }
+
+        #top-box .login-info img {
+            widthw: 168px; height: 168px;
+            position: absolute;
+            top: 27%; left: 7%;
+            cursor: pointer;
         }
 
         #top-box .login-info ul {
@@ -143,6 +152,7 @@
             <div class="title">
                 登录信息
             </div>
+            <img src="../../images/home/user_img.jpg" onerror="this.src='../../images/home/user_img.jpg'" id="headImg">
             <ul>
                 <li>您好<span name="RealName"></span>！欢迎您登录本系统。</li>
                 <li>您上次登录时间：<span name="lastLoginTime"></span></li>
@@ -168,20 +178,26 @@
                 <div class="layui-form" lay-filter="formpro">
                 <tbody>
                 <tr>
+                    <td>商户名称</td>
+                    <td name="">
+                        <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="商户名称" class="layui-input" disabled="disabled">
+                    </td>
+                </tr>
+                <tr>
                     <td>商户地址</td>
-                    <td name="" id="zdjmCount">
+                    <td name="">
                         <input type="text" name="address" lay-verify="required" autocomplete="off" placeholder="商户地址" class="layui-input" disabled="disabled">
                     </td>
                 </tr>
                 <tr>
                     <td>联系电话</td>
-                    <td name="" id="yjjmCount">
+                    <td name="">
                         <input type="text" name="phone" lay-verify="required" autocomplete="off" placeholder="联系电话" class="layui-input" disabled="disabled">
                     </td>
                 </tr>
                 <tr>
                     <td>商户介绍</td>
-                    <td name="" id="cglmCount">
+                    <td name="">
                         <input type="text" name="introduce" lay-verify="required" autocomplete="off" placeholder="商户介绍" class="layui-input" disabled="disabled">
                     </td>
                 </tr>
@@ -215,22 +231,54 @@
         </div>
     </div>
 </div>
+<div class="init-hide">
+    <form id="uploadFormImg">
+        <input type="file" name="file" id="uploadImg" accept="image/*"/>
+    </form>
+</div>
 
 <script src="../../script/jquery-1.11.2.js"></script>
+<script src="../../script/jquery.form.js"></script>
 <script src="../../script/common.js"></script>
 <script src="../../lib/layui-v2.5.5/layui.all.js"></script>
 <script>
-    var form;
+    var form, id;
     layui.use(['layer', 'form'],
         function () {
             form = layui.form;
 
             var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
 
-            // 获取商户信息
+            // 获取信息数据
             refreshData();
+
+            //点击上传头像
+            $("#headImg").on("click", function () {
+                $("#uploadImg").click();
+            });
+            // 监听文件选择器，图片预览
+            $("#uploadImg").on("change", function(event){
+                var size = event.target.files.length;
+                if(size==0){
+                }else if(size>1){
+                    alert("请选择不多于一张图片");
+                }else{
+                    for(var i=0;i<size;i++){
+                        var filesize = event.target.files[i].size;
+                        if(filesize>1024*1024*5){
+                            alert("图片大小不能大于5M");
+                        }else{
+                            var tmppath = URL.createObjectURL(event.target.files[i]);
+                            $("#image").attr("src", tmppath);
+                            imageFlag = true;
+                            // 选择后直接上传
+                            submitImg();
+                        }
+                    }
+                }
+            });
             
-            // 编辑商户信息
+            // 点击编辑商户信息
             $("#editBusinessInfo").on("click", function () {
                 top.layer.open({
                     type: 2, //1.html,2.iframe
@@ -254,13 +302,13 @@
                     //}
                 });
             });
-            
+
         });
 
     function refreshData(){
         var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
         // 获取商户信息
-        $Common.invokeCloudFunction("sysStaticQuery", {
+        $Common.invokeCloudFunction("sysBusinessQuery", {
             // pageIndex: pageIndex,
             // pageSize: pageSize,
         }, function (data) {
@@ -268,12 +316,101 @@
             var resp_data = JSON.parse(data).resp_data;
             var list = JSON.parse(resp_data).data;
 
+            id = list[0]._id;
+
+            //显示商户头像
+            //加载图片
+            var fileid = list[0].headImg;
+            $Common.getCloudFile(fileid, function (data) {
+                console.log("加载图片：data="+data);
+                var res = JSON.parse(data);
+                if(res.errcode==0){
+                    var imageUrl = res.file_list[0].download_url;
+                    $("#headImg").attr("src", imageUrl);
+                }
+            });
+
             //自动填写表单
             $Common.setFormData(list[0]);
             form.render();
 
             top.layer.close(loadIndex);
         }, false);
+    }
+    
+    // 提交图片上传
+    function submitImg() {
+        var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+        // 上传图片
+        uploadPicture(function (data) {
+            $Common.showLog("data="+JSON.stringify(data));
+            if(data.errcode==0){
+                // 上传成功
+                var imagePath = data.file_id;
+                // 提交数据
+                submitData(id, imagePath, function () {
+                    //关闭加载框
+                    top.layer.close(loadIndex);
+                });
+            }else {
+                // var res = JSON.parse(data);
+                // if(res.errcode!=0){
+                //     layer.alert(res.errmsg);
+                // }
+                if(data.errcode!=0){
+                    layer.alert(data.errmsg);
+                }
+                //关闭加载框
+                top.layer.close(loadIndex);
+            }
+        });
+    }
+
+    function submitData(id, imagePath) {
+        var method = "sysBusinessUpdate";
+        $Common.invokeCloudFunction(method, { _id: id, headImg: imagePath }, function (data) {
+            console.log("data="+data)
+            var resp_data = JSON.parse(data).resp_data;
+            var res = JSON.parse(resp_data);
+            if (res.result == true) {
+                //刷新父页面的表格数据
+                //parent.tabdata.reload();
+                var relParent = parent.$("#frmRight")[0].contentWindow;
+                //刷新表格数据
+                // relParent.tableIns.reload();
+                relParent.refreshData();
+                //关闭当前弹窗
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            } else {
+                layer.alert(res.message);
+                // layer.alert(JSON.stringify(res.error));
+            }
+        });
+    }
+
+    // 上传图片
+    function uploadPicture(success){
+        //上传图片
+        $("#uploadFormImg").ajaxSubmit({
+            url: "/uploadCloudFile",
+            type: "post",
+            // headers: {"token": "token"},
+            data: {
+                type: "business"
+            },
+            success: function(data){
+                if(success){
+                    success(data);
+                }
+            },
+            error: function(xhr, status, error){
+                $Common.showLog("上传图片失败");
+                $Common.showLog("提交失败：xhr="+JSON.stringify(xhr));
+                $Common.showLog("提交失败：status="+JSON.stringify(status));
+                $Common.showLog("提交失败：error="+JSON.stringify(error));
+            }
+        });
     }
 </script>
 </body>
