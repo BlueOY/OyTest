@@ -1,8 +1,7 @@
 {
   "pages": [
-    "pages/info/info",
     "pages/home/home",
-    
+    "pages/info/info",
     "pages/cart/cart",
     "pages/user/user",
     "pages/product/product",
