@@ -70,5 +70,6 @@
 </view>
 
 <button wx:if="{{orderData.state==0}}" bindtap="pay">付款</button>
-<button wx:elif="{{orderData.state==1}}" bindtap="receipt">确认收货</button>
-<button wx:elif="{{orderData.state==2}}" bindtap="buy">再来一单</button>
+<button wx:elif="{{orderData.state==1}}" bindtap="cancel">取消订单</button>
+<button wx:elif="{{orderData.state==2}}" bindtap="receipt">确认收货</button>
+<button wx:elif="{{orderData.state==3}}" bindtap="buy">再来一单</button>

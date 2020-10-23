@@ -34,6 +34,26 @@ exports.main = async (event, context) => {
         error: e.message,
       }
     }
+  }else if(type && type=="cancel"){
+    // 如果是取消订单
+    try {
+      let res = await db.collection('order').doc(id).update({
+        data: {
+          state: -1
+        },
+      })
+      return {
+        result: true,
+        message: "成功",
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        result: false,
+        message: "失败",
+        error: e.message,
+      }
+    }
   }else{
     return {
       result: false,
