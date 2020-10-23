@@ -143,9 +143,10 @@ async function updateProduct(){
 // 删除测试数据
 async function deleteProduct(){
   try {
-    return await db.collection('syslog').where({
+    return await db.collection('product').where({
       // content: "定时任务"
-      _id: _.neq(0)
+      // _id: _.neq(0)
+      classifyId: "b8df3bd65f92db2e01aff016452c17ea"
     }).remove();
   } catch(e) {
     console.error(e);

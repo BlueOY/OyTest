@@ -15,6 +15,8 @@ Page({
     favoritesData: [],
     // 没有收藏数据
     noFavoritesData: false,
+    // 没有更多数据了
+    loadingText: "正在加载中……",
   },
 
   // 获取sroll-view的高度
@@ -63,28 +65,50 @@ Page({
   },
   loadFavoritesData: function(){
     let idsArr = this.pagination(this.pageIndex, this.pageSize, this.favorites);
-    console.log("idsArr="+JSON.stringify(idsArr));
     if(idsArr.length>0){
       wx.cloud.callFunction({
         name: 'wxProductQuery',
         data: {
-          ids: idsArr
+          ids: idsArr,
+          pageSize: this.pageSize,
         },
         success: res => {
           // wx.showToast({
           //   title: '调用成功',
           // })
-          if(res.result.data!="" && res.result.data.length>0){
-            let productData = res.result.data;
-            this.setData({
-              favoritesData: productData,
-            });
+          let data = res.result.data;
+          if(!data || data=="" || data.length==0){
+            this.nomore = true;
+            if(this.pageIndex==0){
+              this.setData({
+                noFavoritesData: true,
+                favoritesData: [],
+              });
+            }else{
+              // wx.showToast({
+              //   title: '没有更多数据了',
+              // });
+              this.setData({
+                loadingText: "没有更多数据了",
+              })
+            }
           }else{
-            wx.showToast({
-              icon: 'none',
-              title: '数据格式错误',
-            })
-            console.error('数据格式错误：', res.result.data)
+            let favoritesData;
+            if(this.pageIndex==0){
+              favoritesData = data;
+            }else{
+              favoritesData = this.data.favoritesData.concat(data);
+            }
+            this.setData({
+              favoritesData: favoritesData,
+              noFavoritesData: false,
+            });
+            if(idsArr.length<this.pageSize){
+              this.nomore = true;
+              this.setData({
+                loadingText: "没有更多数据了",
+              })
+            }
           }
         },
         fail: err => {
@@ -100,6 +124,15 @@ Page({
       this.setData({
         loadingText: "没有更多数据了",
       });
+    }
+  },
+
+  // 滑动加载更多
+  loadmore: function () {
+    if(!this.nomore){
+      // 获取订单列表数据
+      this.pageIndex++;
+      this.loadFavoritesData();
     }
   },
 
