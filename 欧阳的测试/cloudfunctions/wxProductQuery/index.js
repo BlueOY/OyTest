@@ -17,6 +17,7 @@ exports.main = async (event, context) => {
   let searchKey = event.searchKey
   let pageIndex = event.pageIndex
   let pageSize = event.pageSize
+  let ids = event.ids
 
   //拼接查询条件
   let where = {
@@ -43,6 +44,9 @@ exports.main = async (event, context) => {
   }
   if(!pageSize){
     pageSize = 10
+  }
+  if(ids){
+    where._id = _.in(ids)
   }
 
   try{

@@ -10,7 +10,7 @@
         <checkbox-group bindchange="checkboxChange" data-idx="{{idx}}">
           <checkbox data-checks="{{item.checks}}" checked="{{item.checks}}"></checkbox>
         </checkbox-group>
-        <image src="../../images/home/test.jpg" mode="widthFix"></image>
+        <image src="../../images/home/test.jpg" mode="aspectFill"></image>
         <view class="right" bindtap="toDetail" data-id="{{item._id}}">
           <text class="name">{{item.name}}</text>
           <text class="price">￥{{item.price}}</text>

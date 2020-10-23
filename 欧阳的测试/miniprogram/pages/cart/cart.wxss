@@ -38,7 +38,7 @@ page{
   vertical-align: middle;
 }
 .item image{
-  width: 45px;
+  width: 55px; height: 40px;
   vertical-align: middle;
   margin-left: 5px;
 }

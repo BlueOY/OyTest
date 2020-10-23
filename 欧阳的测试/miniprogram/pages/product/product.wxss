@@ -23,8 +23,8 @@ page {
   /* 分隔两端 */
   justify-content: space-between;
 
-  width: calc(100% - 155px);
   margin-left: 10px;
+  margin-right: 10px;
 }
 .top .price{
   color: #FB760F;
@@ -34,23 +34,47 @@ page {
   color: #949494;
   font-size: 14px;
 }
-.top .add-box{
-  position: absolute;
-  right: 5px;
-  bottom: 15px;
+
+.describe{
+  margin: 15px;
+}
+
+.foot{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+}
+.foot .add-box{
+  /* position: absolute;
+  right: 0;
+  bottom: 0; */
+  float: right;
   background: #FB760F;
   color: white;
-  padding: 5px 15px;
+  padding: 7px 15px;
 }
-.top .add-box image{
+.foot .add-box image{
   width: 15px;
   vertical-align: middle;
   margin: 2px 5px 0 0;
 }
-.top .add-box text{
+.foot .add-box text{
   vertical-align: middle;
 }
-
-.describe{
-  margin: 15px;
+.foot .favorites{
+  float: right;
+  font-size: 0;
+  margin: 4px 15px 0 0;
+  text-align: center;
+}
+.foot .favorites image{
+  width: 20px; height: 20px;
+  display: block;
+  margin: auto;
+}
+.foot .favorites text{
+  font-size: 10px;
+  color: #949494;
+  display: block;
 }

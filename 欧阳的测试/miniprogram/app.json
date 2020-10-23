@@ -1,6 +1,5 @@
 {
   "pages": [
-    
     "pages/home/home",
     "pages/dynamic/dynamic",
     "pages/cart/cart",

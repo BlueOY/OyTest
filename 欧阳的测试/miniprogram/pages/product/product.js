@@ -7,6 +7,56 @@ Page({
   data: {
     // 商品数据
     productData: {},
+    // 是否已收藏
+    favoritesFlag: false,
+  },
+
+  addFavorites: function (e) {
+    let product = this.data.productData;
+    let favorites = wx.getStorageSync("favorites");
+    if(!this.data.favoritesFlag){
+      try{
+        if(favorites && favorites instanceof Array){
+          favorites.push(product._id);
+        }else{
+          favorites = [product._id];
+        }
+        wx.setStorageSync("favorites", favorites);
+        wx.showToast({
+          title: '收藏成功',
+        });
+        this.setData({
+          favoritesFlag: true,
+        });
+      }catch(e){
+        console.error(e);
+        wx.showToast({
+          icon: 'none',
+          title: e.message,
+        });
+      }
+    }else{
+      try{
+        if(favorites && favorites instanceof Array){
+          let idx = favorites.indexOf(product._id);
+          favorites.remove(idx);
+        }
+        wx.setStorageSync("favorites", favorites);
+        wx.showToast({
+          title: '取消收藏',
+        });
+        this.setData({
+          favoritesFlag: false,
+        });
+      }catch(e){
+        console.error(e);
+        wx.showToast({
+          icon: 'none',
+          title: e.message,
+        })
+      }
+    }
+    
   },
 
   addCart: function (e) {
@@ -69,9 +119,27 @@ Page({
         // })
 
         if(res.result.data!="" && res.result.data.length>0){
+          let productData = res.result.data[0];
           this.setData({
-            productData: res.result.data[0],
-          })
+            productData: productData,
+          });
+          // 判断是否已收藏
+          let favorites = wx.getStorageSync("favorites");
+          try{
+            if(favorites && favorites instanceof Array){
+              if(favorites.includes(productData._id)){
+                this.setData({
+                  favoritesFlag: true,
+                });
+              }
+            }
+          }catch(e){
+            console.error(e);
+            wx.showToast({
+              icon: 'none',
+              title: e.message,
+            })
+          }
         }else{
           wx.showToast({
             icon: 'none',
