@@ -108,12 +108,16 @@ Page({
 
   // 查询商品数据
   queryProduct: function(id) {
+    wx.showLoading({
+      title: '加载中',
+    });
     wx.cloud.callFunction({
       name: 'wxProductQuery',
       data: {
         id: id
       },
       success: res => {
+        wx.hideLoading();
         // wx.showToast({
         //   title: '调用成功',
         // })

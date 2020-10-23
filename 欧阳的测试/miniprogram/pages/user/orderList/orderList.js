@@ -1,8 +1,9 @@
 // miniprogram/pages/user/orderList/orderList.js
-let pageIndex = 0;
-let pageSize = 5;
-let nomore = false;
 Page({
+
+  pageIndex: 0,
+  pageSize: 5,
+  nomore: false,
 
   /**
    * 页面的初始数据
@@ -13,7 +14,7 @@ Page({
     // 订单列表数据
     orderListData: [],
     // 没有订单数据
-    noOrderData: false,
+    noOrderData: true,
     // 没有更多数据了
     loadingText: "正在加载中……",
     // sroll-view的高度
@@ -39,8 +40,8 @@ Page({
   changeState: function (e) {
     let state = e.currentTarget.dataset.state;
     state = Number(state);
-    pageIndex = 0;
-    nomore = false;
+    this.pageIndex = 0;
+    this.nomore = false;
     this.loadOrderList(state);
     this.setData({
       state: state
@@ -57,8 +58,8 @@ Page({
         refreshData: function(data) {
           console.log("收到通知："+data)
           // 刷新界面
-          pageIndex = 0;
-          nomore = false;
+          this.pageIndex = 0;
+          this.nomore = false;
           that.loadOrderList(that.data.state);
         }
       },
@@ -94,8 +95,8 @@ Page({
                 title: '成功',
               })
               // 刷新界面
-              pageIndex = 0;
-              nomore = false;
+              this.pageIndex = 0;
+              this.nomore = false;
               that.loadOrderList(that.data.state);
             },
             fail: err => {
@@ -127,15 +128,17 @@ Page({
       name: 'wxOrderQuery',
       data: {
         state: state,
-        pageIndex: pageIndex,
-        pageSize: pageSize,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
       },
       success: res => {
+        console.log("获取订单列表：res="+JSON.stringify(res));
+        console.log("pageIndex="+this.pageIndex);
         wx.hideLoading();
         let data = res.result.list;
         if(!data || data=="" || data.length==0){
-          nomore = true;
-          if(pageIndex==0){
+          this.nomore = true;
+          if(this.pageIndex==0){
             that.setData({
               noOrderData: true,
               orderListData: [],
@@ -150,7 +153,7 @@ Page({
           }
         }else{
           let orderListData;
-          if(pageIndex==0){
+          if(this.pageIndex==0){
             orderListData = data;
           }else{
             orderListData = that.data.orderListData.concat(data);
@@ -177,9 +180,9 @@ Page({
 
   // 滑动加载更多
   loadmore: function () {
-    if(!nomore){
+    if(!this.nomore){
       // 获取订单列表数据
-      pageIndex++;
+      this.pageIndex++;
       this.loadOrderList(this.data.state);
     }
   },
@@ -190,8 +193,8 @@ Page({
   //   console.log("下拉刷新")
 
   //   // 获取订单列表数据
-  //   pageIndex = 0;
-  //   nomore = false;
+  //   this.pageIndex = 0;
+  //   this.nomore = false;
   //   this.loadOrderList(this.data.state, function(){
   //     // wx.hideNavigationBarLoading() //完成停止加载
   //     wx.stopPullDownRefresh() //停止下拉刷新

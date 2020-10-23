@@ -1,8 +1,9 @@
 // miniprogram/pages/user/about/feedbackList/feedbackList.js
-let pageIndex = 0;
-let pageSize = 5;
-let nomore = false;
 Page({
+
+  pageIndex: 0,
+  pageSize: 5,
+  nomore: false,
 
   /**
    * 页面的初始数据
@@ -35,8 +36,8 @@ Page({
         refreshFeedbackData: function(data) {
           console.log("收到通知："+data)
           // 刷新界面
-          pageIndex = 0;
-          nomore = false;
+          this.pageIndex = 0;
+          this.nomore = false;
           that.loadFeedbackList();
         }
       },
@@ -62,16 +63,16 @@ Page({
     wx.cloud.callFunction({
       name: 'wxFeedbackQuery',
       data: {
-        pageIndex: pageIndex,
-        pageSize: pageSize,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
       },
       success: res => {
         console.log("获取反馈列表数据：res="+JSON.stringify(res));
         wx.hideLoading();
         let data = res.result.data;
         if(!data || data=="" || data.length==0){
-          nomore = true;
-          if(pageIndex==0){
+          this.nomore = true;
+          if(this.pageIndex==0){
             that.setData({
               noFeedbackData: true,
               feedbackListData: [],
@@ -86,7 +87,7 @@ Page({
           }
         }else{
           let feedbackListData;
-          if(pageIndex==0){
+          if(this.pageIndex==0){
             feedbackListData = data;
           }else{
             feedbackListData = that.data.feedbackListData.concat(data);
@@ -95,8 +96,8 @@ Page({
             feedbackListData: feedbackListData,
             noFeedbackData: false,
           });
-          if(data.length<pageSize){
-            nomore = true;
+          if(data.length<this.pageSize){
+            this.nomore = true;
             that.setData({
               loadingText: "没有更多数据了",
             })
@@ -119,9 +120,9 @@ Page({
 
   // 滑动加载更多
   loadmore: function () {
-    if(!nomore){
+    if(!this.nomore){
       // 获取订单列表数据
-      pageIndex++;
+      this.pageIndex++;
       this.loadFeedbackList();
     }
   },

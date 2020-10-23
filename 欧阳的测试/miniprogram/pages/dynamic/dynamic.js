@@ -1,8 +1,9 @@
 // miniprogram/pages/dynamic/dynamic.js
-let pageIndex = 0;
-let pageSize = 5;
-let nomore = false;
 Page({
+
+  pageIndex: 0,
+  pageSize: 5,
+  nomore: false,
 
   /**
    * 页面的初始数据
@@ -14,7 +15,7 @@ Page({
     // 动态列表数据
     dynamicList: [],
     // 没有动态数据
-    noData: false,
+    noData: true,
     // 没有更多数据了
     loadingText: "正在加载中……",
     // sroll-view的高度
@@ -49,16 +50,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    });
+    let that = this;
     // 获取sroll-view的高度
     this.scrollViewHeight();
     // 查询商户信息
-    this.getInfo();
-    // 获取订单列表数据
-    this.loadDynamicList();
+    this.getInfo(function(){
+      // 获取订单列表数据
+      that.loadDynamicList(function(){
+        wx.hideLoading();
+      });
+    });
   },
 
   // 查询商户信息
-  getInfo: function (options) {
+  getInfo: function (callback) {
     wx.cloud.callFunction({
       name: 'sysBusinessQuery',
       success: res => {
@@ -70,7 +78,10 @@ Page({
         this.setData({
           headImg: info.headImg,
           name: info.name,
-        })
+        });
+        if(callback){
+          callback();
+        }
       },
       fail: err => {
         wx.showToast({
@@ -88,15 +99,15 @@ Page({
     wx.cloud.callFunction({
       name: 'wxDynamicQuery',
       data: {
-        pageIndex: pageIndex,
-        pageSize: pageSize,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
       },
       success: res => {
         console.log('查询动态信息：', JSON.stringify(res));
         let data = res.result.list;
         if(!data || data=="" || data.length==0){
-          nomore = true;
-          if(pageIndex==0){
+          this.nomore = true;
+          if(this.pageIndex==0){
             that.setData({
               noData: true,
               dynamicList: [],
@@ -111,7 +122,7 @@ Page({
           }
         }else{
           let dynamicList;
-          if(pageIndex==0){
+          if(this.pageIndex==0){
             dynamicList = data;
           }else{
             dynamicList = that.data.dynamicList.concat(data);
@@ -137,9 +148,9 @@ Page({
 
   // 滑动加载更多
   loadmore: function () {
-    if(!nomore){
+    if(!this.nomore){
       // 获取订单列表数据
-      pageIndex++;
+      this.pageIndex++;
       this.loadDynamicList();
     }
   },
