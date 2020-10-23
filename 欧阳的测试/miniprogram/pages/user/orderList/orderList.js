@@ -8,8 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // sroll-view的高度
-    scroll_height: 0,
     // 要查询的状态
     state: -1,
     // 订单列表数据
@@ -18,6 +16,8 @@ Page({
     noOrderData: false,
     // 没有更多数据了
     loadingText: "正在加载中……",
+    // sroll-view的高度
+    scroll_height: 0,
   },
 
   // 获取sroll-view的高度
@@ -134,6 +134,7 @@ Page({
         wx.hideLoading();
         let data = res.result.list;
         if(!data || data=="" || data.length==0){
+          nomore = true;
           if(pageIndex==0){
             that.setData({
               noOrderData: true,
@@ -143,7 +144,6 @@ Page({
             // wx.showToast({
             //   title: '没有更多数据了',
             // });
-            nomore = true;
             that.setData({
               loadingText: "没有更多数据了",
             })
@@ -165,6 +165,7 @@ Page({
         }
       },
       fail: err => {
+        wx.hideLoading();
         wx.showToast({
           icon: 'none',
           title: '无法连接服务器',

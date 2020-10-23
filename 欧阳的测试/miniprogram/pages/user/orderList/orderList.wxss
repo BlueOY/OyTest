@@ -17,31 +17,6 @@
 
 .list{
 }
-.nodata{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  /* transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%); */
-  transform: translate(-50%, -100%);
-  
-  text-align: center;
-}
-.nodata image{
-  width: 60px;
-}
-.nodata text{
-  display: block;
-  font-size: 12px;
-  color: #8a8a8a;
-}
-.loading{
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 15px;
-  font-size: 14px;
-  color: #8a8a8a;
-}
 .list .item{
   background: white;
   padding: 10px;
@@ -83,4 +58,30 @@
   background: white;
   border: 1px solid #FB760F;
   color: #FB760F;
+}
+
+.nodata{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%); */
+  transform: translate(-50%, -100%);
+  
+  text-align: center;
+}
+.nodata image{
+  width: 60px;
+}
+.nodata text{
+  display: block;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+.loading{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  font-size: 14px;
+  color: #8a8a8a;
 }

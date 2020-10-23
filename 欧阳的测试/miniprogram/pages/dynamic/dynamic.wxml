@@ -1,8 +1,12 @@
-<!--miniprogram/pages/info/info.wxml-->
+<!--miniprogram/pages/dynamic/dynamic.wxml-->
 <wxs module="tools" src="../../wxs/function.wxs"/>
-<view>
-    <block wx:for="{{dynamicList}}" wx:key="key">
-      <view class="item">
+<scroll-view scroll-y="true" style="height:{{scroll_height}}px" bindscrolltolower='loadmore'>
+  <view class="nodata" hidden="{{!noData}}">
+    <image src="../../images/nodata.png" mode="widthFix"></image>
+    <text>这里没有动态</text>
+  </view>
+  <block wx:for="{{dynamicList}}" wx:key="key" wx:item="item">
+    <view class="item">
         <view class="title">
           <image src="{{headImg}}"></image>
           <view class="text-box">
@@ -39,5 +43,8 @@
           <image class="comment" src="../../images/info/comment.png" mode="widthFix"></image>
         </view>
       </view>
-    </block>
-</view>
+  </block>
+  <view class="loading" hidden="{{noData}}">
+    <text>{{loadingText}}</text>
+  </view>
+</scroll-view>

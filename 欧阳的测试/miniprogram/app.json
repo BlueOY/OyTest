@@ -1,7 +1,8 @@
 {
   "pages": [
+    
     "pages/home/home",
-    "pages/info/info",
+    "pages/dynamic/dynamic",
     "pages/cart/cart",
     "pages/user/user",
     "pages/product/product",
@@ -34,10 +35,10 @@
         "selectedIconPath": "images/tabBar/home-hover.png"
       },
       {
-        "pagePath": "pages/info/info",
+        "pagePath": "pages/dynamic/dynamic",
         "text": "动态",
-        "iconPath": "images/tabBar/info.png",
-        "selectedIconPath": "images/tabBar/info-hover.png"
+        "iconPath": "images/tabBar/dynamic.png",
+        "selectedIconPath": "images/tabBar/dynamic-hover.png"
       },
       {
         "pagePath": "pages/cart/cart",
