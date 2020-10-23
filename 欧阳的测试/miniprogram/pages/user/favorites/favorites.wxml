@@ -1,15 +1,19 @@
 <!--miniprogram/pages/user/favorites/favorites.wxml-->
-<view class="nodata" hidden="{{!noFavoritesData}}">
-	<image src="../../../images/nodata.png" mode="widthFix"></image>
-	<text>这里没有收藏商品</text>
-</view>
-
-		<block wx:for="{{favoritesData}}" wx:key="key" wx:for-item="item" wx:for-index="idx">
-      <view class="item" bindtap="toProduct" data-id="{{item._id}}">
-        <image src="{{item.imagePath}}" mode="aspectFill"></image>
-        <view class="right" bindtap="toDetail" data-id="{{item._id}}">
-          <text class="name">{{item.name}}</text>
-          <text class="price">￥{{item.price}}</text>
-        </view>
+<scroll-view scroll-y="true" style="height:{{scroll_height}}px" bindscrolltolower='loadmore'>
+  <view class="nodata" hidden="{{!noFavoritesData}}">
+    <image src="../../../images/nodata.png" mode="widthFix"></image>
+    <text>这里没有收藏商品</text>
+  </view>
+	<block wx:for="{{favoritesData}}" wx:key="key" wx:for-item="item" wx:for-index="idx">
+    <view class="item" bindtap="toProduct" data-id="{{item._id}}">
+      <image src="{{item.imagePath}}" mode="aspectFill"></image>
+      <view class="right" bindtap="toDetail" data-id="{{item._id}}">
+        <text class="name">{{item.name}}</text>
+        <text class="price">￥{{item.price}}</text>
       </view>
-    </block>
+    </view>
+  </block>
+  <view class="loading" hidden="{{noData}}">
+    <text>{{loadingText}}</text>
+  </view>
+</scroll-view>

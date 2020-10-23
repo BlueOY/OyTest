@@ -38,10 +38,10 @@ exports.main = async (event, context) => {
       }
     }else if(test=="insert"){
       // 插入很多测试数据
-      // let res = await insertProduct();
+      let res = await insertProduct();
       return {
-        test: test,
-        // res: res,
+        // test: test,
+        res: res,
         msg: "插入",
       }
     }else if(test=="update"){
@@ -90,7 +90,7 @@ async function query(){
 // 插入测试数据
 async function insertProduct(){
   try {
-    for(let i=9;i<20;i++){
+    for(let i=0;i<1;i++){
       let classifyRes = await db.collection('classify').add({
         // data 字段表示需新增的 JSON 数据
         data: {
@@ -99,15 +99,15 @@ async function insertProduct(){
           createTime: new Date(),
         }
       });
-      for(let j=0;j<20;j++){
+      for(let j=0;j<30;j++){
         let productRes = await db.collection('product').add({
           // data 字段表示需新增的 JSON 数据
           data: {
             classifyId: classifyRes._id,
-            name: "商品"+i,
+            name: "商品"+j,
             describe: "描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述",
             createTime: new Date(),
-            imagePath: "cloud://ouyang-s2hbg.6f75-ouyang-s2hbg-1255305994/product/test.jpg",
+            imagePath: "cloud://ouyang-s2hbg.6f75-ouyang-s2hbg-1255305994/product/IMG_1876.JPG",
             price: 0.01,
             state: 1,
             stock: 20,

@@ -1,6 +1,12 @@
 // miniprogram/pages/home/productList/productList.js
 Page({
 
+  pageIndexProduct: 0,
+  pageSizeProduct: 10,
+  nomoreProduct: false,
+
+  currentClassifyId: "",
+
   /**
    * 页面的初始数据
    */
@@ -15,11 +21,12 @@ Page({
     // 分类数据
     classifyData: [],
     // 当前选中的分类
-    currentClassify: 0,
+    currentClassifyIndex: 0,
     // 商品数据
     productData: [],
     // 没有商品数据
-    noProductData: false,
+    noProductData: true,
+    loadingProductText: "正在加载中……",
   },
 
   // 搜索框的函数
@@ -46,6 +53,13 @@ Page({
 
     wx.navigateTo({
       url: '../productSearch/productSearch?searchKey=' + e.detail.value,
+    })
+  },
+
+  toDetail: function (e) {
+    let id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../product?id='+id,
     })
   },
 
@@ -81,24 +95,33 @@ Page({
     this.scrollViewHeight();
     // 获取分类数据
     this.queryClassify(function(){
+      let classifyId = that.data.classifyData[0]._id;
       // 获取商品数据
-      that.queryProduct(that.data.classifyData[0]._id);
+      that.queryProduct(classifyId, function(){
+        that.currentClassifyId = classifyId;
+      });
     });
   },
 
   // 点击分类事件
   clickClassify: function (e) {
-    let classifyId = e.currentTarget.dataset.id;
     wx.showLoading({
       title: '加载中',
     });
     let that = this;
+    let classifyId = e.currentTarget.dataset.id;
+    this.pageIndexProduct = 0;
+    this.nomoreProduct = false;
+    this.setData({
+      loadingProductText: "正在加载中……",
+    });
     this.queryProduct(classifyId, function(){
       wx.hideLoading();
       let classifyIndex = e.currentTarget.dataset.idx;
       that.setData({
-        currentClassify: classifyIndex
+        currentClassifyIndex: classifyIndex
       });
+      that.currentClassifyId = classifyId;
     });
   },
 
@@ -131,26 +154,52 @@ Page({
 
   // 查询商品数据
   queryProduct: function(classifyId, callback) {
+    console.log("classifyId="+classifyId);
+    console.log("this.pageIndexProduct="+this.pageIndexProduct);
+    console.log("this.pageSizeProduct="+this.pageSizeProduct);
     wx.cloud.callFunction({
       name: 'wxProductQuery',
       data: {
-        classify: classifyId
+        classify: classifyId,
+        pageIndex: this.pageIndexProduct,
+        pageSize: this.pageSizeProduct,
       },
       success: res => {
+        console.log("查询商品数据：res="+JSON.stringify(res));
         // wx.showToast({
         //   title: '调用成功',
         // })
-
-        let noProductData;
-        if(res.result.data==""){
-          noProductData = true;
+        let data = res.result.data;
+        if(!data || data=="" || data.length==0){
+          this.nomoreProduct = true;
+          if(this.pageIndexProduct==0){
+            this.setData({
+              noProductData: true,
+              productData: [],
+            });
+          }else{
+            this.setData({
+              loadingProductText: "没有更多数据了",
+            });
+          }
         }else{
-          noProductData = false;
+          let productData;
+          if(this.pageIndexProduct==0){
+            productData = data;
+          }else{
+            productData = this.data.productData.concat(data);
+          }
+          this.setData({
+            productData: productData,
+            noProductData: false,
+          })
+          if(data.length<this.pageSizeProduct){
+            this.nomoreProduct = true;
+            this.setData({
+              loadingProductText: "没有更多数据了",
+            })
+          }
         }
-        this.setData({
-          productData: res.result.data,
-          noProductData: noProductData,
-        })
         if(callback){
           callback();
         }
@@ -163,6 +212,16 @@ Page({
         console.error('[云函数] [wxProductQuery] 调用失败：', err)
       }
     });
+  },
+
+  // 滑动加载更多
+  loadmoreProduct: function () {
+    console.log("loadmoreProduct：this.nomoreProduct="+this.nomoreProduct)
+    if(!this.nomoreProduct){
+      // 获取订单列表数据
+      this.pageIndexProduct++;
+      this.queryProduct(this.currentClassifyId);
+    }
   },
 
   /**

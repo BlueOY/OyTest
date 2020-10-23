@@ -118,7 +118,7 @@ Page({
             // });
             that.setData({
               loadingText: "没有更多数据了",
-            })
+            });
           }
         }else{
           let dynamicList;

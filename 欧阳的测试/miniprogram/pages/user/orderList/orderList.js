@@ -42,10 +42,11 @@ Page({
     state = Number(state);
     this.pageIndex = 0;
     this.nomore = false;
-    this.loadOrderList(state);
     this.setData({
-      state: state
+      state: state,
+      loadingText: "正在加载中……",
     });
+    this.loadOrderList(state);
   },
 
   toDetail: function (e) {
@@ -162,6 +163,12 @@ Page({
             orderListData: orderListData,
             noOrderData: false,
           })
+          if(data.length<this.pageSize){
+            this.nomore = true;
+            that.setData({
+              loadingText: "没有更多数据了",
+            })
+          }
         }
         if(callback){
           callback();

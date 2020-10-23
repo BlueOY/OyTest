@@ -3,6 +3,14 @@
   background: none;
 }
 
+.loading{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  font-size: 14px;
+  color: #8a8a8a;
+}
+
 .content{
   background: white;
 }
@@ -49,12 +57,12 @@
   position: relative;
 }
 .content .right .item image{
-  width: 50px;
-  vertical-align: top;
+  width: 50px; height: 45px;
+  vertical-align: middle;
 }
 .content .right .item > view{
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   margin-left: 10px;
 }
 .content .right .item > view > text{
