@@ -18,7 +18,7 @@ exports.main = async (event, context) => {
     // 如果是启用禁用
     let state = event.state
     try {
-      let res = await db.collection('carousel').doc(id).update({
+      let res = await db.collection('dynamic').doc(id).update({
         data: {
           state: state,
         },
@@ -37,16 +37,15 @@ exports.main = async (event, context) => {
     }
   }else if(operation && operation=="update"){
     //如果是更新
-    let remarks = event.remarks
-    if(remarks){
-      remarks = decodeURI(remarks);
+    let content = event.content
+    if(content){
+      content = decodeURI(content);
     }
     let state = event.state
     if(state){
       state = parseInt(state);
     }
     let type = event.type
-    let index = event.index
     let imagePath = event.imagePath
     if(imagePath){
       imagePath = decodeURI(imagePath);
@@ -64,15 +63,14 @@ exports.main = async (event, context) => {
         let where = {
           _id: id
         };
-        let queryRes = await db.collection('carousel').where(where).get();
+        let queryRes = await db.collection('dynamic').where(where).get();
         fileid = queryRes.data[0].imagePath;
       }
-      let res = await db.collection('carousel').doc(id).update({
+      let res = await db.collection('dynamic').doc(id).update({
         data: {
-          remarks: remarks,
+          content: content,
           state: state,
           type: type,
-          index: index,
           imagePath: imagePath,
           link: link,
           productId: productId,

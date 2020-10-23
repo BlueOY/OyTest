@@ -47,9 +47,10 @@ Page({
   toCarousel: function (e) {
     let type = e.currentTarget.dataset.type;
     let link = e.currentTarget.dataset.link;
+    let productId = e.currentTarget.dataset.product;
     if(type=="product"){
       wx.navigateTo({
-        url: '../product/product?id='+link,
+        url: '../product/product?id='+productId,
       })
     }else if(type=="url"){
       wx.navigateTo({

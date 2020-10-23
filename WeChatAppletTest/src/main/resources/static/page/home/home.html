@@ -247,6 +247,9 @@
         function () {
             form = layui.form;
 
+            // 左侧菜单选中事件
+            top.$("#frmLeft")[0].contentWindow.selected("home");
+
             var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
 
             // 获取信息数据

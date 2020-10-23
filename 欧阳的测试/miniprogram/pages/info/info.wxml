@@ -1,26 +1,37 @@
 <!--miniprogram/pages/info/info.wxml-->
+<wxs module="tools" src="../../wxs/function.wxs"/>
 <view>
-    <block wx:for="{{6}}" wx:key="key">
+    <block wx:for="{{dynamicList}}" wx:key="key">
       <view class="item">
         <view class="title">
           <image src="{{headImg}}"></image>
           <view class="text-box">
             <text class="name">{{name}}</text>
-            <text class="time">2020-05-09 14:40</text>
+            <text class="time">{{tools.formatDateTime(item.createTime)}}</text>
           </view>
         </view>
         <view class="content">
-          <text>新出的商品</text>
-          <image src="../../images/home/test.jpg" mode="widthFix"></image>
+          <text>{{item.content}}</text>
+          <image wx:if="{{item.imagePath && item.imagePath!='undefined'}}" src="{{item.imagePath}}" mode="widthFix"></image>
         </view>
-        <view class="product">
-          <image src="../../images/home/test.jpg" mode="widthFix"></image>
+        <view wx:if="{{item.type=='product'}}" class="product" bindtap="toProduct" data-id="{{item.product._id}}">
+          <image src="{{item.product.imagePath}}" mode="widthFix"></image>
           <view class="text-box">
-            <text class="name">零食</text>
-            <text class="price">￥0.01</text>
+            <text class="name">{{item.product.name}}</text>
+            <text class="price">￥{{item.product.price}}</text>
           </view>
           <view class="buy">
             立即购买
+          </view>
+        </view>
+        <view wx:if="{{item.type=='url'}}" class="link" bindtap="toLink" data-url="{{item.link}}">
+          <image src="../../images/info/link.jpg" mode="widthFix"></image>
+          <view class="text-box">
+            <text class="name">链接</text>
+            <text class="url">{{tools.stringCutOut(item.link, 15)}}</text>
+          </view>
+          <view class="jump">
+            点击跳转
           </view>
         </view>
         <view class="foot">

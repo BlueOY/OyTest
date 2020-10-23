@@ -74,6 +74,43 @@ page {
   font-size: 12px;
   border-radius: 20px;
 }
+.link{
+  background: #efefef;
+  margin-top: 10px;
+  padding: 5px;
+  position: relative;
+}
+.link image{
+  width: 45px;
+  margin: 5px;
+  vertical-align: middle;
+}
+.link .text-box{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.link .text-box text{
+  display: block;
+  font-size: 12px;
+}
+.link .text-box .name{
+  color: #3B3B3B;
+  font-size: 14px;
+}
+.link .text-box .url{
+  color: #8C8C8C;
+}
+.link .jump{
+  position: absolute;
+  right: 15px;
+  bottom: 10px;
+  background: #FB760F;
+  color: white;
+  padding: 1px 12px;
+  font-size: 12px;
+  border-radius: 20px;
+}
 .foot{
   margin-top: 5px;
 }

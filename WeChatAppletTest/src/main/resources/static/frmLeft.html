@@ -43,47 +43,48 @@
     <div class="list-group">
         <div style="height: 75px;"></div>
         <ul>
-            <li my_href="/home/home.html">
-                <a class="name list-group-item active">
+            <li my_href="/home/home.html" id="home">
+                <!--<a class="name list-group-item active">-->
+                <a class="name list-group-item">
                     首 页 概 览
                 </a>
             </li>
-            <li my_href="/product/productList.html">
-                <a class="name list-group-item" >
-                    商 品 管 理
-                </a>
-            </li>
-            <li my_href="/classify/classifyList.html">
-                <a class="name list-group-item" >
-                    商 品 类 型
-                </a>
-            </li>
-            <li my_href="/order/orderList.html">
-                <a class="name list-group-item" >
-                    订 单 管 理
-                </a>
-            </li>
-            <li my_href="/user/userList.html">
-                <a class="name list-group-item" >
-                    用 户 管 理
-                </a>
-            </li>
-            <li my_href="/dynamic/dynamicList.html">
-                <a class="name list-group-item" >
-                    动 态 管 理
-                </a>
-            </li>
-            <li my_href="/comment/commentList.html">
-                <a class="name list-group-item" >
-                    评 论 管 理
-                </a>
-            </li>
-            <li my_href="/carousel/carouselList.html">
+            <li my_href="/carousel/carouselList.html" id="carouselList">
                 <a class="name list-group-item" >
                     轮 播 管 理
                 </a>
             </li>
-            <li my_href="/feedback/feedbackList.html">
+            <li my_href="/product/productList.html" id="productList">
+                <a class="name list-group-item" >
+                    商 品 管 理
+                </a>
+            </li>
+            <li my_href="/classify/classifyList.html" id="classifyList">
+                <a class="name list-group-item" >
+                    商 品 类 型
+                </a>
+            </li>
+            <li my_href="/order/orderList.html" id="orderList">
+                <a class="name list-group-item" >
+                    订 单 管 理
+                </a>
+            </li>
+            <li my_href="/dynamic/dynamicList.html" id="dynamicList">
+                <a class="name list-group-item" >
+                    动 态 管 理
+                </a>
+            </li>
+            <li my_href="/comment/commentList.html" id="commentList">
+                <a class="name list-group-item" >
+                    评 论 管 理
+                </a>
+            </li>
+            <li my_href="/user/userList.html" id="userList">
+                <a class="name list-group-item" >
+                    用 户 管 理
+                </a>
+            </li>
+            <li my_href="/feedback/feedbackList.html" id="feedbackList">
                 <a class="name list-group-item" >
                     意 见 反 馈
                 </a>
@@ -112,40 +113,8 @@
     }
     
     function selected(name) {
-        var idx;
-        switch (name){
-            case "":
-                idx = 0;
-                break;
-            case "productList":
-                idx = 1;
-                break;
-            case "classifyList":
-                idx = 2;
-                break;
-            case "orderList":
-                idx = 3;
-                break;
-            case "":
-                idx = 4;
-                break;
-            case "":
-                idx = 5;
-                break;
-            case "":
-                idx = 6;
-                break;
-            case "carouselList":
-                idx = 7;
-                break;
-            case "":
-                idx = 7;
-                break;
-            default:
-                idx = 0;
-        }
         $(".list-group a").removeClass("active");
-        $(".list-group a").eq(idx).addClass("active");
+        $(".list-group").find("#"+name).find("a").addClass("active");
     }
 </script>
 </body>

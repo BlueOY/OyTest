@@ -11,16 +11,15 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
   //获取访问参数
-  let remarks = event.remarks
-  if(remarks){
-    remarks = decodeURI(remarks);
+  let content = event.content
+  if(content){
+    content = decodeURI(content);
   }
   let state = event.state
   if(state){
     state = parseInt(state);
   }
   let type = event.type
-  let index = event.index
   let imagePath = event.imagePath
   if(imagePath){
     imagePath = decodeURI(imagePath);
@@ -32,13 +31,12 @@ exports.main = async (event, context) => {
   let productId = event.productId
 
   try {
-    let res = await db.collection('carousel').add({
+    let res = await db.collection('dynamic').add({
       // data 字段表示需新增的 JSON 数据
       data: {
-        remarks: remarks,
+        content: content,
         state: state,
         type: type,
-        index: index,
         imagePath: imagePath,
         link: link,
         productId: productId,

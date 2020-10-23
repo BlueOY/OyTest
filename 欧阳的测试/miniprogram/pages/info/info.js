@@ -7,6 +7,23 @@ Page({
   data: {
     headImg: "../../images/info/user_img.jpg",
     name: "商户名称",
+
+    //动态列表
+    dynamicList: [],
+  },
+
+  toProduct: function (e) {
+    let id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../product/product?id='+id,
+    })
+  },
+
+  toLink: function (e) {
+    let url = e.currentTarget.dataset.url;
+    wx.navigateTo({
+      url: '../static/webView/webView?url='+url,
+    })
   },
 
   /**
@@ -15,6 +32,8 @@ Page({
   onLoad: function (options) {
     // 查询商户信息
     this.getInfo();
+    // 查询动态信息
+    this.getDynamic();
   },
 
   // 查询商户信息
@@ -30,6 +49,30 @@ Page({
         this.setData({
           headImg: info.headImg,
           name: info.name,
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '无法连接服务器',
+        })
+        console.error('[云函数] [wxProductQuery] 调用失败：', err)
+      }
+    });
+  },
+
+  // 查询动态信息
+  getDynamic: function (options) {
+    wx.cloud.callFunction({
+      name: 'wxDynamicQuery',
+      success: res => {
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        // console.log('查询动态信息：', JSON.stringify(res));
+        let dynamicList = res.result.list;
+        this.setData({
+          dynamicList: dynamicList,
         })
       },
       fail: err => {

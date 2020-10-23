@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/layui-v2.5.5/css/layui.css">
+    <style>
+        .site-content{
+            padding: 20px 0 10px 20px;
+            width: calc(100% - 40px);
+        }
+        .btn-width {
+            width: 89px;
+        }
+
+        /*.layui-col-sm{position: relative; display: block; box-sizing: border-box;}*/
+        .layui-col-sm {
+            float: left;
+        }
+
+        .float-left {
+            float: left !important;
+        }
+
+        .float-right {
+            float: right !important;
+        }
+
+        .labcenter {
+            float: left;
+            display: block;
+            padding: 9px 0px;
+            width: auto;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="site-content site-content-child">
+    <div class="layui-form">
+        <div class="layui-row layui-col-space11 ">
+            <div class="layui-col-sm4">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <input type="text" name="content" placeholder="内容" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <select name="state">
+                        <option value="-1">全部</option>
+                        <option value="1">可用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-sm3" style="padding-left: 10px;">
+                <button type="button" class="layui-btn btn-width" id="btnadd">
+                    <i class="layui-icon">&#xe608;</i> 添加
+                </button>
+                <button type="button" class="layui-btn btn-width" id="btnsearch" lay-submit lay-filter="search">
+                    <i class="layui-icon">&#xe615;</i>搜索
+                </button>
+            </div>
+        </div>
+    </div>
+    <table class="layui-table" id="datalist" lay-filter="datalist"></table>
+    <div id="laypage"></div>
+</div>
+
+<script src="../../script/jquery-1.11.2.js"></script>
+<script src="../../script/common.js"></script>
+<script src="../../lib/layui-v2.5.5/layui.all.js"></script>
+<script>
+    var queryParams = {
+        pageIndex: 0,
+        pageSize: 20,
+    };
+    var layer, form, table, tableIns, laypage;
+    layui.use(['layer', 'form', 'element', "table", "laypage", "laydate"],
+        function () {
+            layer = layui.layer;
+            form = layui.form;
+            table = layui.table;
+            laypage = layui.laypage;
+            var element = layui.element;
+
+            // 左侧菜单选中事件
+            top.$("#frmLeft")[0].contentWindow.selected("dynamicList");
+
+            var laydate = layui.laydate;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#TimeFrom' //指定元素
+            });
+            laydate.render({
+                elem: '#TimeTo' //指定元素
+            });
+
+            var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+            $Common.invokeCloudFunction("sysDynamicQuery", queryParams, function (data) {
+                // console.log("data="+data)
+                var resp_data = JSON.parse(data).resp_data;
+                var total = JSON.parse(resp_data).total;
+                loadPage(total);
+                var list = JSON.parse(resp_data).data;
+                loadTable(list);
+                top.layer.close(loadIndex);
+            });
+
+            //监听工具条
+            table.on('tool(datalist)', function (obj) { //注：tool 是工具条事件名，datalist是table原始容器的属性lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+                if (layEvent === 'edit') { //详情
+                    top.layer.open({
+                        type: 2, //1.html,2.iframe
+                        offset: 'auto',
+                        area: ['1000px', '600px'],
+                        title: ["修改动态信息"],
+                        content: '/page/dynamic/dynamicAdd.html?id=' + data._id,
+                        //end: function (a) {
+                        //    //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        //    //parent.layer.close(index); //再执行关闭
+                        //}
+                    });
+                } else if (layEvent === 'del') { //删除
+                    top.layer.confirm('确定要删除“' + data.content + '”吗？', function (index) {
+                        //向服务端发送删除指令
+                        $Common.invokeCloudFunction("sysDynamicDelete", { id: data._id }, function (data) {
+                            // console.log("data="+data)
+                            var resp_data = JSON.parse(data).resp_data;
+                            var res = JSON.parse(resp_data);
+                            var result = res.result;
+                            if (result == true) {
+                                top.layer.msg(res.message);
+                                //删除对应行（tr）的DOM结构，并更新缓存
+                                //obj.del();
+                                //刷新表格
+                                refreshTable();
+                            } else {
+                                top.layer.msg(res.message);
+                            }
+                        });
+                        top.layer.close(index);
+                    });
+                } else if (layEvent === 'on') {   //上架
+                    top.layer.confirm('确定要启用“' + data.content + '”吗？', function (index) {
+                        //向服务端发送上架指令
+                        $Common.invokeCloudFunction("sysDynamicUpdate", { _id: data._id, operation: "show", state: 1 }, function (data) {
+                            // console.log("data="+data)
+                            var resp_data = JSON.parse(data).resp_data;
+                            var res = JSON.parse(resp_data);
+                            var result = res.result;
+                            if (result == true) {
+                                top.layer.msg(res.message);
+                                //刷新表格
+                                refreshTable();
+                            } else {
+                                top.layer.msg(res.message);
+                            }
+                        });
+                        top.layer.close(index);
+                    });
+                } else if (layEvent === 'off') {   //下架
+                    top.layer.confirm('确定要禁用“' + data.content + '”吗？', function (index) {
+                        //向服务端发送下架指令
+                        $Common.invokeCloudFunction("sysDynamicUpdate", { _id: data._id, operation: "show", state: 0 }, function (data) {
+                            // console.log("data="+data)
+                            var resp_data = JSON.parse(data).resp_data;
+                            var res = JSON.parse(resp_data);
+                            var result = res.result;
+                            if (result == true) {
+                                top.layer.msg(res.message);
+                                //刷新表格
+                                refreshTable();
+                            } else {
+                                // top.layer.msg(res.message);
+                                top.layer.msg(JSON.stringify(res.error));
+                            }
+                        });
+                        top.layer.close(index);
+                    });
+                }
+            });
+
+            // 监听查询按钮
+            form.on('submit(search)',
+                function (data) {
+                    //console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                    //console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                    //alert(JSON.stringify(data.field)); //当前容器的全部表单字段，名值对形式：{name: value}
+                    // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+
+                    var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                    var where = data.field;
+                    where.searchKey = encodeURI(where.searchKey);
+                    where.content = encodeURI(where.content);
+                    where.pageIndex = 0;
+                    where.pageSize = 20;
+                    $Common.invokeCloudFunction("sysDynamicQuery", where, function (data) {
+                        // console.log("data="+data)
+                        top.layer.close(loadIndex);
+                        var resp_data = JSON.parse(data).resp_data;
+                        var total = JSON.parse(resp_data).total;
+                        loadPage(total);
+                        var list = JSON.parse(resp_data).data;
+                        loadTable(list, where.pageIndex, where.pageSize);
+                        //如果查询成功，把查询条件赋值给全局变量
+                        queryParams = where;
+                    });
+                }
+            );
+
+            //点击添加
+            $("#btnadd").click(function () {
+                parent.parent.layer.open({
+                    type: 2, //1.html,2.iframe
+                    offset: 'auto',
+                    area: ['1000px', '600px'],
+                    title: ["添加动态信息"],
+                    content: '/page/dynamic/dynamicAdd.html',
+                    end: function () {
+                        //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        //parent.layer.close(index); //再执行关闭
+                    },
+                    //btn: ['确定', '取消'],
+                    //yes: function (index, layero) {
+                    //    return false;
+                    //    //按钮【按钮一】的回调
+                    //},
+                    //btn2: function (index, layero) {
+                    //    //按钮【按钮二】的回调
+
+                    //    //return false 开启该代码可禁止点击该按钮关闭
+                    //}
+                });
+            });
+
+        });
+
+    function loadPage(total) {
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'laypage', //注意，这里的 test1 是 ID，不用加 # 号
+            count: total, //数据总数，从服务端得到
+            limit: 20,
+            limits: [10, 20, 30, 40, 50, 100],
+            layout: ['prev', 'page', 'next', 'skip', 'count', 'limit', 'refresh'],
+            jump: function(obj, first){
+                //首次不执行
+                if(!first){
+                    var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+                    queryParams.pageIndex = obj.curr-1;
+                    queryParams.pageSize = obj.limit;
+                    $Common.invokeCloudFunction("sysDynamicQuery", queryParams, function (data) {
+                        // console.log("data="+data)
+                        top.layer.close(loadIndex);
+                        var resp_data = JSON.parse(data).resp_data;
+                        var list = JSON.parse(resp_data).data;
+                        loadTable(list, queryParams.pageIndex, queryParams.pageSize);
+                    });
+                }
+            }
+        });
+    }
+
+    function refreshTable(){
+        var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
+        $Common.invokeCloudFunction("sysDynamicQuery", queryParams, function (data) {
+            // console.log("data="+data)
+            top.layer.close(loadIndex);
+            var resp_data = JSON.parse(data).resp_data;
+            var list = JSON.parse(resp_data).data;
+            loadTable(list, queryParams.pageIndex, queryParams.pageSize);
+        });
+    }
+
+    function loadTable(data, pageIndex, pageSize) {
+        if(!pageIndex){
+            pageIndex = 0;
+        }
+        if(!pageSize){
+            pageSize = 20;
+        }
+        tableIns = table.render({
+            elem: "#datalist",
+            // url: "/product/productList",
+            // page: true, //启用分页，
+            limit: 100,
+            limits: [10, 20, 30, 40, 50, 100],
+            data: data,
+            text: {
+                none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+            },
+            headers: { token: "token", uid: "uid" },
+            cols: [
+                [
+                    { title: '序号', width: 80, sort: true, templet: function (d) {
+                            return d.LAY_INDEX+pageIndex*pageSize;
+                        }
+                    },
+                    { field: 'content', title: '内容' },
+                    {
+                        field: 'type', title: '类型', width: 120, sort: true, templet: function (d) {
+                            switch (d.type) {
+                                case undefined:
+                                    return "无";
+                                case "product":
+                                    return "商品";
+                                case "url":
+                                    return "链接";
+                                default:
+                                    return d.type;
+                            }
+                        }
+                    },
+                    { field: 'createTime', title: '创建时间', width: 200, sort: true, templet: function (d) {
+                            return new Date(d.createTime).format("yyyy-MM-dd hh:mm:ss");
+                        }
+                    },
+                    { field: 'updateTime', title: '修改时间', width: 200, sort: true, templet: function (d) {
+                            if(d.updateTime){
+                                return new Date(d.updateTime).format("yyyy-MM-dd hh:mm:ss");
+                            }else{
+                                return "";
+                            }
+                        }
+                    },
+                    {
+                        field: 'state', title: '状态', width: 120, sort: true, templet: function (d) {
+                            switch (d.state) {
+                                case undefined:
+                                    return "可用";
+                                case 0:
+                                    return "禁用";
+                                case 1:
+                                    return "可用";
+                                default:
+                                    return d.state;
+                            }
+                        }
+                    },
+                    { field: '', title: '操作', width: 180, toolbar: '#toolBar', fixed: 'right' }
+                ]
+            ],
+            done: function (res, curr, count) {
+                resize();
+            }
+        });
+    }
+
+    function resize() {
+        var height = $('body').height();
+        //console.log("height:" + height);
+        parent.resetHeight(height);
+    }
+</script>
+<script type="text/html" id="toolBar">
+    {{# if(d.state == 0){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="on">启用</a>
+    {{# } else { }}
+    <a class="layui-btn layui-btn-xs" lay-event="off">禁用</a>
+    {{# } }}
+
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+</script>
+</body>
+</html>

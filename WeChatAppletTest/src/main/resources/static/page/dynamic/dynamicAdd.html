@@ -120,15 +120,15 @@
                 </td>
             </tr>
             <tr>
-                <td>备注</td>
+                <td>内容</td>
                 <td colspan="3">
-                    <input type="text" name="remarks" id="remarks" lay-verify="required" autocomplete="off" placeholder="备注" class="layui-input">
+                    <input type="text" name="content" id="content" lay-verify="required" autocomplete="off" placeholder="内容" class="layui-input">
                 </td>
             </tr>
             <tr>
                 <td style="width: 100px">类型</td>
                 <td colspan="3">
-                    <select name="type" id="type" lay-verify="required">
+                    <select name="type" id="type" lay-verify="required" lay-filter="type">
                         <option value="">请选择</option>
                         <option value="product">商品</option>
                         <option value="url">链接</option>
@@ -147,12 +147,6 @@
                 <td>链接</td>
                 <td colspan="3">
                     <input type="text" name="link" id="link" lay-verify="" autocomplete="off" placeholder="链接" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <td>排序</td>
-                <td colspan="3">
-                    <input type="text" name="index" id="index" lay-verify="required|number" autocomplete="off" placeholder="排序" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -242,7 +236,7 @@
             var id = $Common.getQueryVariable("id");
             if (id != undefined) {
                 var loadIndex = top.layer.msg('加载中', { icon: 16, shade: 0.3, time: 0 });
-                $Common.invokeCloudFunction("sysCarouselQuery", { id: id }, function (data) {
+                $Common.invokeCloudFunction("sysDynamicQuery", { id: id }, function (data) {
                     console.log("data="+data);
                     var resp_data = JSON.parse(data).resp_data;
                     var list = JSON.parse(resp_data).data;
@@ -373,16 +367,16 @@
         });
     function submitData(id, params, final) {
         // 上传数据
-        var method = "sysCarouselInsert";
+        var method = "sysDynamicInsert";
         if (id != undefined) {
             //data.field.id = id;
             params = $.extend(true, formerData, params);
             params.operation = "update";
             //访问更新
-            method = "sysCarouselUpdate";
+            method = "sysDynamicUpdate";
         }
         // encode解决乱码
-        params.remarks = encodeURI(params.remarks);
+        params.content = encodeURI(params.content);
         params.imagePath = encodeURI(params.imagePath);
         // 数据格式微调
         delete params.createTime;
@@ -419,7 +413,7 @@
             type: "post",
             // headers: {"token": "token"},
             data: {
-                type: "carousel"
+                type: "dynamic"
             },
             success: function(data){
                 if(success){
