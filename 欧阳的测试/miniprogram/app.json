@@ -1,7 +1,5 @@
 {
   "pages": [
-    "pages/user/about/feedback/feedback",
-    
     "pages/home/home",
     "pages/dynamic/dynamic",
     "pages/cart/cart",
@@ -15,7 +13,7 @@
     "pages/user/favorites/favorites",
     "pages/user/coupon/coupon",
     "pages/user/about/about",
-    
+    "pages/user/about/feedback/feedback",
     "pages/user/about/feedbackList/feedbackList",
     "pages/user/about/feedbackDetail/feedbackDetail",
     "pages/static/webView/webView",
