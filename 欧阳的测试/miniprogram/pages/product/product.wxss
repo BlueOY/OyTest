@@ -55,7 +55,7 @@ page {
   padding: 7px 15px;
 }
 .foot .add-box image{
-  width: 15px;
+  width: 15px; height: 15px;
   vertical-align: middle;
   margin: 2px 5px 0 0;
 }

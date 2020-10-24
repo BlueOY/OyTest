@@ -5,10 +5,30 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // content的高度
+    contentHeight: 0,
     // 商品数据
     productData: {},
     // 是否已收藏
     favoritesFlag: false,
+  },
+
+  // 获取content的高度
+  contentHeight: function () {
+    let windowHeight = wx.getSystemInfoSync().windowHeight; // 页面的高度
+    let windowWidth = wx.getSystemInfoSync().windowWidth; // 页面的宽度
+
+    const query = wx.createSelectorQuery(); // 创建节点查询器 query
+    query.select('#foot').boundingClientRect();
+    query.exec((res) => {
+      let footHeight = res[0].height // #normalServe节点的高度
+      this.setData({
+        contentHeight: windowHeight - footHeight
+      });
+
+      console.log("windowHeight="+windowHeight)
+      console.log("footHeight="+footHeight)
+    })
   },
 
   addFavorites: function (e) {
@@ -100,8 +120,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 获取content的高度
+    this.contentHeight();
     // 获取页面跳转参数
     let id = options.id;
+    if(!id){
+      id = "e373396c5f92eaf301dddadc5008dcb9";
+    }
     // 查询商品数据
     this.queryProduct(id);
   },

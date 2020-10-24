@@ -1,36 +1,38 @@
 <!--miniprogram/pages/product/product.wxml-->
 <view>
-  <view class="top">
-    <image src="{{productData.imagePath}}" mode="widthFix"></image>
-    <text class="name">{{productData.name}}</text>
-    <view class="text-box">
-      <text class="price">￥{{productData.price}}</text>
-      <text class="stock">库存：{{productData.stock}}</text>
+  <scroll-view scroll-y="true" style="height:{{contentHeight}}px">
+    <view class="top">
+      <image src="{{productData.imagePath}}" mode="widthFix"></image>
+      <text class="name">{{productData.name}}</text>
+      <view class="text-box">
+        <text class="price">￥{{productData.price}}</text>
+        <text class="stock">库存：{{productData.stock}}</text>
+      </view>
+      
+      <!-- <view class="add-box">
+        <image src="../../images/product/add.png" mode="widthFix"></image>
+        <text bindtap="addCart">加入购物车</text>
+      </view> -->
     </view>
-    
-    <!-- <view class="add-box">
-      <image src="../../images/product/add.png" mode="widthFix"></image>
-      <text bindtap="addCart">加入购物车</text>
-    </view> -->
-  </view>
 
-  <view class="describe">
-    {{productData.describe}}
-  </view>
-</view>
-<view class="foot">
-  <view class="add-box" bindtap="addCart">
-    <image src="../../images/product/add.png" mode="widthFix"></image>
-    <text>加入购物车</text>
-  </view>
-  <view class="favorites" bindtap="addFavorites">
-    <block wx:if="{{favoritesFlag}}">
-      <image src="../../images/product/favorites-light.png"></image>
-      <text>已收藏</text>
-    </block>
-    <block wx:else>
-      <image src="../../images/product/favorites.png"></image>
-      <text>收藏</text>
-    </block>
+    <view class="describe">
+      {{productData.describe}}
+    </view>
+  </scroll-view>
+  <view class="foot" id="foot">
+    <view class="add-box" bindtap="addCart">
+      <image src="../../images/product/add.png" mode="widthFix"></image>
+      <text>加入购物车</text>
+    </view>
+    <view class="favorites" bindtap="addFavorites">
+      <block wx:if="{{favoritesFlag}}">
+        <image src="../../images/product/favorites-light.png"></image>
+        <text>已收藏</text>
+      </block>
+      <block wx:else>
+        <image src="../../images/product/favorites.png"></image>
+        <text>收藏</text>
+      </block>
+    </view>
   </view>
 </view>
