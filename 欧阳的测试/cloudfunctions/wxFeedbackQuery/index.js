@@ -46,7 +46,7 @@ exports.main = async (event, context) => {
   }
 
   try{
-    let res = await db.collection('feedback').where(where)
+    let res = await db.collection('feedback').where(where).orderBy('createTime', 'desc')
             .skip(pageIndex*pageSize).limit(pageSize).get();
     // 查总条数
     const countResult = await db.collection('feedback').where(where).count();
