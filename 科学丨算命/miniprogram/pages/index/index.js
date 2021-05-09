@@ -5,7 +5,7 @@ Page({
   data: {
     avatarUrl: './user-unlogin.png',
     // avatarUrl: '../../images/user/user-unlogin.png',
-    userName: "点击登录",
+    userName: "点击获取头像",
   },
 
   onLoad: function() {
