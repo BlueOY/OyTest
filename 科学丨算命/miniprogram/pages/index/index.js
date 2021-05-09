@@ -9,6 +9,11 @@ Page({
   },
 
   onLoad: function() {
+    //添加分享功能
+    wx.showShareMenu({
+      withShareTicket:true,
+      menus:['shareAppMessage','shareTimeline']
+    })
   },
 
   bindGetUserInfo: function(e) {
