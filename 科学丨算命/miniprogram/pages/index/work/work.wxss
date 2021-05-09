@@ -1,0 +1,20 @@
+/* miniprogram/pages/index/work/work.wxss */
+page {
+  height: 100%;
+}
+view{
+  width: 80%; margin: auto;
+  vertical-align: middle;
+  text-align: center;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+text{
+  display: block;
+}
+.shake{
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+  text-decoration: underline;
+}
