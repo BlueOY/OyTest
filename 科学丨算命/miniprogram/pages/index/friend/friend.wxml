@@ -1,6 +1,6 @@
 <!--miniprogram/pages/index/friend/friend.wxml-->
 <view hidden="{{noData}}">
   <text>{{text}}</text>
-  <text class="shake" bindtap="refresh">不满意？点这里。</text>
+  <text class="shake" bindtap="refresh">不满意？点击重测</text>
 </view>
 
