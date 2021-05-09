@@ -8,6 +8,7 @@ Page({
     noData: true,
     text: ""
   },
+  random: -1,
 
   /**
    * 生命周期函数--监听页面加载
@@ -22,6 +23,9 @@ Page({
     });
     wx.cloud.callFunction({
       name: 'queryFriend',
+      data: {
+        random: this.random
+      },
       success: res => {
         wx.hideLoading();
         // wx.showToast({
@@ -30,6 +34,7 @@ Page({
         console.log('测友情：', JSON.stringify(res));
         let info = res.result.data[0];
         let text = info.text;
+        this.random = res.result.random;
         this.setData({
           text: text,
           noData: false,
