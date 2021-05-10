@@ -1,9 +1,0 @@
-<!--miniprogram/pages/index/work/work.wxml-->
-<view hidden="{{noData}}">
-  <text>工作</text>
-  <image src="../../../images/work.png"></image>
-</view>
-<view hidden="{{noData}}">
-  <text>{{text}}</text>
-  <text class="shake" bindtap="refresh">不满意？点击重测</text>
-</view>

@@ -1,9 +1,0 @@
-<!--miniprogram/pages/index/fortune/fortune.wxml-->
-<view hidden="{{noData}}">
-  <text>财运</text>
-  <image src="../../../images/fortune.png"></image>
-</view>
-<view hidden="{{noData}}">
-  <text>{{text}}</text>
-  <text class="shake" bindtap="refresh">不满意？点击重测</text>
-</view>
