@@ -2,6 +2,11 @@
 page {
   height: 100%;
 }
+
+image{
+  width: 45px; height: 45px;
+}
+
 view{
   width: 80%; margin: auto;
   vertical-align: middle;

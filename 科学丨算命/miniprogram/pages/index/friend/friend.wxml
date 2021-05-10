@@ -1,5 +1,9 @@
 <!--miniprogram/pages/index/friend/friend.wxml-->
 <view hidden="{{noData}}">
+  <text>友情</text>
+  <image src="../../../images/friend.png"></image>
+</view>
+<view hidden="{{noData}}">
   <text>{{text}}</text>
   <text class="shake" bindtap="refresh">不满意？点击重测</text>
 </view>

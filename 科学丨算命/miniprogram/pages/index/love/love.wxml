@@ -1,5 +1,9 @@
 <!--miniprogram/pages/index/love/love.wxml-->
 <view hidden="{{noData}}">
+  <text>爱情</text>
+  <image src="../../../images/love.png"></image>
+</view>
+<view hidden="{{noData}}">
   <text>{{text}}</text>
   <text class="shake" bindtap="refresh">不满意？点击重测</text>
 </view>
